@@ -7,6 +7,7 @@ import {
 import { Checkbox } from '../components/ui/checkbox';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../@/components/ui/tabs';
+import { StepsToGenerate } from '../components/ui_library/ProjectGenerator/StepsToGenerate';
 
 
 
@@ -29,7 +30,7 @@ export interface ConfigFile {
   changes: string
 }
 
-const sampleComponentModelData = [
+export const SampleComponentModelData = [
   {
     name: "Sidebar",
     value: "sidebar",
@@ -273,6 +274,13 @@ const sampleComponentModelData = [
     configFiles: []
   },
   {
+    name: 'Input',
+    value: 'input',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
     name: 'InputOTP',
     value: 'inputotp',
     installCmd: '',
@@ -446,23 +454,28 @@ const sampleComponentModelData = [
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: []
-  },
-  {
-    name: 'Button',
-    value: 'button',
-    installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
-  },
-  {
-    name: 'Input',
-    value: 'input',
-    installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
   }
 ];
 
+export const SampleTabData = [
+  {
+    name: "Component Selection",
+    value: "componentSelection"
+  },
+  {
+    name: "Dependencies",
+    value: "dependencies"
+  },
+  {
+    name: "Submit",
+    value: "submit"
+  }
+]
+
+export interface TabData {
+  name: string
+  value: string
+}
 
 
 const ProjectGenerator: React.FC = () => {
@@ -470,15 +483,18 @@ const ProjectGenerator: React.FC = () => {
   const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
   const [componentsSelected, setComponentsSelected] = useState<string[]>([])
   const [currentTab, setCurrentTab] = useState<string>()
+  const [tabData, setTabData] = useState<TabData[]>([])
+  const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
 
   useEffect(() => {
-    setComponentModel(sampleComponentModelData)
-    setCurrentTab("selectComponent")
+    setComponentModel(SampleComponentModelData)
+    setCurrentTab(SampleTabData[0].value)
+    setTabData(SampleTabData)
   }, [])
 
   // Handle checkbox change
-  const handleCheckboxChange = (value: string) => {
-    console.log("handleCheckboxChange: ", value);
+  const HandleCheckboxChange = (value: string) => {
+    console.log("HandleCheckboxChange: ", value);
 
     let outputArray: string[];
 
@@ -492,31 +508,50 @@ const ProjectGenerator: React.FC = () => {
     setComponentsSelected(outputArray);
   };
 
-  const handleNextClick = () => {
-    console.log("inside handleNextClick", componentsSelected)
+  const HandleNextClick = () => {
+    console.log("inside HandleNextClick", componentsSelected)
+    console.log("componentsSelected", componentsSelected)
+    console.log("currentTab", currentTab)
+
+    const index = tabData?.findIndex(item => item.value === currentTab);
+    // if (index + 1> tabData?.length){
+
+    // }
+    if (tabData.length > 0) {
+      if (index + 2 == tabData.length) {
+        setCurrentTab(tabData[index + 1].value)
+        setIsSubmitEnable(true)
+      } else {
+        setCurrentTab(tabData[index + 1].value)
+
+      }
+    }
+
 
   }
 
-  const handleSaveAsDraftClick = () => {
-    console.log("inside handleSaveAsDraftClick", componentsSelected)
-
+  const HandleSaveAsDraftClick = () => {
+    console.log("inside HandleSaveAsDraftClick", componentsSelected)
   }
 
-  // const handleTabChange = (value) => {
-  //   console.log("inside handleTabChange", currentTab)
-  //   console.log("value", value)
-                                    
-  // }
+
 
   return (
     <Card >
       <CardContent>
         <Tabs defaultValue="selectComponent" onValueChange={setCurrentTab} value={currentTab} className="w-full">
           <TabsList >
-            <TabsTrigger value="selectComponent" >Component Selection</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+            {
+              tabData?.map((item, index) => {
+                return (
+                  <TabsTrigger key={index} value={item.value} >{item.name}</TabsTrigger>
+
+                )
+              })
+            }
+            {/* <TabsTrigger value="password">Password</TabsTrigger> */}
           </TabsList>
-          <TabsContent value="selectComponent">
+          <TabsContent value="componentSelection">
             <div className='grid gap-1.5 grid-cols-6 p-2.5'>
               {
                 componentModel.map((item, index) => {
@@ -526,12 +561,14 @@ const ProjectGenerator: React.FC = () => {
                         name={item.name}
                         id={`${item.name}-${index}`}
                         value={item.value}
-                        onCheckedChange={() => handleCheckboxChange(item.value)}
+                        onCheckedChange={() => HandleCheckboxChange(item.value)}
                         checked={componentsSelected.includes(item.value)}
                       />
                       <label
                         htmlFor={`${item.name}-${index}`}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className={`text-sm 
+                          ${componentsSelected.includes(item.value) ? "font-medium" : ""}
+                          leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`}
                       >
                         {item.name}
                       </label>
@@ -541,7 +578,15 @@ const ProjectGenerator: React.FC = () => {
               }
             </div>
           </TabsContent>
-          <TabsContent value="password">Change your password here.</TabsContent>
+          <TabsContent value="dependencies">
+            <StepsToGenerate
+              componentsSelected={componentsSelected}
+
+
+            ></StepsToGenerate>
+
+          </TabsContent>
+          <TabsContent value="submit">Redy to Submit</TabsContent>
         </Tabs>
 
 
@@ -552,16 +597,27 @@ const ProjectGenerator: React.FC = () => {
         <div className='flex w-full justify-end gap-x-3'>
           <Button variant={'secondary'} size={"md"}
             disabled={componentsSelected.length > 0 ? false : true}
-            onClick={handleSaveAsDraftClick}
+            onClick={HandleSaveAsDraftClick}
           >
             Save as Draft
           </Button>
-          <Button variant={'secondary'} size={"md"}
-            onClick={handleNextClick}
-            disabled={componentsSelected.length > 0 ? false : true}
-          >
-            Next
-          </Button>
+          {
+            isSubmitEnable ?
+              <Button variant={'secondary'} size={"md"}
+                onClick={HandleNextClick}
+                disabled={componentsSelected.length > 0 ? false : true}
+              >
+                Submit
+              </Button>
+              :
+              <Button variant={'secondary'} size={"md"}
+                onClick={HandleNextClick}
+                disabled={componentsSelected.length > 0 ? false : true}
+              >
+                Next
+              </Button>
+          }
+
         </div>
       </CardFooter>
     </Card>

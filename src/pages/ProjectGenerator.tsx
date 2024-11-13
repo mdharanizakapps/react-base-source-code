@@ -1,0 +1,572 @@
+import React, { useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from '../components/ui/card';
+import { Checkbox } from '../components/ui/checkbox';
+import { Button } from '../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../@/components/ui/tabs';
+
+
+
+export interface ComponentModel {
+  name: string
+  value: string
+  installCmd: string
+  dependencies: Dependencies
+  configFiles: ConfigFile[]
+}
+
+export interface Dependencies {
+  components: string[]
+  hooks: string[]
+  external: string[]
+}
+
+export interface ConfigFile {
+  fileName: string
+  changes: string
+}
+
+const sampleComponentModelData = [
+  {
+    name: "Sidebar",
+    value: "sidebar",
+    installCmd: "npx shadcn@latest add sidebar",
+    dependencies: {
+      components: [
+        "sidebar",
+        "button",
+        "separator",
+        "sheet",
+        "tooltip",
+        "input",
+        "skeleton",
+      ],
+      hooks: [
+        "use-mobile"
+      ],
+      external: [
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-separator",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tooltip"
+      ]
+    },
+    configFiles: [
+      {
+        fileName: "index.css",  // Path to the CSS file to modify
+        changes: `
+          :root
+            --sidebar-background: 0 0% 98%;
+              --sidebar-foreground: 240 5.3% 26.1%;
+              --sidebar-primary: 240 5.9% 10%;
+              --sidebar-primary-foreground: 0 0% 98%;
+              --sidebar-accent: 240 4.8% 95.9%;
+              --sidebar-accent-foreground: 240 5.9% 10%;
+              --sidebar-border: 220 13% 91%;
+              --sidebar-ring: 217.2 91.2% 59.8%;
+
+          .dark
+              --sidebar-background: 240 5.9% 10%;
+              --sidebar-foreground: 240 4.8% 95.9%;
+              --sidebar-primary: 224.3 76.3% 48%;
+              --sidebar-primary-foreground: 0 0% 100%;
+              --sidebar-accent: 240 3.7% 15.9%;
+              --sidebar-accent-foreground: 240 4.8% 95.9%;
+              --sidebar-border: 240 3.7% 15.9%;
+              --sidebar-ring: 217.2 91.2% 59.8%;
+        `
+      },
+      {
+        fileName: "tailwind.config.js",  // Path to the Tailwind config file
+        changes: `
+        sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+        `
+      }
+    ],
+  },
+  {
+    name: "Button",
+    value: "button",
+    installCmd: "npx shadcn@latest add button",
+    dependencies: {
+      components: [
+        "button"
+      ],
+      hooks: [],
+      external: [
+        "@radix - ui / react - slot"
+      ]
+    },
+    configFiles: [],
+  },
+  {
+    name: 'Accordion',
+    value: 'accordion',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Alert',
+    value: 'alert',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'AlertDialog',
+    value: 'alertdialog',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'AspectRatio',
+    value: 'aspectratio',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Avatar',
+    value: 'avatar',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Badge',
+    value: 'badge',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Breadcrumb',
+    value: 'breadcrumb',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Calendar',
+    value: 'calendar',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Card',
+    value: 'card',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Carousel',
+    value: 'carousel',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Chart',
+    value: 'chart',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Checkbox',
+    value: 'checkbox',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Collapsible',
+    value: 'collapsible',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Combobox',
+    value: 'combobox',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Command',
+    value: 'command',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'ContextMenu',
+    value: 'contextmenu',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'DataTable',
+    value: 'datatable',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'DatePicker',
+    value: 'datepicker',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Dialog',
+    value: 'dialog',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Drawer',
+    value: 'drawer',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'DropdownMenu',
+    value: 'dropdownmenu',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Form',
+    value: 'form',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'HoverCard',
+    value: 'hovercard',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'InputOTP',
+    value: 'inputotp',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Label',
+    value: 'label',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Menubar',
+    value: 'menubar',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'NavigationMenu',
+    value: 'navigationmenu',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Pagination',
+    value: 'pagination',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Popover',
+    value: 'popover',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Progress',
+    value: 'progress',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'RadioGroup',
+    value: 'radiogroup',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'ResizablePanelGroup',
+    value: 'resizablepanelgroup',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'ScrollArea',
+    value: 'scrollarea',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Select',
+    value: 'select',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Separator',
+    value: 'separator',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Sheet',
+    value: 'sheet',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'SidebarNew',
+    value: 'sidebarnew',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Skeleton',
+    value: 'skeleton',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Slider',
+    value: 'slider',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Sonner',
+    value: 'sonner',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Switch',
+    value: 'switch',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Table',
+    value: 'table',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Tabs',
+    value: 'tabs',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Textarea',
+    value: 'textarea',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Toast',
+    value: 'toast',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Toggle',
+    value: 'toggle',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'ToggleGroup',
+    value: 'togglegroup',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Tooltip',
+    value: 'tooltip',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Button',
+    value: 'button',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  },
+  {
+    name: 'Input',
+    value: 'input',
+    installCmd: '',
+    dependencies: { components: [], hooks: [], external: [] },
+    configFiles: []
+  }
+];
+
+
+
+const ProjectGenerator: React.FC = () => {
+
+  const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
+  const [componentsSelected, setComponentsSelected] = useState<string[]>([])
+  const [currentTab, setCurrentTab] = useState<string>()
+
+  useEffect(() => {
+    setComponentModel(sampleComponentModelData)
+    setCurrentTab("selectComponent")
+  }, [])
+
+  // Handle checkbox change
+  const handleCheckboxChange = (value: string) => {
+    console.log("handleCheckboxChange: ", value);
+
+    let outputArray: string[];
+
+    if (componentsSelected.includes(value)) {
+      outputArray = componentsSelected.filter(item => item !== value);
+    } else {
+      outputArray = [...componentsSelected, value];
+    }
+
+    // Update the state with the new array
+    setComponentsSelected(outputArray);
+  };
+
+  const handleNextClick = () => {
+    console.log("inside handleNextClick", componentsSelected)
+
+  }
+
+  const handleSaveAsDraftClick = () => {
+    console.log("inside handleSaveAsDraftClick", componentsSelected)
+
+  }
+
+  // const handleTabChange = (value) => {
+  //   console.log("inside handleTabChange", currentTab)
+  //   console.log("value", value)
+                                    
+  // }
+
+  return (
+    <Card >
+      <CardContent>
+        <Tabs defaultValue="selectComponent" onValueChange={setCurrentTab} value={currentTab} className="w-full">
+          <TabsList >
+            <TabsTrigger value="selectComponent" >Component Selection</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="selectComponent">
+            <div className='grid gap-1.5 grid-cols-6 p-2.5'>
+              {
+                componentModel.map((item, index) => {
+                  return (
+                    <div key={index} className="flex items-center space-x-2 p-3">
+                      <Checkbox
+                        name={item.name}
+                        id={`${item.name}-${index}`}
+                        value={item.value}
+                        onCheckedChange={() => handleCheckboxChange(item.value)}
+                        checked={componentsSelected.includes(item.value)}
+                      />
+                      <label
+                        htmlFor={`${item.name}-${index}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {item.name}
+                      </label>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </TabsContent>
+          <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
+
+
+
+
+      </CardContent>
+      <CardFooter>
+        <div className='flex w-full justify-end gap-x-3'>
+          <Button variant={'secondary'} size={"md"}
+            disabled={componentsSelected.length > 0 ? false : true}
+            onClick={handleSaveAsDraftClick}
+          >
+            Save as Draft
+          </Button>
+          <Button variant={'secondary'} size={"md"}
+            onClick={handleNextClick}
+            disabled={componentsSelected.length > 0 ? false : true}
+          >
+            Next
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+
+  )
+};
+
+export default ProjectGenerator;

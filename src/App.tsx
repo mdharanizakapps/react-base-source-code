@@ -1,36 +1,44 @@
-import React, { useState } from 'react'; // Import React
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+// App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import Product from './pages/Product';
+import { useAuth } from './utils/AuthContext';
+import LoginPage from './pages/Login';
 import './App.css';
-import './index.css'; // Import your Tailwind CSS file
 
-function App() {
-  const [count, setCount] = useState(0);
+import Layout from './components/ui_library/layout';
+import PriceManager from './pages/PriceManager';
+import ProjectGenerator from './pages/ProjectGenerator';
+const App: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+
+  console.log("isAuthenticated: ", isAuthenticated)
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      {!isAuthenticated ? (
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      ) : (
+        <div className="">
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/projectgenerator" element={<ProjectGenerator />} />
+              <Route path="/product" element={<Product />} />
+              <Route path="/price" element={<PriceManager />} />
+            </Route>
+          </Routes>
+        </div>
+      )}
+    </Router>
   );
-}
+};
 
 export default App;

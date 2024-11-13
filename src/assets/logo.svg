@@ -1,0 +1,16 @@
+<svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mask Group">
+<mask id="mask0_659_1296" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="1" y="1" width="44" height="43">
+<rect id="mask" width="31.7268" height="31.7268" rx="2.54558" transform="matrix(0.705027 0.70918 -0.705027 0.70918 23 0)" fill="white"/>
+</mask>
+<g mask="url(#mask0_659_1296)">
+<g id="Group 3">
+<g id="Group 1">
+<path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M37.9133 15L45.3694 22.5L30.4572 37.5L23.0011 30L23.0012 29.9999L15.5451 22.5L8.08906 30L0.632973 22.5L8.08905 15L8.08897 14.9999L15.5451 7.49988L15.5451 7.49995L23.0012 14.9999L30.4573 22.4999L37.9133 15Z" fill="white"/>
+<rect id="Rectangle 25" opacity="0.6" width="9.25364" height="19.8292" transform="matrix(-0.705027 0.70918 -0.705027 -0.70918 36.9812 14.0625)" fill="white"/>
+<rect id="Rectangle 26" opacity="0.6" width="9.25364" height="19.8292" transform="matrix(-0.705027 0.70918 -0.705027 -0.70918 29.5249 38.4375)" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

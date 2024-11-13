@@ -17,6 +17,8 @@ export interface ComponentModel {
   installCmd: string
   dependencies: Dependencies
   configFiles: ConfigFile[]
+  isVariant: boolean,
+  variantProps?: any,
 }
 
 export interface Dependencies {
@@ -96,6 +98,8 @@ export const SampleComponentModelData = [
         `
       }
     ],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: "Button",
@@ -111,349 +115,447 @@ export const SampleComponentModelData = [
       ]
     },
     configFiles: [],
+    isVariant: true,
+    variantProps: {},
   },
   {
     name: 'Accordion',
     value: 'accordion',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Alert',
     value: 'alert',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'AlertDialog',
     value: 'alertdialog',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'AspectRatio',
     value: 'aspectratio',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Avatar',
     value: 'avatar',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Badge',
     value: 'badge',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Breadcrumb',
     value: 'breadcrumb',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Calendar',
     value: 'calendar',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Card',
     value: 'card',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Carousel',
     value: 'carousel',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Chart',
     value: 'chart',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Checkbox',
     value: 'checkbox',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Collapsible',
     value: 'collapsible',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Combobox',
     value: 'combobox',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Command',
     value: 'command',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'ContextMenu',
     value: 'contextmenu',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'DataTable',
     value: 'datatable',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'DatePicker',
     value: 'datepicker',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Dialog',
     value: 'dialog',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Drawer',
     value: 'drawer',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'DropdownMenu',
     value: 'dropdownmenu',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Form',
     value: 'form',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'HoverCard',
     value: 'hovercard',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Input',
     value: 'input',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'InputOTP',
     value: 'inputotp',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Label',
     value: 'label',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Menubar',
     value: 'menubar',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'NavigationMenu',
     value: 'navigationmenu',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Pagination',
     value: 'pagination',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Popover',
     value: 'popover',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Progress',
     value: 'progress',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'RadioGroup',
     value: 'radiogroup',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'ResizablePanelGroup',
     value: 'resizablepanelgroup',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'ScrollArea',
     value: 'scrollarea',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Select',
     value: 'select',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Separator',
     value: 'separator',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Sheet',
     value: 'sheet',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'SidebarNew',
     value: 'sidebarnew',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Skeleton',
     value: 'skeleton',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Slider',
     value: 'slider',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Sonner',
     value: 'sonner',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Switch',
     value: 'switch',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Table',
     value: 'table',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Tabs',
     value: 'tabs',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Textarea',
     value: 'textarea',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Toast',
     value: 'toast',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Toggle',
     value: 'toggle',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'ToggleGroup',
     value: 'togglegroup',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
+    isVariant: false,
+    variantProps: {},
   },
   {
     name: 'Tooltip',
     value: 'tooltip',
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
-    configFiles: []
+    configFiles: [],
   }
 ];
 
@@ -465,6 +567,10 @@ export const SampleTabData = [
   {
     name: "Dependencies",
     value: "dependencies"
+  },
+  {
+    name: "Add Variants",
+    value: "addVariants"
   },
   {
     name: "Submit",
@@ -485,11 +591,16 @@ const ProjectGenerator: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>()
   const [tabData, setTabData] = useState<TabData[]>([])
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
+  const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
   useEffect(() => {
     setComponentModel(SampleComponentModelData)
     setCurrentTab(SampleTabData[0].value)
     setTabData(SampleTabData)
+
+    //Need to comment
+    setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+
   }, [])
 
   // Handle checkbox change
@@ -527,6 +638,12 @@ const ProjectGenerator: React.FC = () => {
       }
     }
 
+
+    const filteredComponents = componentModel.filter((component: ComponentModel) =>
+      componentsSelected.includes(component.value)
+    );
+
+    setSelectedComponentModel(filteredComponents)
 
   }
 
@@ -580,12 +697,17 @@ const ProjectGenerator: React.FC = () => {
           </TabsContent>
           <TabsContent value="dependencies">
             <StepsToGenerate
-              componentsSelected={componentsSelected}
-
+              // componentsSelected={componentsSelected}
+              selectedComponentModel={selectedComponentModel}
 
             ></StepsToGenerate>
 
           </TabsContent>
+          <TabsContent value="addVariants">
+
+            Add Variants
+          </TabsContent>
+          {/*  */}
           <TabsContent value="submit">Redy to Submit</TabsContent>
         </Tabs>
 

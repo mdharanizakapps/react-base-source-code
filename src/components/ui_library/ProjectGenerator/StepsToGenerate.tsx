@@ -1,36 +1,54 @@
 import { useEffect, useState } from "react"
 import { ComponentModel, SampleComponentModelData } from "../../../pages/ProjectGenerator"
 
-export const StepsToGenerate = ({ componentsSelected }: { componentsSelected: string[] }) => {
-    const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
-    const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
-    const [componentsList, setComponentsList] = useState<string[]>([])
+export const StepsToGenerate = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
+
+    const [selectedComponentModelData, setSelectedComponentModel] = useState<ComponentModel[]>([])
+
+
+    const [currentComponent, setCurrentComponent] = useState<string>()
+    const [currentComponentModel, setCurrentComponentModel] = useState<ComponentModel>()
 
 
 
     useEffect(() => {
-        console.log("inside StepsToGenerate usseefect", componentsSelected)
-        generateCompoenetSteps(componentsSelected, SampleComponentModelData);
-        setComponentModel(SampleComponentModelData)
-        setComponentsList(componentsSelected)
-    }, [componentsSelected])
+        console.log("inside StepsToGenerate usseefect", selectedComponentModel)
+        setSelectedComponentModel(selectedComponentModel)
+    }, [selectedComponentModel])
 
-    const generateCompoenetSteps = (componentsSelected: string[], SampleComponentModelData: ComponentModel[]) => {
-        console.log("inside GenerateStepsObject")
-        console.log("inside GenerateStepsObject componentsSelected: ", componentsSelected)
-        console.log("inside GenerateStepsObject SampleComponentModelData: ", SampleComponentModelData)
 
-        const filteredComponents = SampleComponentModelData.filter((component: ComponentModel) =>
-            componentsSelected.includes(component.value)
+    const handleComponentSelection = (item: string) => {
+        console.log("inside handleComponentSelection item:", item)
+        console.log("inside handleComponentSelection item:", item)
+        const filteredComponents = selectedComponentModelData.filter((component: ComponentModel) =>
+            component.value == item
         );
-        console.log("filteredComponents: ", filteredComponents)
-        setSelectedComponentModel(filteredComponents)
+        setCurrentComponentModel(filteredComponents[0])
+
     }
 
-
     return (
-        <div>
-            StepsToGenerate
+        <div className="flex">
+            <div className="">
+                {
+                    selectedComponentModelData.map((item, index) => {
+                        return (
+                            <div key={index} onClick={() => { handleComponentSelection(item.value) }}>
+                                {item.name}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div className="">
+                Title: {currentComponent}
+                <div>
+                    {
+                        currentComponentModel?.name
+                    }
+                </div>
+
+            </div>
         </div>
     )
 }

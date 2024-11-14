@@ -75,7 +75,7 @@ const Sidebar = () => {
                   className={`flex gap-2 ml-2 ${isSideBar ? 'hidden' : 'block'}`}
                 >
                   <span className="w-28 text-xs text-ellipsis overflow-hidden userDetail text-white">
-                    user@diybuildingsupplies.co.uk
+                    user@gmail.com
                   </span>
                   <img src="src/assets/more_vert.svg" />
                 </div>

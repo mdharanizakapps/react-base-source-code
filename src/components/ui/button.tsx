@@ -14,10 +14,10 @@ export const buttonVariants = cva(
         primary: 'bg-primary-blue-1',
         secondary: ' bg-white ',
         link: 'underline-offset-4 hover:underline',
-        icon: 'w-11',
+        icon: 'w-11 p-3',
       },
       size: {
-        default: 'text-body-14 text-primary-blue-1 hover:text-primary-blue-1',
+        default: 'text-body-14 text-primary-blue-1 hover:text-white',
         sm: 'text-body-14 text-white',
         md: 'text-body-14 text-primary-blue-1 hover:text-white',
         lg: '',

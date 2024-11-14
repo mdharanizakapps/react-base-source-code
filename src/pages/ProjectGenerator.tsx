@@ -7,7 +7,8 @@ import {
 import { Checkbox } from '../components/ui/checkbox';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../@/components/ui/tabs';
-import { StepsToGenerate } from '../components/ui_library/ProjectGenerator/StepsToGenerate';
+import { Dependencies } from '../components/ui_library/ProjectGenerator/ComponentDependencies';
+import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVariants';
 
 
 
@@ -17,8 +18,14 @@ export interface ComponentModel {
   installCmd: string
   dependencies: Dependencies
   configFiles: ConfigFile[]
-  isVariant: boolean,
-  variantProps?: any,
+  isVariant: boolean
+  variants?: Variant[];
+  isSaved: boolean
+}
+
+interface Variant {
+  name: string;
+  value: Record<string, string>;
 }
 
 export interface Dependencies {
@@ -99,7 +106,7 @@ export const SampleComponentModelData = [
       }
     ],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: "Button",
@@ -116,7 +123,21 @@ export const SampleComponentModelData = [
     },
     configFiles: [],
     isVariant: true,
-    variantProps: {},
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        }
+      },
+      {
+        name: "size",
+        value: {
+          default: "h-9 px-4 py-2",
+        }
+      }
+    ],
+    isSaved: true
   },
   {
     name: 'Accordion',
@@ -125,7 +146,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Alert',
@@ -134,7 +155,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'AlertDialog',
@@ -143,7 +164,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'AspectRatio',
@@ -152,7 +173,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Avatar',
@@ -161,7 +182,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Badge',
@@ -170,7 +191,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Breadcrumb',
@@ -179,7 +200,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Calendar',
@@ -187,8 +208,8 @@ export const SampleComponentModelData = [
     installCmd: '',
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
-    isVariant: false,
-    variantProps: {},
+    isVariant: true,
+    variants: [],
   },
   {
     name: 'Card',
@@ -197,7 +218,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Carousel',
@@ -206,7 +227,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Chart',
@@ -215,7 +236,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Checkbox',
@@ -224,7 +245,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Collapsible',
@@ -233,7 +254,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Combobox',
@@ -242,7 +263,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Command',
@@ -251,7 +272,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'ContextMenu',
@@ -260,7 +281,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'DataTable',
@@ -269,7 +290,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'DatePicker',
@@ -278,7 +299,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Dialog',
@@ -287,7 +308,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Drawer',
@@ -296,7 +317,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'DropdownMenu',
@@ -305,7 +326,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Form',
@@ -314,7 +335,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'HoverCard',
@@ -323,7 +344,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Input',
@@ -332,7 +353,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'InputOTP',
@@ -341,7 +362,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Label',
@@ -350,7 +371,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Menubar',
@@ -359,7 +380,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'NavigationMenu',
@@ -368,7 +389,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Pagination',
@@ -377,7 +398,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Popover',
@@ -386,7 +407,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Progress',
@@ -395,7 +416,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'RadioGroup',
@@ -404,7 +425,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'ResizablePanelGroup',
@@ -413,7 +434,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'ScrollArea',
@@ -422,7 +443,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Select',
@@ -431,7 +452,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Separator',
@@ -440,7 +461,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Sheet',
@@ -449,7 +470,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'SidebarNew',
@@ -458,7 +479,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Skeleton',
@@ -467,7 +488,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Slider',
@@ -476,7 +497,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Sonner',
@@ -485,7 +506,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Switch',
@@ -494,7 +515,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Table',
@@ -503,7 +524,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Tabs',
@@ -512,7 +533,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Textarea',
@@ -521,7 +542,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Toast',
@@ -530,7 +551,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Toggle',
@@ -539,7 +560,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'ToggleGroup',
@@ -548,7 +569,7 @@ export const SampleComponentModelData = [
     dependencies: { components: [], hooks: [], external: [] },
     configFiles: [],
     isVariant: false,
-    variantProps: {},
+    variants: [],
   },
   {
     name: 'Tooltip',
@@ -565,12 +586,12 @@ export const SampleTabData = [
     value: "componentSelection"
   },
   {
-    name: "Dependencies",
-    value: "dependencies"
-  },
-  {
     name: "Add Variants",
     value: "addVariants"
+  },
+  {
+    name: "Dependencies",
+    value: "dependencies"
   },
   {
     name: "Submit",
@@ -652,11 +673,23 @@ const ProjectGenerator: React.FC = () => {
   }
 
 
+  const handleTabChange = (value: string) => {
+    console.log("Tab clicked:", value);
+    const filteredComponents = componentModel.filter((component: ComponentModel) =>
+      componentsSelected.includes(component.value)
+    );
+
+    setSelectedComponentModel(filteredComponents)
+    setCurrentTab(value)
+
+  }
+
+
 
   return (
     <Card >
       <CardContent>
-        <Tabs defaultValue="selectComponent" onValueChange={setCurrentTab} value={currentTab} className="w-full">
+        <Tabs defaultValue="selectComponent" onValueChange={handleTabChange} value={currentTab} className="w-full">
           <TabsList >
             {
               tabData?.map((item, index) => {
@@ -696,16 +729,19 @@ const ProjectGenerator: React.FC = () => {
             </div>
           </TabsContent>
           <TabsContent value="dependencies">
-            <StepsToGenerate
+            <Dependencies
               // componentsSelected={componentsSelected}
               selectedComponentModel={selectedComponentModel}
 
-            ></StepsToGenerate>
+            ></Dependencies>
 
           </TabsContent>
           <TabsContent value="addVariants">
 
-            Add Variants
+            <AddVariants
+              selectedComponentModel={selectedComponentModel}
+
+            ></AddVariants>
           </TabsContent>
           {/*  */}
           <TabsContent value="submit">Redy to Submit</TabsContent>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { ComponentModel } from "../../../pages/ProjectGenerator"
 
-export const StepsToGenerate = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
+export const Dependencies = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
 
     const [selectedComponentModelData, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
@@ -12,7 +12,7 @@ export const StepsToGenerate = ({ selectedComponentModel }: { selectedComponentM
 
 
     useEffect(() => {
-        console.log("inside StepsToGenerate usseefect", selectedComponentModel)
+        console.log("inside Dependencies usseefect", selectedComponentModel)
         setSelectedComponentModel(selectedComponentModel)
         setCurrentComponent(selectedComponentModel[0].value)
         setCurrentComponentModel(selectedComponentModel[0])

@@ -20,12 +20,13 @@ export interface ComponentModel {
   configFiles: ConfigFile[]
   isVariant: boolean
   variants?: Variant[];
-  isSaved: boolean
 }
 
 interface Variant {
   name: string;
   value: Record<string, string>;
+  isSaved: boolean
+
 }
 
 export interface Dependencies {
@@ -128,16 +129,17 @@ export const SampleComponentModelData = [
         name: "variant",
         value: {
           default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        }
+        },
+        isSaved: true
       },
       {
         name: "size",
         value: {
           default: "h-9 px-4 py-2",
-        }
-      }
+        },
+        isSaved: true
+      },
     ],
-    isSaved: true
   },
   {
     name: 'Accordion',

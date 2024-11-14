@@ -54,12 +54,13 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
     const handleAddVariantProp = () => {
         console.log("inside handleAddVariantProp: ")
         console.log("inside handleAddVariantProp currentComponentModel: ", currentComponentModel)
-        const tempObject = { ...currentComponentModel }; // Clone the current component model to avoid direct mutation
+        const tempObject = { ...currentComponentModel } as ComponentModel;; // Clone the current component model to avoid direct mutation
         const tempVariant = {
             name: `variant ` + (tempObject?.variants?.length ?? 0 + 1),
             value: {
                 default: ""
-            }
+            },
+            isSaved: false
         };
 
         tempObject.variants = [...(tempObject.variants || []), tempVariant]; // Ensure variants is initialized as an array
@@ -68,72 +69,6 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         setCurrentComponentModel(tempObject); // Set the updated object as the new state
     }
 
-    // const handleVariantDefaultChange = (index: number, newDefault: string) => {
-    //     console.log("inside handleVariantDefaultChange: ",)
-    //     console.log("inside handleVariantDefaultChange index: ", index)
-    //     console.log("inside handleVariantDefaultChange newDefault: ", newDefault)
-
-    //     const updatedVariants = currentComponentModel?.variants?.map((variant, i) =>
-    //         i === index
-    //             ? { ...variant, value: { ...variant.value, default: newDefault } }
-    //             : variant
-    //     );
-    //     console.log("inside handleVariantDefaultChange updatedVariants: ", updatedVariants)
-
-    //     setCurrentComponentModel({
-    //         ...currentComponentModel,
-    //         variants: updatedVariants
-    //     });
-    // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // const handleVariantValueKeyChange = (variantIndex: number, valueIndex: number, newKey: string) => {
-    //     console.log("inside handleVariantValueKeyChange");
-    //     console.log("inside handleVariantValueKeyChange variantIndex: ", variantIndex);
-    //     console.log("inside handleVariantValueKeyChange valueIndex: ", valueIndex);
-    //     console.log("inside handleVariantValueKeyChange newKey: ", newKey);
-
-    //     // Make a shallow copy of the variants array to avoid direct mutation of state
-    //     const updatedVariants = [...currentComponentModel?.variants];
-
-    //     // Access the specific variant
-    //     const variant = updatedVariants[variantIndex];
-
-    //     // Create a shallow copy of the value object
-    //     const updatedValue = { ...variant.value };
-
-    //     // Get the existing keys
-    //     const keys = Object.keys(updatedValue);
-    //     const oldKey = keys[valueIndex]; // The current key at the given index
-
-    //     // If the oldKey is different from the newKey, update the key in the value object
-    //     if (oldKey !== newKey) {
-    //         // Replace the old key with the new key, preserving the value
-    //         updatedValue[newKey] = updatedValue[oldKey];
-    //         delete updatedValue[oldKey]; // Delete the old key
-    //     }
-
-    //     // Update the state with the modified variant, preserving the original structure
-    //     variant.value = updatedValue; // Update the value with the new key-value structure
-
-    //     setCurrentComponentModel({
-    //         ...currentComponentModel,
-    //         variants: updatedVariants,
-    //     });
-    // };
 
     const handleVariantValueKeyChange = (variantIndex: number, valueIndex: number, newKey: string) => {
         console.log("inside handleVariantValueKeyChange");
@@ -183,40 +118,7 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
-
-
-    // const handleVariantValueKeyChange = (variantIndex: number, valueIndex: number, newKey: string) => {
-    //     console.log("inside handleVariantValueKeyChange")
-    //     console.log("inside handleVariantValueKeyChange variantIndex: ", variantIndex)
-    //     console.log("inside handleVariantValueKeyChange index: ", valueIndex)
-    //     console.log("inside handleVariantValueKeyChange newKey: ", newKey)
-
-    //     // Make a shallow copy of the variants array to avoid direct mutation of state
-    //     const updatedVariants = [...currentComponentModel?.variants];
-
-    //     // Access the specific variant and value object
-    //     const variant = updatedVariants[variantIndex];
-    //     const value = variant.value;
-
-    //     // Get the existing keys
-    //     const keys = Object.keys(value);
-    //     const oldKey = keys[valueIndex]; // The current key at the given index
-
-    //     // If the oldKey is different from the newKey, update the key in the value object
-    //     if (oldKey !== newKey) {
-    //         // Replace the old key with the new key
-    //         value[newKey] = value[oldKey]; // Copy the value of the old key to the new key
-    //         delete value[oldKey]; // Delete the old key
-    //     }
-
-    //     // Update the state with the modified variant
-    //     setCurrentComponentModel({
-    //         ...currentComponentModel,
-    //         variants: updatedVariants,
-    //     });
-    // };
-
-    const handleAddEmptyValueObject = (variantIndex) => {
+    const handleAddEmptyValueObject = (variantIndex: number) => {
         // Make a shallow copy of the variants array to avoid direct mutation of state
         if (!currentComponentModel?.variants) {
             console.error('Variants are not available');
@@ -247,7 +149,7 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
-    const handleDeleteVariant = (variantIndex) => {
+    const handleDeleteVariant = (variantIndex: number) => {
         // Ensure variants exist before proceeding
         if (!currentComponentModel?.variants) {
             console.error('Variants are not available');
@@ -287,7 +189,7 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
-    const handleDeleteValueObject = (variantIndex, valueKey) => {
+    const handleDeleteValueObject = (variantIndex: number, valueKey: string) => {
         // Ensure variants exist before proceeding
         if (!currentComponentModel?.variants) {
             console.error('Variants are not available');
@@ -327,6 +229,46 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
+    const handleEditClick = (variantIndex: number) => {
+        console.log("inside handleEditClick");
+        console.log("Editing variant at index: ", variantIndex);
+
+        // Create a shallow copy of the variants array to avoid direct mutation of state
+        const updatedVariants = [...currentComponentModel?.variants];
+
+        // Access the specific variant
+        const variant = updatedVariants[variantIndex];
+
+        // Update the isSaved to false (indicating edit mode)
+        variant.isSaved = false;
+
+        // Update the state with the modified variant
+        setCurrentComponentModel({
+            ...currentComponentModel,
+            variants: updatedVariants,
+        });
+    };
+
+    const handleSaveClick = (variantIndex: number) => {
+        console.log("inside handleSaveClick");
+        console.log("Saving variant at index: ", variantIndex);
+
+        // Create a shallow copy of the variants array to avoid direct mutation of state
+        const updatedVariants = [...currentComponentModel?.variants];
+
+        // Access the specific variant
+        const variant = updatedVariants[variantIndex];
+
+        // Update the isSaved to true (indicating saved state)
+        variant.isSaved = true;
+
+        // Update the state with the modified variant
+        setCurrentComponentModel({
+            ...currentComponentModel,
+            variants: updatedVariants,
+        });
+    };
+
 
 
 
@@ -348,15 +290,15 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                     })
                 }
             </div>
-            <div className="w-[100%] p-2">
+            <div className="w-[100%] p-2 ">
                 <h3>Title: {currentComponentModel?.name}</h3>
                 <div>
-                    <div>
-                        <div className="flex gap-2">
+                    <div className="my-2">
+                        <div className="flex gap-2 items-center my-2">
                             <h4>Variant Props</h4>
                             <Button variant={"icon"}
                                 onClick={handleAddVariantProp}
-                            ><Plus size={36} /></Button>
+                            ><Plus /></Button>
                         </div>
 
 
@@ -364,24 +306,34 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                             currentComponentModel?.variants?.map((variant, variantIndex) => {
                                 return (
                                     <div key={variantIndex} className="flex flex-col gap-2">
-                                        <div className="flex gap-1">
+                                        <div className="flex gap-1 items-center">
                                             <span>Key: </span>
                                             <Input
                                                 variant={'primary'}
+                                                disabled={variant.isSaved}
                                                 value={variant.name}
                                                 onChange={(event) => handleVariantKeyChange(variantIndex, event.target.value)}
                                             ></Input>
 
                                             <Button variant={"icon"} ><Eye /></Button>
-                                            {/* <Button variant={"icon"}><Pencil></Pencil></Button> */}
-                                            <Button variant={"icon"} ><Save></Save></Button>
+                                            {
+                                                variant.isSaved ?
+                                                    <Button variant={"icon"}
+                                                        onClick={() => handleEditClick(variantIndex)}
+                                                    ><Pencil></Pencil></Button>
+                                                    :
+                                                    <Button variant={"icon"}
+                                                        onClick={() => handleSaveClick(variantIndex)}
+                                                    ><Save></Save></Button>
+
+                                            }
                                             <Button variant={"icon"}
                                                 onClick={() => handleDeleteVariant(variantIndex)} // Call the delete function
                                             ><X /></Button>
                                         </div>
                                         <div
                                             className="w-[100%">
-                                            {Object.entries(variant.value).map(([key, value], index) => (
+                                            {Object.entries(variant.value).map(([key, value], index, array) => (
                                                 <div
                                                     className="w-[100%]"
                                                     key={index}
@@ -390,7 +342,7 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                                         variant={'primary'}
                                                         type="text"
                                                         value={key}
-                                                        disabled={key === "default"}
+                                                        disabled={key === "default" || variant.isSaved}
                                                         placeholder="Key"
                                                         className="w-[30%]"
                                                         onChange={(event) => handleVariantValueKeyChange(variantIndex, index, event.target.value)} // Handle key change
@@ -402,17 +354,40 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                                         type="text"
                                                         value={value}
                                                         placeholder="Value"
+                                                        disabled={variant.isSaved}
+
                                                         onChange={(event) => handleVariantValueChange(variantIndex, key, event.target.value)}
                                                     />
                                                     {/* <Button variant={"icon"} ><Eye /></Button> */}
-                                                    <Button variant={"icon"}><Pencil></Pencil></Button>
-                                                    <Button variant={"icon"} ><Save></Save></Button>
-                                                    <Button variant={"icon"}
-                                                        onClick={() => handleDeleteValueObject(variantIndex, key)} // Call delete value object
-                                                    ><X /></Button>
-                                                    <Button variant={"icon"}
+                                                    {/* <Button variant={"icon"}><Pencil></Pencil></Button> */}
+                                                    {/* <Button variant={"icon"} ><Save></Save></Button> */}
+                                                    {
+                                                        variant.isSaved ?
+                                                            ""
+                                                            :
+                                                            <>
+                                                                {index === array.length - 1 && (
+                                                                    <Button variant={"icon"}
+                                                                        disabled={key.trim() == "" || value.trim() == ""}
+                                                                        onClick={() => handleAddEmptyValueObject(variantIndex)}
+                                                                    ><Plus /></Button>
+                                                                )}
+
+                                                                <Button variant={"icon"}
+
+                                                                    className={
+                                                                        `${key == "default" ? "hidden" : ""}`
+                                                                    }
+                                                                    onClick={() => handleDeleteValueObject(variantIndex, key)} // Call delete value object
+                                                                ><X /></Button>
+                                                            </>
+                                                    }
+
+
+                                                    {/* <Button variant={"icon"}
                                                         onClick={() => handleAddEmptyValueObject(variantIndex)}
-                                                    ><Plus size={36} /></Button>
+                                                    ><Plus /></Button> */}
+
                                                 </div>
                                             ))}
 
@@ -422,6 +397,10 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                             })
 
                         }
+                        <div>
+                            <Button variant={"primary"} size={"sm"}
+                            >Save</Button>
+                        </div>
                     </div>
                 </div>
 

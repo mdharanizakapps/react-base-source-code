@@ -1,10 +1,20 @@
 
-import { ChangeEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ComponentModel } from "../../../pages/ProjectGenerator"
 import { Input } from "../../ui/input"
-import { Label } from "@radix-ui/react-select"
 import { Button } from "../../ui/button"
 import { Eye, Pencil, Plus, Save, X } from "lucide-react"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "../../../@/components/ui/dialog"
+
+import { Button as NewButton } from "./DefaultComponents/button"
+
 
 export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
 
@@ -56,7 +66,7 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         console.log("inside handleAddVariantProp currentComponentModel: ", currentComponentModel)
         const tempObject = { ...currentComponentModel } as ComponentModel;; // Clone the current component model to avoid direct mutation
         const tempVariant = {
-            name: `variant ` + (tempObject?.variants?.length ?? 0 + 1),
+            name: `variant_` + (tempObject?.variants?.length ?? 0 + 1),
             value: {
                 default: ""
             },
@@ -167,8 +177,6 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
-
-
     const handleVariantValueChange = (variantIndex: number, key: string, newValue: string) => {
         const updatedVariants = currentComponentModel?.variants?.map((variant, i) => {
             if (i === variantIndex) {
@@ -269,6 +277,9 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
         });
     };
 
+    const isSaveEnabled = () => {
+        return !currentComponentModel?.variants?.every(variant => variant.isSaved === true);
+    }
 
 
 
@@ -315,7 +326,57 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                                 onChange={(event) => handleVariantKeyChange(variantIndex, event.target.value)}
                                             ></Input>
 
-                                            <Button variant={"icon"} ><Eye /></Button>
+                                            <Dialog>
+                                                <DialogTrigger>
+                                                    <Button variant={"icon"} >
+                                                        <Eye />
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                                        <DialogDescription className="min-h-9 min-w-10 flex flex-col gap-7">
+                                                            {currentComponentModel?.variants?.map((variant, variantIndex) => (
+                                                                <div key={variantIndex} className="variant-container flex flex-col">
+                                                                    <h3>Variant {variantIndex + 1}: {variant.name}</h3>
+
+                                                                    {/* Map through the key-value pairs in variant.value */}
+                                                                    {Object.entries(variant.value).map(([key, value], valueIndex) => (
+                                                                        <div key={valueIndex} className="flex gap-8 ">
+                                                                            <label className="w-32">
+                                                                                {/* Key: */}
+                                                                                {/* <input
+                                                                                    type="text"
+                                                                                    value={key}
+                                                                                    readOnly
+                                                                                    className="key-input"
+                                                                                /> */}
+                                                                                {key}
+                                                                            </label>
+                                                                            <label className="">
+                                                                                {/* Value:
+                                                                                <input
+                                                                                    type="text"
+                                                                                    value={value}
+                                                                                    readOnly
+                                                                                    className="value-input"
+                                                                                /> */}
+                                                                                <NewButton
+                                                                                    className={`${value}`}
+                                                                                >Button</NewButton>
+                                                                            </label>
+                                                                            {/* <NewButton
+                                                                                className={`${value}`}
+                                                                            >{key}</NewButton> */}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ))}
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                </DialogContent>
+                                            </Dialog>
+
                                             {
                                                 variant.isSaved ?
                                                     <Button variant={"icon"}
@@ -398,7 +459,10 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
 
                         }
                         <div>
-                            <Button variant={"primary"} size={"sm"}
+                            <Button
+                                variant={"primary"}
+                                size={"sm"}
+                                disabled={isSaveEnabled()}
                             >Save</Button>
                         </div>
                     </div>

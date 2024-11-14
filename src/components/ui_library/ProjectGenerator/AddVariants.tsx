@@ -334,45 +334,36 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                                 </DialogTrigger>
                                                 <DialogContent>
                                                     <DialogHeader>
-                                                        <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                        <DialogDescription className="min-h-9 min-w-10 flex flex-col gap-7">
-                                                            {currentComponentModel?.variants?.map((variant, variantIndex) => (
-                                                                <div key={variantIndex} className="variant-container flex flex-col">
-                                                                    <h3>Variant {variantIndex + 1}: {variant.name}</h3>
+                                                        {currentComponentModel?.variants && currentComponentModel.variants[variantIndex] && (
+                                                            <>
+                                                                <DialogTitle>{variant.name.toUpperCase()} </DialogTitle>
+                                                                <DialogDescription className="min-h-9 min-w-10 flex flex-col gap-7">
 
-                                                                    {/* Map through the key-value pairs in variant.value */}
-                                                                    {Object.entries(variant.value).map(([key, value], valueIndex) => (
-                                                                        <div key={valueIndex} className="flex gap-8 ">
-                                                                            <label className="w-32">
-                                                                                {/* Key: */}
-                                                                                {/* <input
-                                                                                    type="text"
-                                                                                    value={key}
-                                                                                    readOnly
-                                                                                    className="key-input"
-                                                                                /> */}
-                                                                                {key}
-                                                                            </label>
-                                                                            <label className="">
-                                                                                {/* Value:
-                                                                                <input
-                                                                                    type="text"
-                                                                                    value={value}
-                                                                                    readOnly
-                                                                                    className="value-input"
-                                                                                /> */}
-                                                                                <NewButton
-                                                                                    className={`${value}`}
-                                                                                >Button</NewButton>
-                                                                            </label>
-                                                                            {/* <NewButton
-                                                                                className={`${value}`}
-                                                                            >{key}</NewButton> */}
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            ))}
-                                                        </DialogDescription>
+                                                                    <div
+                                                                        key={variantIndex} className="variant-container flex flex-col">
+                                                                        {/* <h3>Variant {variantIndex + 1}: {variant.name}</h3> */}
+
+                                                                        {/* Map through the key-value pairs in variant.value */}
+                                                                        {Object.entries(variant.value).map(([key, value], valueIndex) => (
+                                                                            <div key={valueIndex} className="flex gap-8 ">
+                                                                                <label className="w-32">
+                                                                                    {key}
+                                                                                </label>
+                                                                                <label className="my-2">
+
+                                                                                    <NewButton
+                                                                                        className={`${value}`}
+                                                                                    >Button</NewButton>
+                                                                                </label>
+
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </DialogDescription>
+                                                            </>
+
+                                                        )}
+
                                                     </DialogHeader>
                                                 </DialogContent>
                                             </Dialog>

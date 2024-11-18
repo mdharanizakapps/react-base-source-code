@@ -163,7 +163,35 @@ export const SampleComponentModelData: ComponentModel[] = [
       hooks: [],
       external: ["@radix-ui/react-accordion"]
     },
-    configFiles: [],
+    configFiles: [
+      {
+        fileName: "tailwind.config.js",  // Path to the Tailwind config file
+        changes: `
+        keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		}
+        `
+      }
+    ],
     isVariant: false,
     variants: [],
   },
@@ -949,10 +977,10 @@ export const SampleTabData = [
     name: "Dependencies",
     value: "dependencies"
   },
-  {
-    name: "Submit",
-    value: "submit"
-  }
+  // {
+  //   name: "Submit",
+  //   value: "submit"
+  // }
 ]
 
 export interface TabData {
@@ -973,8 +1001,9 @@ const ProjectGenerator: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>()
   const [tabData, setTabData] = useState<TabData[]>([])
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
+  const [isPreviousEnable, setIsPreviousEnable] = useState<boolean>(false)
 
-
+  console.log("")
   // console
   useEffect(() => {
     setComponentModel(SampleComponentModelData)
@@ -982,7 +1011,8 @@ const ProjectGenerator: React.FC = () => {
     setTabData(SampleTabData)
 
     //Need to comment
-    setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+    // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+    setComponentsSelected(["accordion", "alertdialog", "card", "calendar", "breadcrumb", "badge", "button", "sidebar", "avatar", "chart", "checkbox", "collapsible", "combobox", "drawer", "command", "dropdownmenu", "menubar", "resizablepanelgroup", "slider", "sonner", "toggle", "togglegroup", "switch", "select"])
 
   }, [])
 
@@ -1006,6 +1036,7 @@ const ProjectGenerator: React.FC = () => {
     console.log("inside HandleNextClick", componentsSelected)
     console.log("componentsSelected", componentsSelected)
     console.log("currentTab", currentTab)
+    console.log("tabData", tabData)
 
     const index = tabData?.findIndex(item => item.value === currentTab);
     // if (index + 1> tabData?.length){
@@ -1017,16 +1048,62 @@ const ProjectGenerator: React.FC = () => {
         setIsSubmitEnable(true)
       } else {
         setCurrentTab(tabData[index + 1].value)
-
+      }
+      if (index == 0) {
+        setIsPreviousEnable(true)
       }
     }
 
 
-    const filteredComponents = componentModel.filter((component: ComponentModel) =>
-      componentsSelected.includes(component.value)
-    );
+    if (index == 0) {
+      const filteredComponents = componentModel.filter((component: ComponentModel) =>
+        componentsSelected.includes(component.value)
+      );
 
-    setSelectedComponentModel(filteredComponents)
+      setSelectedComponentModel(filteredComponents)
+    }
+
+  }
+
+  console.log("previous enable: ", isPreviousEnable)
+
+  const HandlePreviousClick = () => {
+    console.log("inside HandlePreviousClick", componentsSelected)
+    console.log("inside HandlePreviousClick componentsSelected", componentsSelected)
+    console.log("inside HandlePreviousClick currentTab", currentTab)
+    console.log("inside HandlePreviousClick tabData", tabData)
+
+    const index = tabData?.findIndex(item => item.value === currentTab);
+    // if (index + 1> tabData?.length){
+    console.log("inside HandlePreviousClick index", index)
+
+    if (index == tabData.length - 1) {
+      setIsSubmitEnable(false)
+      setCurrentTab(tabData[index - 1].value)
+    } else if (index == 1) {
+      setIsPreviousEnable(false)
+      setCurrentTab(tabData[index - 1].value)
+    } else {
+      setCurrentTab(tabData[index - 1].value)
+    }
+
+
+    // if (index != 0) {
+
+    //   // setIsSubmitEnable(true)
+    // }
+
+    // }
+    // if (tabData.length > 0) {
+    //   if (index + 2 == tabData.length) {
+    //     setCurrentTab(tabData[index + 1].value)
+    //     setIsSubmitEnable(true)
+    //   } else {
+    //     setCurrentTab(tabData[index + 1].value)
+
+    //   }
+    // }
+
 
   }
 
@@ -1035,16 +1112,26 @@ const ProjectGenerator: React.FC = () => {
   }
 
 
-  const handleTabChange = (value: string) => {
-    console.log("Tab clicked:", value);
-    const filteredComponents = componentModel.filter((component: ComponentModel) =>
-      componentsSelected.includes(component.value)
-    );
+  const HandleSubmitClick = () => {
+    console.log("inside HandleSubmitClick", componentsSelected)
+    console.log("inside HandleSubmitClick selectedComponentModel", selectedComponentModel)
+    console.log("inside HandleSubmitClick selectedComponentModel", selectedComponentModel[1].variants)
+  }
 
-    setSelectedComponentModel(filteredComponents)
-    setCurrentTab(value)
+
+  const handleTabChange = () => {
+    // console.log("Tab clicked:", value);
+    // const filteredComponents = componentModel.filter((component: ComponentModel) =>
+    //   componentsSelected.includes(component.value)
+    // );
+
+    // setSelectedComponentModel(filteredComponents)
+    // setCurrentTab(value)
+    return 0
 
   }
+  console.log("inside projectGenerator  SelectedComponentModel: ", selectedComponentModel)
+
 
   const handleAddVariantSave = (componentName: string, newVariant: any) => {
     console.log("inside handleAddVariantSave componentName : ", componentName)
@@ -1071,12 +1158,15 @@ const ProjectGenerator: React.FC = () => {
   return (
     <Card >
       <CardContent>
-        <Tabs defaultValue="selectComponent" onValueChange={handleTabChange} value={currentTab} className="w-full">
+        <Tabs value={currentTab} className="w-full">
           <TabsList >
             {
               tabData?.map((item, index) => {
                 return (
-                  <TabsTrigger key={index} value={item.value} >{item.name}</TabsTrigger>
+                  <TabsTrigger key={index} value={item.value}
+                    onClick={() => 0}
+
+                  >{item.name}</TabsTrigger>
 
                 )
               })
@@ -1142,10 +1232,17 @@ const ProjectGenerator: React.FC = () => {
           >
             Save as Draft
           </Button>
+          <Button variant={'secondary'} size={"md"}
+            disabled={!isPreviousEnable}
+            onClick={HandlePreviousClick}
+
+          >
+            Previous
+          </Button>
           {
             isSubmitEnable ?
               <Button variant={'secondary'} size={"md"}
-                onClick={HandleNextClick}
+                onClick={HandleSubmitClick}
                 disabled={componentsSelected.length > 0 ? false : true}
               >
                 Submit
@@ -1161,7 +1258,7 @@ const ProjectGenerator: React.FC = () => {
 
         </div>
       </CardFooter>
-    </Card>
+    </Card >
 
   )
 };

@@ -18,7 +18,7 @@ import { PreviewComponent } from "./PreviewVariant"
 
 export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
     {
-        handleAddVariantSave: unknown,
+        handleAddVariantSave: any,
         selectedComponentModel: ComponentModel[]
     }) => {
 
@@ -30,11 +30,22 @@ export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
     console.log("currentComponentModel: ", currentComponentModel)
     console.log("selectedComponentModelData: ", selectedComponentModelData)
     useEffect(() => {
-        console.log("inside Dependencies usseefect", selectedComponentModel)
-        setSelectedComponentModel(selectedComponentModel)
-        setCurrentComponentModel(selectedComponentModel[0])
+        console.log("inside Add Variants usseefect", selectedComponentModel)
+
+        filterComponentsByVariantsData(selectedComponentModel)
     }, [selectedComponentModel])
 
+
+
+    const filterComponentsByVariantsData = (selectedComponentModel: ComponentModel[]) => {
+
+        const variantComponents = selectedComponentModel.filter((item) => item.isVariant)
+        console.log('inside filterComponentsByVariantsData variantComponents: ', variantComponents)
+
+        setSelectedComponentModel(variantComponents)
+        setCurrentComponentModel(variantComponents[0])
+
+    }
 
     const handleComponentSelection = (item: string) => {
         console.log("inside handleComponentSelection item:", item)

@@ -58,7 +58,7 @@ export const PreviewComponent = ({ currentComponentModel, componentName, variant
                         <label className="my-2">
 
                             <NewButton
-                                className={`${defaultValues} ${value}`}
+                                className={`${defaultValues}`}
                             >button</NewButton>
                         </label>
 

@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prettier:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\""
+    "prettier:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
+    "build:tailwind:excluded": "npx tailwindcss -i ./path/to/tailwind.excluded.css -o ./dist/tailwind.excluded.output.css -c ./tailwind.config.excluded.js"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.1",

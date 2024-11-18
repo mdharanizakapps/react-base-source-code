@@ -13,10 +13,14 @@ import {
     DialogTrigger,
 } from "../../../@/components/ui/dialog"
 
-import { Button as NewButton } from "./DefaultComponents/button"
+import { PreviewComponent } from "./PreviewVariant"
 
 
-export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
+export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
+    {
+        handleAddVariantSave: unknown,
+        selectedComponentModel: ComponentModel[]
+    }) => {
 
     const [selectedComponentModelData, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
@@ -338,27 +342,13 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                                             <>
                                                                 <DialogTitle>{variant.name.toUpperCase()} </DialogTitle>
                                                                 <DialogDescription className="min-h-9 min-w-10 flex flex-col gap-7">
+                                                                    <PreviewComponent
+                                                                        currentComponentModel={currentComponentModel}
+                                                                        componentName={currentComponentModel.name}
+                                                                        variant={currentComponentModel.variants[variantIndex]}
+                                                                    >
+                                                                    </PreviewComponent>
 
-                                                                    <div
-                                                                        key={variantIndex} className="variant-container flex flex-col">
-                                                                        {/* <h3>Variant {variantIndex + 1}: {variant.name}</h3> */}
-
-                                                                        {/* Map through the key-value pairs in variant.value */}
-                                                                        {Object.entries(variant.value).map(([key, value], valueIndex) => (
-                                                                            <div key={valueIndex} className="flex gap-8 ">
-                                                                                <label className="w-32">
-                                                                                    {key}
-                                                                                </label>
-                                                                                <label className="my-2">
-
-                                                                                    <NewButton
-                                                                                        className={`${value}`}
-                                                                                    >Button</NewButton>
-                                                                                </label>
-
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
                                                                 </DialogDescription>
                                                             </>
 
@@ -454,6 +444,10 @@ export const AddVariants = ({ selectedComponentModel }: { selectedComponentModel
                                 variant={"primary"}
                                 size={"sm"}
                                 disabled={isSaveEnabled()}
+                                // onClick={handleAddVariantSave(currentComponentModel?.name, currentComponentModel)}
+                                onClick={() => {
+                                    handleAddVariantSave(currentComponentModel?.name, currentComponentModel?.variants)
+                                }}
                             >Save</Button>
                         </div>
                     </div>

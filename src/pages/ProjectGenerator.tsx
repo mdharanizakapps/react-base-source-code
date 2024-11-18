@@ -22,7 +22,7 @@ export interface ComponentModel {
   variants?: Variant[];
 }
 
-interface Variant {
+export interface Variant {
   name: string;
   value: Record<string, string>;
   isSaved: boolean
@@ -128,25 +128,25 @@ export const SampleComponentModelData = [
       {
         name: "variant",
         value: {
-          default: "bg-primary text-primary-foreground hover:bg-primary/90",
-          destructive:
-            "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          default:
+            'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
           outline:
-            "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-          secondary:
-            "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-          ghost: "hover:bg-accent hover:text-accent-foreground",
-          link: "text-primary underline-offset-4 hover:underline",
+            'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
+          iconText:
+            'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
+          icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
         },
         isSaved: true
       },
       {
         name: "size",
         value: {
-          default: "h-10 px-4 py-2",
-          sm: "h-9 rounded-md px-3",
-          lg: "h-11 rounded-md px-8",
-          icon: "h-10 w-10",
+          default: 'w-[241px] h-12 rounded-lg px-4 py-2',
+          sm: 'w-[275px] h-[55px] rounded-lg px-3',
+          md: 'w-[310px] h-[62px] rounded-lg',
+          lg: 'w-[344px] h-[68px] rounded-lg px-8',
+          iconText: 'w-[283px] h-[55px] rounded-lg',
+          icon: 'h-14 w-14 rounded-full',
         },
         isSaved: true
       },
@@ -621,11 +621,15 @@ export interface TabData {
 const ProjectGenerator: React.FC = () => {
 
   const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
+
+  const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
+
   const [componentsSelected, setComponentsSelected] = useState<string[]>([])
+
+
   const [currentTab, setCurrentTab] = useState<string>()
   const [tabData, setTabData] = useState<TabData[]>([])
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
-  const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
 
   // console
@@ -699,6 +703,26 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
+  const handleAddVariantSave = (componentName: string, newVariant: any) => {
+    console.log("inside handleAddVariantSave componentName : ", componentName)
+    console.log("inside handleAddVariantSave  newVariant: ", newVariant)
+    console.log("inside handleAddVariantSave  SelectedComponentModel: ", selectedComponentModel)
+
+    // Create a new state variable to store the updated data
+    const updatedComponentModels = selectedComponentModel.map(component => {
+      if (component.name === componentName) {
+        // Replace the variants with the new ones
+        return { ...component, variants: newVariant };
+      }
+      // Return unchanged component
+      return component;
+    });
+    console.log("updatedComponentModels: ", updatedComponentModels)
+    // Update state
+    setSelectedComponentModel(updatedComponentModels);
+
+  }
+
 
 
   return (
@@ -754,6 +778,7 @@ const ProjectGenerator: React.FC = () => {
           <TabsContent value="addVariants">
 
             <AddVariants
+              handleAddVariantSave={handleAddVariantSave}
               selectedComponentModel={selectedComponentModel}
 
             ></AddVariants>

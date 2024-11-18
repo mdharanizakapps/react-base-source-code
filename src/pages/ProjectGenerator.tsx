@@ -157,7 +157,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'accordion',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "accordion"
+      ],
       hooks: [],
       external: ["@radix-ui/react-accordion"]
     },
@@ -170,7 +172,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'alert',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        'alert.tsx'
+      ],
       hooks: [],
       external: []
     },
@@ -183,7 +187,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'alertdialog',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "alert-dialog",
+        "button"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-alert-dialog",
@@ -199,7 +206,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'aspectratio',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "aspect-ratio"
+      ],
       hooks: [],
       external: ["@radix-ui/react-aspect-ratio"]
     },
@@ -212,7 +221,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'avatar',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "avatar"
+      ],
       hooks: [],
       external: ["@radix-ui/react-avatar"]
     },
@@ -225,7 +236,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'badge',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "badge"
+      ],
       hooks: [],
       external: []
     },
@@ -238,7 +251,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'breadcrumb',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "breadcrumb"
+      ],
       hooks: [],
       external: ["@radix-ui/react-slot"]
     },
@@ -251,7 +266,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'calendar',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "calendar",
+        "button"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-slot",
@@ -268,7 +286,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'card',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "card"
+      ],
       hooks: [],
       external: []
     },
@@ -281,7 +301,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'carousel',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "carousel",
+        "button"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-slot",
@@ -297,7 +320,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'chart',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "chart",
+        "card"
+      ],
       hooks: [],
       external: [
         "recharts"
@@ -312,7 +338,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'checkbox',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "checkbox"
+      ],
       hooks: [],
       external: ["@radix-ui/react-checkbox"]
     },
@@ -325,7 +353,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'collapsible',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "collapsible"
+      ],
       hooks: [],
       external: ["@radix-ui/react-collapsible"]
     },
@@ -351,7 +381,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'command',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "command",
+        "dialog"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-dialog",
@@ -367,7 +400,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'contextmenu',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "context-menu"
+      ],
       hooks: [],
       external: ["@radix-ui/react-context-menu"]
     },
@@ -406,7 +441,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'dialog',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "dialog"
+      ],
       hooks: [],
       external: ["@radix-ui/react-dialog"]
     },
@@ -419,7 +456,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'drawer',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "drawer"
+      ],
       hooks: [],
       external: ["@radix-ui/react-dialog",
         "vaul"]
@@ -433,7 +472,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'dropdownmenu',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "dropdown-menu"
+      ],
       hooks: [],
       external: []
     },
@@ -459,7 +500,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'hovercard',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "hover-card"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-hover-card"
@@ -474,7 +517,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'input',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "input"
+      ],
       hooks: [],
       external: []
     },
@@ -487,7 +532,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'inputotp',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "input-otp"
+      ],
       hooks: [],
       external: ["input-otp"]
     },
@@ -500,7 +547,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'label',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "label"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-label"
@@ -515,7 +564,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'menubar',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "menubar"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-menubar"
@@ -530,7 +581,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'navigationmenu',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "navigation-menu"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-navigation-menu"
@@ -545,7 +598,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'pagination',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "pagination",
+        "button"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-slot"
@@ -560,7 +616,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'popover',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "popover"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-popover"
@@ -575,7 +633,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'progress',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "progress"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-progress"
@@ -590,7 +650,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'radiogroup',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "radio-group"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-radio-group"
@@ -605,7 +667,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'resizablepanelgroup',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "resizable"
+      ],
       hooks: [],
       external: [
         "react-resizable-panels"
@@ -620,7 +684,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'scrollarea',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "scroll-area"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-scroll-area"
@@ -635,7 +701,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'select',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "select"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-select"
@@ -650,7 +718,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'separator',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "separator"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-separator"
@@ -665,7 +735,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'sheet',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "sheet"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-dialog"
@@ -680,7 +752,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'skeleton',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "skeleton"
+      ],
       hooks: [],
       external: []
     },
@@ -693,7 +767,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'slider',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "slider"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-slider"
@@ -708,7 +784,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'sonner',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "sonner"
+      ],
       hooks: [],
       external: [
         "next-themes",
@@ -724,7 +802,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'switch',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "switch"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-switch"
@@ -739,7 +819,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'table',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "table"
+      ],
       hooks: [],
       external: []
     },
@@ -752,7 +834,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'tabs',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "tabs"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-tabs"
@@ -767,7 +851,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'textarea',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "textarea"
+      ],
       hooks: [],
       external: []
     },
@@ -780,8 +866,13 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'toast',
     installCmd: '',
     dependencies: {
-      components: [],
-      hooks: [],
+      components: [
+        "toast",
+        "toaster"
+      ],
+      hooks: [
+        "use-toast.ts"
+      ],
       external: [
         "@radix-ui/react-toast"
       ]
@@ -795,7 +886,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'toggle',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "toggle"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-toggle"
@@ -810,7 +903,10 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'togglegroup',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "toggle-group",
+        "toggle"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-toggle",
@@ -826,7 +922,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     value: 'tooltip',
     installCmd: '',
     dependencies: {
-      components: [],
+      components: [
+        "tooltip"
+      ],
       hooks: [],
       external: [
         "@radix-ui/react-tooltip"

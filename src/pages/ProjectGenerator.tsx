@@ -40,7 +40,7 @@ export interface ConfigFile {
   changes: string
 }
 
-export const SampleComponentModelData = [
+export const SampleComponentModelData: ComponentModel[] = [
   {
     name: "Sidebar",
     value: "sidebar",
@@ -119,7 +119,7 @@ export const SampleComponentModelData = [
       ],
       hooks: [],
       external: [
-        "@radix - ui / react - slot"
+        "@radix-ui/react-slot"
       ]
     },
     configFiles: [],
@@ -156,7 +156,11 @@ export const SampleComponentModelData = [
     name: 'Accordion',
     value: 'accordion',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-accordion"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -165,7 +169,11 @@ export const SampleComponentModelData = [
     name: 'Alert',
     value: 'alert',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -174,7 +182,14 @@ export const SampleComponentModelData = [
     name: 'AlertDialog',
     value: 'alertdialog',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-alert-dialog",
+        "@radix-ui/react-slot"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -183,7 +198,11 @@ export const SampleComponentModelData = [
     name: 'AspectRatio',
     value: 'aspectratio',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-aspect-ratio"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -192,7 +211,11 @@ export const SampleComponentModelData = [
     name: 'Avatar',
     value: 'avatar',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-avatar"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -201,7 +224,11 @@ export const SampleComponentModelData = [
     name: 'Badge',
     value: 'badge',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -210,7 +237,11 @@ export const SampleComponentModelData = [
     name: 'Breadcrumb',
     value: 'breadcrumb',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-slot"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -219,7 +250,15 @@ export const SampleComponentModelData = [
     name: 'Calendar',
     value: 'calendar',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-slot",
+        "date-fns",
+        "react-day-picker"
+      ]
+    },
     configFiles: [],
     isVariant: true,
     variants: [],
@@ -228,7 +267,11 @@ export const SampleComponentModelData = [
     name: 'Card',
     value: 'card',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -237,7 +280,14 @@ export const SampleComponentModelData = [
     name: 'Carousel',
     value: 'carousel',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-slot",
+        "embla-carousel-react"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -246,7 +296,13 @@ export const SampleComponentModelData = [
     name: 'Chart',
     value: 'chart',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "recharts"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -255,7 +311,11 @@ export const SampleComponentModelData = [
     name: 'Checkbox',
     value: 'checkbox',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-checkbox"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -264,7 +324,11 @@ export const SampleComponentModelData = [
     name: 'Collapsible',
     value: 'collapsible',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-collapsible"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -273,7 +337,11 @@ export const SampleComponentModelData = [
     name: 'Combobox',
     value: 'combobox',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -282,7 +350,14 @@ export const SampleComponentModelData = [
     name: 'Command',
     value: 'command',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-dialog",
+        "cmdk"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -291,7 +366,11 @@ export const SampleComponentModelData = [
     name: 'ContextMenu',
     value: 'contextmenu',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-context-menu"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -300,7 +379,11 @@ export const SampleComponentModelData = [
     name: 'DataTable',
     value: 'datatable',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -309,7 +392,11 @@ export const SampleComponentModelData = [
     name: 'DatePicker',
     value: 'datepicker',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -318,7 +405,11 @@ export const SampleComponentModelData = [
     name: 'Dialog',
     value: 'dialog',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-dialog"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -327,7 +418,12 @@ export const SampleComponentModelData = [
     name: 'Drawer',
     value: 'drawer',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["@radix-ui/react-dialog",
+        "vaul"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -336,7 +432,11 @@ export const SampleComponentModelData = [
     name: 'DropdownMenu',
     value: 'dropdownmenu',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -345,7 +445,11 @@ export const SampleComponentModelData = [
     name: 'Form',
     value: 'form',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -354,7 +458,13 @@ export const SampleComponentModelData = [
     name: 'HoverCard',
     value: 'hovercard',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-hover-card"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -363,7 +473,11 @@ export const SampleComponentModelData = [
     name: 'Input',
     value: 'input',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -372,7 +486,11 @@ export const SampleComponentModelData = [
     name: 'InputOTP',
     value: 'inputotp',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: ["input-otp"]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -381,7 +499,13 @@ export const SampleComponentModelData = [
     name: 'Label',
     value: 'label',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-label"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -390,7 +514,13 @@ export const SampleComponentModelData = [
     name: 'Menubar',
     value: 'menubar',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-menubar"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -399,7 +529,13 @@ export const SampleComponentModelData = [
     name: 'NavigationMenu',
     value: 'navigationmenu',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-navigation-menu"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -408,7 +544,13 @@ export const SampleComponentModelData = [
     name: 'Pagination',
     value: 'pagination',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-slot"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -417,7 +559,13 @@ export const SampleComponentModelData = [
     name: 'Popover',
     value: 'popover',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-popover"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -426,7 +574,13 @@ export const SampleComponentModelData = [
     name: 'Progress',
     value: 'progress',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-progress"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -435,7 +589,13 @@ export const SampleComponentModelData = [
     name: 'RadioGroup',
     value: 'radiogroup',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-radio-group"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -444,7 +604,13 @@ export const SampleComponentModelData = [
     name: 'ResizablePanelGroup',
     value: 'resizablepanelgroup',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "react-resizable-panels"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -453,7 +619,13 @@ export const SampleComponentModelData = [
     name: 'ScrollArea',
     value: 'scrollarea',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-scroll-area"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -462,7 +634,13 @@ export const SampleComponentModelData = [
     name: 'Select',
     value: 'select',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-select"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -471,7 +649,13 @@ export const SampleComponentModelData = [
     name: 'Separator',
     value: 'separator',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-separator"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -480,16 +664,13 @@ export const SampleComponentModelData = [
     name: 'Sheet',
     value: 'sheet',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
-    configFiles: [],
-    isVariant: false,
-    variants: [],
-  },
-  {
-    name: 'SidebarNew',
-    value: 'sidebarnew',
-    installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-dialog"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -498,7 +679,11 @@ export const SampleComponentModelData = [
     name: 'Skeleton',
     value: 'skeleton',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -507,7 +692,13 @@ export const SampleComponentModelData = [
     name: 'Slider',
     value: 'slider',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-slider"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -516,7 +707,14 @@ export const SampleComponentModelData = [
     name: 'Sonner',
     value: 'sonner',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "next-themes",
+        "sonner"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -525,7 +723,13 @@ export const SampleComponentModelData = [
     name: 'Switch',
     value: 'switch',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-switch"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -534,7 +738,11 @@ export const SampleComponentModelData = [
     name: 'Table',
     value: 'table',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -543,7 +751,13 @@ export const SampleComponentModelData = [
     name: 'Tabs',
     value: 'tabs',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-tabs"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -552,7 +766,11 @@ export const SampleComponentModelData = [
     name: 'Textarea',
     value: 'textarea',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: []
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -561,7 +779,13 @@ export const SampleComponentModelData = [
     name: 'Toast',
     value: 'toast',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-toast"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -570,7 +794,13 @@ export const SampleComponentModelData = [
     name: 'Toggle',
     value: 'toggle',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-toggle"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -579,7 +809,14 @@ export const SampleComponentModelData = [
     name: 'ToggleGroup',
     value: 'togglegroup',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-toggle",
+        "@radix-ui/react-toggle-group"
+      ]
+    },
     configFiles: [],
     isVariant: false,
     variants: [],
@@ -588,8 +825,16 @@ export const SampleComponentModelData = [
     name: 'Tooltip',
     value: 'tooltip',
     installCmd: '',
-    dependencies: { components: [], hooks: [], external: [] },
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-tooltip"
+      ]
+    },
     configFiles: [],
+    isVariant: false,
+    variants: [],
   }
 ];
 

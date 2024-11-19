@@ -9,8 +9,8 @@ import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../@/components/ui/tabs';
 import { Dependencies } from '../components/ui_library/ProjectGenerator/ComponentDependencies';
 import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVariants';
-import { getProjectDetailsApi } from '../api/generateProjectModal';
-import { GetProjectDetailsRes } from '../type/data/generateProject';
+import { generateProjectApi, getProjectDetailsApi } from '../api/generateProjectModal';
+import { GenerateProjectReq, GetProjectDetailsRes } from '../type/data/generateProject';
 import { Input } from '../components/ui/input';
 
 
@@ -937,6 +937,8 @@ export const SampleComponentModelData: ComponentModel[] = [
   }
 ];
 
+
+
 export const SampleTabData = [
   {
     name: "Project Details",
@@ -1100,9 +1102,9 @@ const ProjectGenerator: React.FC = () => {
     }
   }
 
-  // Handle checkbox change
-  const HandleCheckboxChange = (value: string) => {
-    console.log("HandleCheckboxChange: ", value);
+  // handle checkbox change
+  const handleCheckboxChange = (value: string) => {
+    console.log("handleCheckboxChange: ", value);
 
     let selectedComponentOutputArray: string[] = [];
 
@@ -1115,19 +1117,17 @@ const ProjectGenerator: React.FC = () => {
 
     // Update the state with the new array
 
-    // console.log("inside HandleCheckboxChange selectedComponentOutputArray: ", selectedComponentOutputArray)
-    // console.log("inside HandleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponentOutputArray)
+    // console.log("inside handleCheckboxChange selectedComponentOutputArray: ", selectedComponentOutputArray)
+    // console.log("inside handleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponentOutputArray)
 
     setComponentsSelected(selectedComponentOutputArray);
     // setSelectedDependentComponents(selectedDependentComponentOutputArray)
   };
 
-  console.log("inside HandleCheckboxChange selectedComponentOutputArray: ", componentsSelected)
-  console.log("inside HandleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponents)
 
 
-  const HandleNextClick = () => {
-    console.log("inside HandleNextClick", componentsSelected)
+  const handleNextClick = () => {
+    console.log("inside handleNextClick", componentsSelected)
     console.log("componentsSelected", componentsSelected)
     console.log("currentTab", currentTab)
     console.log("tabData", tabData)
@@ -1161,15 +1161,15 @@ const ProjectGenerator: React.FC = () => {
 
   console.log("previous enable: ", isPreviousEnable)
 
-  const HandlePreviousClick = () => {
-    console.log("inside HandlePreviousClick", componentsSelected)
-    console.log("inside HandlePreviousClick componentsSelected", componentsSelected)
-    console.log("inside HandlePreviousClick currentTab", currentTab)
-    console.log("inside HandlePreviousClick tabData", tabData)
+  const handlePreviousClick = () => {
+    console.log("inside handlePreviousClick", componentsSelected)
+    console.log("inside handlePreviousClick componentsSelected", componentsSelected)
+    console.log("inside handlePreviousClick currentTab", currentTab)
+    console.log("inside handlePreviousClick tabData", tabData)
 
     const index = tabData?.findIndex(item => item.value === currentTab);
     // if (index + 1> tabData?.length){
-    console.log("inside HandlePreviousClick index", index)
+    console.log("inside handlePreviousClick index", index)
 
     if (index == tabData.length - 1) {
       setIsSubmitEnable(false)
@@ -1201,15 +1201,54 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-  const HandleSaveAsDraftClick = () => {
-    console.log("inside HandleSaveAsDraftClick", componentsSelected)
+  const handleSaveAsDraftClick = () => {
+    console.log("inside handleSaveAsDraftClick", componentsSelected)
   }
 
 
-  const HandleSubmitClick = () => {
-    console.log("inside HandleSubmitClick", componentsSelected)
-    console.log("inside HandleSubmitClick selectedComponentModel", selectedComponentModel)
-    console.log("inside HandleSubmitClick selectedComponentModel", selectedComponentModel[1].variants)
+  const handleSubmitClick = async () => {
+    console.log("inside handleSubmitClick", componentsSelected)
+    console.log("inside handleSubmitClick selectedComponentModel", selectedComponentModel)
+    const payload: GenerateProjectReq = {
+      name: "deva_project",
+      description: "testing - deva_project",
+      status: 2,
+      data: selectedComponentModel,
+      prefix: "dev",
+      suffix: ""
+    }
+
+    const generateProjectApiRespose = await generateProjectApi(payload)
+    if (generateProjectApiRespose.status == 200) {
+      console.log("generateProjectApiRespose", generateProjectApiRespose.data)
+
+      // Check the Content-Type to differentiate between binary data and JSON
+      const contentType = generateProjectApiRespose.headers['content-type'];
+
+      if (contentType.includes('application/zip')) {
+        // Handle the zip file response
+        const blob = new Blob([generateProjectApiRespose.data], { type: 'application/zip' });
+
+        // Create a downloadable link
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${payload.name}.zip`; // File name for download
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+        console.log('Zip file downloaded successfully');
+      } else if (contentType.includes('application/json')) {
+        // Handle the JSON response
+        const jsonResponse = JSON.parse(new TextDecoder().decode(generateProjectApiRespose.data));
+        console.log('JSON response:', jsonResponse);
+      } else {
+        throw new Error('Unexpected content type received');
+      }
+    }
+
   }
 
 
@@ -1249,6 +1288,16 @@ const ProjectGenerator: React.FC = () => {
   }
 
 
+  const enableNext = () => {
+    let flag: boolean = true
+
+    if (currentTab == "projectDetails") {
+      flag = true
+    } else if (currentTab == "componentSelection") {
+      flag = componentModel.length > 0
+    }
+    return flag
+  }
 
   return (
     <Card >
@@ -1294,7 +1343,7 @@ const ProjectGenerator: React.FC = () => {
                           name={item.name}
                           id={`${item.name}-${index}`}
                           value={item.value}
-                          onCheckedChange={() => HandleCheckboxChange(item.value)}
+                          onCheckedChange={() => handleCheckboxChange(item.value)}
                           checked={componentsSelected.includes(item.value) || selectedDependentComponents.includes(item.value)}
                         />
                         <label
@@ -1348,13 +1397,13 @@ const ProjectGenerator: React.FC = () => {
         <div className='flex w-full justify-end gap-x-3'>
           <Button variant={'secondary'} size={"md"}
             disabled={componentsSelected.length > 0 ? false : true}
-            onClick={HandleSaveAsDraftClick}
+            onClick={handleSaveAsDraftClick}
           >
             Save as Draft
           </Button>
           <Button variant={'secondary'} size={"md"}
             disabled={!isPreviousEnable}
-            onClick={HandlePreviousClick}
+            onClick={handlePreviousClick}
 
           >
             Previous
@@ -1362,15 +1411,15 @@ const ProjectGenerator: React.FC = () => {
           {
             isSubmitEnable ?
               <Button variant={'secondary'} size={"md"}
-                onClick={HandleSubmitClick}
+                onClick={handleSubmitClick}
                 disabled={componentsSelected.length > 0 ? false : true}
               >
                 Submit
               </Button>
               :
               <Button variant={'secondary'} size={"md"}
-                onClick={HandleNextClick}
-                disabled={componentsSelected.length > 0 ? false : true}
+                onClick={handleNextClick}
+                disabled={!enableNext()}
               >
                 Next
               </Button>

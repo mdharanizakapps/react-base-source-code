@@ -17,3 +17,12 @@ export interface ProjectDetail {
   metaData: ComponentModel[]
   zipFile: any
 }
+
+export interface GenerateProjectReq {
+  name: string
+  description: string
+  status: number
+  data: ComponentModel[]
+  prefix:string
+  suffix:string
+}

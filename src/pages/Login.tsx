@@ -62,6 +62,8 @@ function Login() {
         //Set access token
         if (response.headers['access_token']) {
           localStorage.setItem('session_id', response.headers['access_token']);
+          localStorage.setItem('user_email', response.data.email);
+          console.log("response user_email: ", response.data.email)
           redirectToPage('/dashboard');
         }
       } else {
@@ -75,9 +77,9 @@ function Login() {
           console.error('An unexpected error occurred', error);
         }
       }
-      redirectToPage('/')
+      // redirectToPage('/')
     } else {
-      redirectToPage('/')
+      // redirectToPage('/')
       setError(true);
     }
   };

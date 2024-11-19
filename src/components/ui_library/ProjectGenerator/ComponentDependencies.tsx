@@ -122,7 +122,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 </div>
                 <div className="w-4/5">
 
-                    <ul className="grid grid-cols-8">
+                    <ul className="grid grid-cols-4">
                         {
                             dependencyComponents.map((item, index) => {
                                 return (

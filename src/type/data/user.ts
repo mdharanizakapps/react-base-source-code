@@ -1,8 +1,13 @@
-export interface UserRequest {
+export interface userLoginRequest {
   email: string;
   password: string;
 }
 
-export interface UserResponse {
+export interface userLoginResponse {
+  email: string,
+  messge: string;
+}
+
+export interface UserProfileResponse {
   messge?: string;
 }

@@ -9,6 +9,9 @@ import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../@/components/ui/tabs';
 import { Dependencies } from '../components/ui_library/ProjectGenerator/ComponentDependencies';
 import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVariants';
+import { getProjectDetailsApi } from '../api/generateProjectModal';
+import { GetProjectDetailsRes } from '../type/data/generateProject';
+import { Input } from '../components/ui/input';
 
 
 
@@ -16,6 +19,7 @@ export interface ComponentModel {
   name: string
   value: string
   installCmd: string
+  component: string
   dependencies: Dependencies
   configFiles: ConfigFile[]
   isVariant: boolean
@@ -45,9 +49,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: "Sidebar",
     value: "sidebar",
     installCmd: "npx shadcn@latest add sidebar",
+    component: "sidebar",
     dependencies: {
       components: [
-        "sidebar",
         "button",
         "separator",
         "sheet",
@@ -113,10 +117,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: "Button",
     value: "button",
     installCmd: "npx shadcn@latest add button",
+    component: "button",
     dependencies: {
-      components: [
-        "button"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-slot"
@@ -130,11 +133,11 @@ export const SampleComponentModelData: ComponentModel[] = [
         value: {
           default:
             'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
-          outline:
-            'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
-          iconText:
-            'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
-          icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
+          // outline:
+          //   'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
+          // iconText:
+          //   'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
+          // icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
         },
         isSaved: true
       },
@@ -142,11 +145,11 @@ export const SampleComponentModelData: ComponentModel[] = [
         name: "size",
         value: {
           default: 'w-[241px] h-12 rounded-lg px-4 py-2',
-          sm: 'w-[275px] h-[55px] rounded-lg px-3',
-          md: 'w-[310px] h-[62px] rounded-lg',
-          lg: 'w-[344px] h-[68px] rounded-lg px-8',
-          iconText: 'w-[283px] h-[55px] rounded-lg',
-          icon: 'h-14 w-14 rounded-full',
+          // sm: 'w-[275px] h-[55px] rounded-lg px-3',
+          // md: 'w-[310px] h-[62px] rounded-lg',
+          // lg: 'w-[344px] h-[68px] rounded-lg px-8',
+          // iconText: 'w-[283px] h-[55px] rounded-lg',
+          // icon: 'h-14 w-14 rounded-full',
         },
         isSaved: true
       },
@@ -156,10 +159,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Accordion',
     value: 'accordion',
     installCmd: '',
+    component: "accordion",
     dependencies: {
-      components: [
-        "accordion"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-accordion"]
     },
@@ -199,10 +201,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Alert',
     value: 'alert',
     installCmd: '',
+    component: 'alert.tsx',
     dependencies: {
-      components: [
-        'alert.tsx'
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -214,9 +215,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'AlertDialog',
     value: 'alertdialog',
     installCmd: '',
+    component: "alert-dialog",
     dependencies: {
       components: [
-        "alert-dialog",
         "button"
       ],
       hooks: [],
@@ -233,10 +234,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'AspectRatio',
     value: 'aspectratio',
     installCmd: '',
+    component: "aspect-ratio",
     dependencies: {
-      components: [
-        "aspect-ratio"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-aspect-ratio"]
     },
@@ -248,10 +248,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Avatar',
     value: 'avatar',
     installCmd: '',
+    component: "avatar",
     dependencies: {
-      components: [
-        "avatar"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-avatar"]
     },
@@ -263,10 +262,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Badge',
     value: 'badge',
     installCmd: '',
+    component: "badge",
     dependencies: {
-      components: [
-        "badge"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -278,10 +276,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Breadcrumb',
     value: 'breadcrumb',
     installCmd: '',
+    component: "breadcrumb",
     dependencies: {
-      components: [
-        "breadcrumb"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-slot"]
     },
@@ -293,9 +290,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Calendar',
     value: 'calendar',
     installCmd: '',
+    component: "calendar",
     dependencies: {
       components: [
-        "calendar",
         "button"
       ],
       hooks: [],
@@ -313,10 +310,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Card',
     value: 'card',
     installCmd: '',
+    component: "card",
     dependencies: {
-      components: [
-        "card"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -328,9 +324,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Carousel',
     value: 'carousel',
     installCmd: '',
+    component: "carousel",
     dependencies: {
       components: [
-        "carousel",
         "button"
       ],
       hooks: [],
@@ -347,9 +343,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Chart',
     value: 'chart',
     installCmd: '',
+    component: "chart",
     dependencies: {
       components: [
-        "chart",
         "card"
       ],
       hooks: [],
@@ -365,10 +361,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Checkbox',
     value: 'checkbox',
     installCmd: '',
+    component: "checkbox",
     dependencies: {
-      components: [
-        "checkbox"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-checkbox"]
     },
@@ -380,10 +375,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Collapsible',
     value: 'collapsible',
     installCmd: '',
+    component: "collapsible",
     dependencies: {
-      components: [
-        "collapsible"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-collapsible"]
     },
@@ -395,6 +389,7 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Combobox',
     value: 'combobox',
     installCmd: '',
+    component: "",
     dependencies: {
       components: [],
       hooks: [],
@@ -408,9 +403,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Command',
     value: 'command',
     installCmd: '',
+    component: "command",
     dependencies: {
       components: [
-        "command",
         "dialog"
       ],
       hooks: [],
@@ -427,10 +422,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'ContextMenu',
     value: 'contextmenu',
     installCmd: '',
+    component: "context-menu",
     dependencies: {
-      components: [
-        "context-menu"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-context-menu"]
     },
@@ -442,6 +436,7 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'DataTable',
     value: 'datatable',
     installCmd: '',
+    component: "",
     dependencies: {
       components: [],
       hooks: [],
@@ -455,6 +450,7 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'DatePicker',
     value: 'datepicker',
     installCmd: '',
+    component: "",
     dependencies: {
       components: [],
       hooks: [],
@@ -468,10 +464,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Dialog',
     value: 'dialog',
     installCmd: '',
+    component: "dialog",
     dependencies: {
-      components: [
-        "dialog"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-dialog"]
     },
@@ -483,10 +478,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Drawer',
     value: 'drawer',
     installCmd: '',
+    component: "drawer",
     dependencies: {
-      components: [
-        "drawer"
-      ],
+      components: [],
       hooks: [],
       external: ["@radix-ui/react-dialog",
         "vaul"]
@@ -499,10 +493,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'DropdownMenu',
     value: 'dropdownmenu',
     installCmd: '',
+    component: "dropdown-menu",
     dependencies: {
-      components: [
-        "dropdown-menu"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -514,6 +507,7 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Form',
     value: 'form',
     installCmd: '',
+    component: "",
     dependencies: {
       components: [],
       hooks: [],
@@ -527,10 +521,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'HoverCard',
     value: 'hovercard',
     installCmd: '',
+    component: "hover-card",
     dependencies: {
-      components: [
-        "hover-card"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-hover-card"
@@ -544,10 +537,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Input',
     value: 'input',
     installCmd: '',
+    component: "input",
     dependencies: {
-      components: [
-        "input"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -559,10 +551,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'InputOTP',
     value: 'inputotp',
     installCmd: '',
+    component: "input-otp",
     dependencies: {
-      components: [
-        "input-otp"
-      ],
+      components: [],
       hooks: [],
       external: ["input-otp"]
     },
@@ -574,10 +565,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Label',
     value: 'label',
     installCmd: '',
+    component: "label",
     dependencies: {
-      components: [
-        "label"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-label"
@@ -591,10 +581,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Menubar',
     value: 'menubar',
     installCmd: '',
+    component: "menubar",
     dependencies: {
-      components: [
-        "menubar"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-menubar"
@@ -608,10 +597,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'NavigationMenu',
     value: 'navigationmenu',
     installCmd: '',
+    component: "navigation-menu",
     dependencies: {
-      components: [
-        "navigation-menu"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-navigation-menu"
@@ -625,9 +613,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Pagination',
     value: 'pagination',
     installCmd: '',
+    component: "pagination",
     dependencies: {
       components: [
-        "pagination",
         "button"
       ],
       hooks: [],
@@ -643,10 +631,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Popover',
     value: 'popover',
     installCmd: '',
+    component: "popover",
     dependencies: {
-      components: [
-        "popover"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-popover"
@@ -660,10 +647,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Progress',
     value: 'progress',
     installCmd: '',
+    component: "progress",
     dependencies: {
-      components: [
-        "progress"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-progress"
@@ -677,10 +663,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'RadioGroup',
     value: 'radiogroup',
     installCmd: '',
+    component: "radio-group",
     dependencies: {
-      components: [
-        "radio-group"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-radio-group"
@@ -694,6 +679,7 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'ResizablePanelGroup',
     value: 'resizablepanelgroup',
     installCmd: '',
+    component: "radio-group",
     dependencies: {
       components: [
         "resizable"
@@ -711,10 +697,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'ScrollArea',
     value: 'scrollarea',
     installCmd: '',
+    component: "scroll-area",
     dependencies: {
-      components: [
-        "scroll-area"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-scroll-area"
@@ -728,10 +713,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Select',
     value: 'select',
     installCmd: '',
+    component: "select",
     dependencies: {
-      components: [
-        "select"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-select"
@@ -745,10 +729,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Separator',
     value: 'separator',
     installCmd: '',
+    component: "separator",
     dependencies: {
-      components: [
-        "separator"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-separator"
@@ -762,10 +745,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Sheet',
     value: 'sheet',
     installCmd: '',
+    component: "sheet",
     dependencies: {
-      components: [
-        "sheet"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-dialog"
@@ -779,10 +761,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Skeleton',
     value: 'skeleton',
     installCmd: '',
+    component: "skeleton",
     dependencies: {
-      components: [
-        "skeleton"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -794,10 +775,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Slider',
     value: 'slider',
     installCmd: '',
+    component: "slider",
     dependencies: {
-      components: [
-        "slider"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-slider"
@@ -811,10 +791,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Sonner',
     value: 'sonner',
     installCmd: '',
+    component: "sonner",
     dependencies: {
-      components: [
-        "sonner"
-      ],
+      components: [],
       hooks: [],
       external: [
         "next-themes",
@@ -829,10 +808,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Switch',
     value: 'switch',
     installCmd: '',
+    component: "switch",
     dependencies: {
-      components: [
-        "switch"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-switch"
@@ -846,10 +824,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Table',
     value: 'table',
     installCmd: '',
+    component: "table",
     dependencies: {
-      components: [
-        "table"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -861,10 +838,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Tabs',
     value: 'tabs',
     installCmd: '',
+    component: "tabs",
     dependencies: {
-      components: [
-        "tabs"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-tabs"
@@ -878,10 +854,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Textarea',
     value: 'textarea',
     installCmd: '',
+    component: "textarea",
     dependencies: {
-      components: [
-        "textarea"
-      ],
+      components: [],
       hooks: [],
       external: []
     },
@@ -893,9 +868,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Toast',
     value: 'toast',
     installCmd: '',
+    component: "toast",
     dependencies: {
       components: [
-        "toast",
         "toaster"
       ],
       hooks: [
@@ -913,10 +888,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Toggle',
     value: 'toggle',
     installCmd: '',
+    component: "toggle",
     dependencies: {
-      components: [
-        "toggle"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-toggle"
@@ -930,9 +904,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'ToggleGroup',
     value: 'togglegroup',
     installCmd: '',
+    component: "toggle-group",
     dependencies: {
       components: [
-        "toggle-group",
         "toggle"
       ],
       hooks: [],
@@ -949,10 +923,9 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Tooltip',
     value: 'tooltip',
     installCmd: '',
+    component: "tooltip",
     dependencies: {
-      components: [
-        "tooltip"
-      ],
+      components: [],
       hooks: [],
       external: [
         "@radix-ui/react-tooltip"
@@ -965,6 +938,10 @@ export const SampleComponentModelData: ComponentModel[] = [
 ];
 
 export const SampleTabData = [
+  {
+    name: "Project Details",
+    value: "projectDetails"
+  },
   {
     name: "Component Selection",
     value: "componentSelection"
@@ -989,13 +966,16 @@ export interface TabData {
 }
 
 
+// const ProjectGenerator: React.FC = (projectId: number | undefined) => {
 const ProjectGenerator: React.FC = () => {
 
   const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
 
+  console.log("componentModel debug: ", componentModel)
   const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
   const [componentsSelected, setComponentsSelected] = useState<string[]>([])
+  const [selectedDependentComponents, setSelectedDependentComponents] = useState<string[]>([])
 
 
   const [currentTab, setCurrentTab] = useState<string>()
@@ -1003,34 +983,148 @@ const ProjectGenerator: React.FC = () => {
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
   const [isPreviousEnable, setIsPreviousEnable] = useState<boolean>(false)
 
-  console.log("")
-  // console
-  useEffect(() => {
-    setComponentModel(SampleComponentModelData)
-    setCurrentTab(SampleTabData[0].value)
-    setTabData(SampleTabData)
 
-    //Need to comment
-    // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
-    setComponentsSelected(["accordion", "alertdialog", "card", "calendar", "breadcrumb", "badge", "button", "sidebar", "avatar", "chart", "checkbox", "collapsible", "combobox", "drawer", "command", "dropdownmenu", "menubar", "resizablepanelgroup", "slider", "sonner", "toggle", "togglegroup", "switch", "select"])
+
+  console.log("checkbbox component componentsSelected: ", componentsSelected)
+  console.log("checkbbox component selectedDependentComponents: ", selectedDependentComponents)
+  useEffect(() => {
+    getProjectDetails(15)
 
   }, [])
+
+
+  const getProjectDetails = async (projectId: number | undefined) => {
+    if (projectId) {
+      console.log("inside getProjectDetails: ", projectId)
+      const response = await getProjectDetailsApi(projectId)
+      if (response.status == 200) {
+        const responseData: GetProjectDetailsRes = response.data
+        console.log("response - getProjectDetailsApi: ", responseData.projectDetails)
+        console.log("response - getProjectDetailsApi: ", responseData.projectDetails[0].projectId)
+
+        if (responseData.projectDetails[0].projectId == undefined) {
+          console.log("inside if")
+          console.log("inside if setComponentModel", SampleComponentModelData)
+
+          setComponentModel(SampleComponentModelData)
+          setTabData(SampleTabData)
+          setCurrentTab(SampleTabData[0].value)
+
+          //Need to comment
+          // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+          setComponentsSelected([])
+        } else {
+          console.log("responseData: ", responseData.projectDetails[0].metaData)
+          console.log("inside else setComponentModel", responseData.projectDetails)
+          console.log("inside else setComponentModel", responseData.projectDetails[0].metaData)
+
+
+
+          // const initalData = SampleComponentModelData;
+
+          // const updatedData = responseData.projectDetails[0].metaData.map((backendItem) => {
+          //   // Find a matching object in the UI data by name
+          //   const uiItem = initalData.find((uiItem) => uiItem.name === backendItem.name);
+          //   console.log("updatedData - uiItem: ", uiItem)
+
+          //   // If a match is found, replace the backend object with the UI object
+          //   return uiItem ? { ...backendItem, ...uiItem } : backendItem;
+          // });
+
+          // console.log("updatedData: ", updatedData)
+
+          const initialData = SampleComponentModelData;
+
+          // const updatedData = responseData.projectDetails[0].metaData.map((backendItem) => {
+          //   // Normalize names for comparison
+          //   const uiItem = initialData.find(
+          //     (uiItem) => uiItem.name.trim().toLowerCase() === backendItem.name.trim().toLowerCase()
+          //   );
+
+          //   console.log("Matching UI Item: ", uiItem);
+
+          //   // If a match is found, replace the backend object with the UI object
+          //   return uiItem ? { ...backendItem, ...uiItem } : backendItem;
+          // });
+
+
+          const selectedData: string[] = []
+          const dependentData: string[] = []
+
+          const updatedData = initialData.map((uiItem) => {
+
+            const backendItem = responseData.projectDetails[0].metaData.find(
+              (backendItem) => backendItem.name.trim().toLowerCase() === uiItem.name.trim().toLowerCase()
+            );
+
+            console.log("Matching backendItem: ", backendItem);
+            if (backendItem) {
+              selectedData.push(backendItem.value)
+              if (backendItem?.dependencies?.components?.length > 0) {
+                backendItem?.dependencies?.components.forEach((item) => {
+                  console.log("depednednt component creation: ", item)
+                  dependentData.push(item)
+                })
+
+              }
+            }
+
+
+            return backendItem ? { ...uiItem, ...backendItem } : uiItem;
+          });
+
+          console.log("Updated Data: ", updatedData);
+          setComponentModel(updatedData)
+          setCurrentTab(SampleTabData[0].value)
+          setTabData(SampleTabData)
+
+          //Need to comment
+          // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+          setComponentsSelected(selectedData)
+          setSelectedDependentComponents(dependentData)
+
+        }
+
+      }
+
+
+
+    } else {
+      setComponentModel(SampleComponentModelData)
+      setTabData(SampleTabData)
+      setCurrentTab(SampleTabData[0].value)
+
+      //Need to comment
+      // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
+      setComponentsSelected([])
+    }
+  }
 
   // Handle checkbox change
   const HandleCheckboxChange = (value: string) => {
     console.log("HandleCheckboxChange: ", value);
 
-    let outputArray: string[];
+    let selectedComponentOutputArray: string[] = [];
 
     if (componentsSelected.includes(value)) {
-      outputArray = componentsSelected.filter(item => item !== value);
+      selectedComponentOutputArray = componentsSelected.filter(item => item !== value);
     } else {
-      outputArray = [...componentsSelected, value];
+      selectedComponentOutputArray = [...componentsSelected, value];
     }
 
+
     // Update the state with the new array
-    setComponentsSelected(outputArray);
+
+    // console.log("inside HandleCheckboxChange selectedComponentOutputArray: ", selectedComponentOutputArray)
+    // console.log("inside HandleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponentOutputArray)
+
+    setComponentsSelected(selectedComponentOutputArray);
+    // setSelectedDependentComponents(selectedDependentComponentOutputArray)
   };
+
+  console.log("inside HandleCheckboxChange selectedComponentOutputArray: ", componentsSelected)
+  console.log("inside HandleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponents)
+
 
   const HandleNextClick = () => {
     console.log("inside HandleNextClick", componentsSelected)
@@ -1119,17 +1213,18 @@ const ProjectGenerator: React.FC = () => {
   }
 
 
-  const handleTabChange = () => {
-    // console.log("Tab clicked:", value);
-    // const filteredComponents = componentModel.filter((component: ComponentModel) =>
-    //   componentsSelected.includes(component.value)
-    // );
+  // const handleTabChange = () => {
+  //   // console.log("Tab clicked:", value);
+  //   // const filteredComponents = componentModel.filter((component: ComponentModel) =>
+  //   //   componentsSelected.includes(component.value)
+  //   // );
 
-    // setSelectedComponentModel(filteredComponents)
-    // setCurrentTab(value)
-    return 0
+  //   // setSelectedComponentModel(filteredComponents)
+  //   // setCurrentTab(value)
+  //   return 0
 
-  }
+  // }
+
   console.log("inside projectGenerator  SelectedComponentModel: ", selectedComponentModel)
 
 
@@ -1173,30 +1268,55 @@ const ProjectGenerator: React.FC = () => {
             }
             {/* <TabsTrigger value="password">Password</TabsTrigger> */}
           </TabsList>
+          <TabsContent value='projectDetails'>
+            <div>
+              <div>
+                Project Name: <Input>
+                </Input>
+                Project Description: <Input>
+                </Input>
+                Prefix: <Input>
+                </Input>
+                SuffixL<Input></Input>
+              </div>
+            </div>
+
+          </TabsContent>
           <TabsContent value="componentSelection">
             <div className='grid gap-1.5 grid-cols-6 p-2.5'>
               {
-                componentModel.map((item, index) => {
-                  return (
-                    <div key={index} className="flex items-center space-x-2 p-3">
-                      <Checkbox
-                        name={item.name}
-                        id={`${item.name}-${index}`}
-                        value={item.value}
-                        onCheckedChange={() => HandleCheckboxChange(item.value)}
-                        checked={componentsSelected.includes(item.value)}
-                      />
-                      <label
-                        htmlFor={`${item.name}-${index}`}
-                        className={`text-sm 
-                          ${componentsSelected.includes(item.value) ? "font-medium" : ""}
+                componentModel.length > 0
+                  ?
+                  componentModel.map((item, index) => {
+                    return (
+                      <div key={index} className="flex items-center space-x-2 p-3">
+                        <Checkbox
+                          name={item.name}
+                          id={`${item.name}-${index}`}
+                          value={item.value}
+                          onCheckedChange={() => HandleCheckboxChange(item.value)}
+                          checked={componentsSelected.includes(item.value) || selectedDependentComponents.includes(item.value)}
+                        />
+                        <label
+                          htmlFor={`${item.name}-${index}`}
+                          className={`text-sm 
+                          ${componentsSelected.includes(item.value)
+                              ?
+                              `${selectedDependentComponents.includes(item.value) ? "text-red-700" : "text-yellow-400"} font-medium` :
+                              `${selectedDependentComponents.includes(item.value) ? "text-purple-600 font-medium" : ""}`
+                            }
+                          
+
                           leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`}
-                      >
-                        {item.name}
-                      </label>
-                    </div>
-                  )
-                })
+                        >
+                          {item.name}
+                        </label>
+                      </div>
+                    )
+                  })
+                  :
+                  <></>
+
               }
             </div>
           </TabsContent>

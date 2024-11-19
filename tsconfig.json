@@ -1,19 +1,26 @@
 {
   "files": [],
   "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      //"@/*": ["./src/*"],
+      "@components/*": ["components/*"], // Alias @components to src/components
+      "@utils/*": ["utils/*"], // Alias @utils to src/utils
+      "@styles/*": ["styles/*"], // Alias @styles to src/styles
+      "@hooks/*": ["hooks/*"], // Alias @hooks to src/hooks
+      "@assets/*": ["assets/*"] // Alias @assets to src/assets
     }
   }
 }

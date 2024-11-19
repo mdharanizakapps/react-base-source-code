@@ -92,7 +92,7 @@ function Login() {
             <label className="text-white font-roboto text-lg font-semibold leading-normal self-stretch">
               UI - LIBRARY
             </label>            {/* <img className="shrink-0" src="src/assets/Group 524.svg" />
-            <img src="/src/assets/factboard.svg" /> */}
+            <img src="/src/assets/ui-library.svg" /> */}
           </div>
         </div>
         <div className="flex flex-col gap-[30px]">

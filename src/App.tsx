@@ -13,9 +13,6 @@ import ProjectGenerator from './pages/ProjectGenerator';
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
-  console.log("isAuthenticated: ", isAuthenticated)
-
-
   return (
     <Router>
       {!isAuthenticated ? (

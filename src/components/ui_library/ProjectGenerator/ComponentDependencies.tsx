@@ -15,7 +15,6 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
 
 
     useEffect(() => {
-        console.log("inside Dependencies usseefect", selectedComponentModel)
         setSelectedComponentModel(selectedComponentModel)
 
         generateExternalDependencies(selectedComponentModel)
@@ -24,18 +23,6 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
         generateDependencyFileChanges(selectedComponentModel)
 
     }, [selectedComponentModel])
-
-    // const genertaeExternalDependencies = (selectedComponentModel: ComponentModel[]) => {
-
-    //     const externalDependencies: string[] = [];
-
-    //     selectedComponentModel.forEach((item) => {
-    //         externalDependencies.push(...item.dependencies.external); // Spread the array and add each item
-    //     });
-    //     console.log("Dependencies - externalDependencies: ", externalDependencies)
-    //     const externalDependencyCommand = `npm install ${externalDependencies.join(' ')}`
-    //     setDependencyInstallationCommand(externalDependencyCommand)
-    // }
 
     const generateExternalDependencies = (selectedComponentModel: ComponentModel[]) => {
         // Create a set to ensure uniqueness
@@ -52,13 +39,9 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
 
         // Update the state with the generated command
         setDependencyInstallationCommand(externalDependencyCommand);
-
-        console.log("Unique Dependencies - externalDependencies: ", uniqueDependencies);
-        console.log("Generated Command: ", externalDependencyCommand);
     };
 
     const generateDependentComponents = (selectedComponentModel: ComponentModel[]) => {
-        console.log("Dependencies - generateDependentComponents: ", selectedComponentModel)
 
         // Create a set to ensure uniqueness
         const dependentComponents = new Set<string>();
@@ -70,7 +53,6 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
 
         // Convert the set back to an array and generate the installation command
         const uniqueDependentComponents = Array.from(dependentComponents);
-        console.log("uniqueDependentComponents: ", uniqueDependentComponents);
         setDependencyComponents(uniqueDependentComponents)
 
     }
@@ -94,7 +76,6 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
     }
 
     const generateDependencyFileChanges = (selectedComponentModel: ComponentModel[]) => {
-        console.log("Dependencies - generateDependentFileChanges: ", selectedComponentModel)
 
         // Create an array to store all config files
         const allConfigFiles: ConfigFile[] = [];
@@ -108,7 +89,6 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
         });
 
         // Now allConfigFiles contains all the config files from all component models
-        console.log("All Config Files: ", allConfigFiles);
         setDependencyFileChanges(allConfigFiles)
 
     }

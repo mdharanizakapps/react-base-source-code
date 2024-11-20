@@ -12,6 +12,7 @@ import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVarian
 import { generateProjectApi, getProjectDetailsApi } from '../api/generateProjectModal';
 import { GenerateProjectReq, GetProjectDetailsRes } from '../type/data/generateProject';
 import { Input } from '../components/ui/input';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -128,31 +129,31 @@ export const SampleComponentModelData: ComponentModel[] = [
     configFiles: [],
     isVariant: true,
     variants: [
-      {
-        name: "variant",
-        value: {
-          default:
-            'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
-          // outline:
-          //   'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
-          // iconText:
-          //   'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
-          // icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
-        },
-        isSaved: true
-      },
-      {
-        name: "size",
-        value: {
-          default: 'w-[241px] h-12 rounded-lg px-4 py-2',
-          // sm: 'w-[275px] h-[55px] rounded-lg px-3',
-          // md: 'w-[310px] h-[62px] rounded-lg',
-          // lg: 'w-[344px] h-[68px] rounded-lg px-8',
-          // iconText: 'w-[283px] h-[55px] rounded-lg',
-          // icon: 'h-14 w-14 rounded-full',
-        },
-        isSaved: true
-      },
+      // {
+      //   name: "variant",
+      //   value: {
+      //     default:
+      //       'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
+      //     // outline:
+      //     //   'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
+      //     // iconText:
+      //     //   'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
+      //     // icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
+      //   },
+      //   isSaved: true
+      // },
+      // {
+      //   name: "size",
+      //   value: {
+      //     default: 'w-[241px] h-12 rounded-lg px-4 py-2',
+      //     // sm: 'w-[275px] h-[55px] rounded-lg px-3',
+      //     // md: 'w-[310px] h-[62px] rounded-lg',
+      //     // lg: 'w-[344px] h-[68px] rounded-lg px-8',
+      //     // iconText: 'w-[283px] h-[55px] rounded-lg',
+      //     // icon: 'h-14 w-14 rounded-full',
+      //   },
+      //   isSaved: true
+      // },
     ],
   },
   {
@@ -970,12 +971,12 @@ export interface TabData {
 
 // const ProjectGenerator: React.FC = (projectId: number | undefined) => {
 const ProjectGenerator: React.FC = () => {
+  const { projectId } = useParams();
 
   const [componentModel, setComponentModel] = useState<ComponentModel[]>([])
 
-  console.log("componentModel debug: ", componentModel)
-  const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
 
+  const [selectedComponentModel, setSelectedComponentModel] = useState<ComponentModel[]>([])
   const [componentsSelected, setComponentsSelected] = useState<string[]>([])
   const [selectedDependentComponents, setSelectedDependentComponents] = useState<string[]>([])
 
@@ -986,27 +987,25 @@ const ProjectGenerator: React.FC = () => {
   const [isPreviousEnable, setIsPreviousEnable] = useState<boolean>(false)
 
 
-
+  console.log("componentModel debug: ", componentModel)
   console.log("checkbbox component componentsSelected: ", componentsSelected)
   console.log("checkbbox component selectedDependentComponents: ", selectedDependentComponents)
   useEffect(() => {
-    getProjectDetails(15)
+
+
+    // Convert projectId to a number if it exists, otherwise keep it undefined
+    const parsedProjectId = projectId ? parseInt(projectId, 10) : undefined;
+    getProjectDetails(parsedProjectId)
 
   }, [])
 
 
   const getProjectDetails = async (projectId: number | undefined) => {
     if (projectId) {
-      console.log("inside getProjectDetails: ", projectId)
       const response = await getProjectDetailsApi(projectId)
       if (response.status == 200) {
         const responseData: GetProjectDetailsRes = response.data
-        console.log("response - getProjectDetailsApi: ", responseData.projectDetails)
-        console.log("response - getProjectDetailsApi: ", responseData.projectDetails[0].projectId)
-
         if (responseData.projectDetails[0].projectId == undefined) {
-          console.log("inside if")
-          console.log("inside if setComponentModel", SampleComponentModelData)
 
           setComponentModel(SampleComponentModelData)
           setTabData(SampleTabData)
@@ -1016,39 +1015,9 @@ const ProjectGenerator: React.FC = () => {
           // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
           setComponentsSelected([])
         } else {
-          console.log("responseData: ", responseData.projectDetails[0].metaData)
-          console.log("inside else setComponentModel", responseData.projectDetails)
-          console.log("inside else setComponentModel", responseData.projectDetails[0].metaData)
 
-
-
-          // const initalData = SampleComponentModelData;
-
-          // const updatedData = responseData.projectDetails[0].metaData.map((backendItem) => {
-          //   // Find a matching object in the UI data by name
-          //   const uiItem = initalData.find((uiItem) => uiItem.name === backendItem.name);
-          //   console.log("updatedData - uiItem: ", uiItem)
-
-          //   // If a match is found, replace the backend object with the UI object
-          //   return uiItem ? { ...backendItem, ...uiItem } : backendItem;
-          // });
-
-          // console.log("updatedData: ", updatedData)
 
           const initialData = SampleComponentModelData;
-
-          // const updatedData = responseData.projectDetails[0].metaData.map((backendItem) => {
-          //   // Normalize names for comparison
-          //   const uiItem = initialData.find(
-          //     (uiItem) => uiItem.name.trim().toLowerCase() === backendItem.name.trim().toLowerCase()
-          //   );
-
-          //   console.log("Matching UI Item: ", uiItem);
-
-          //   // If a match is found, replace the backend object with the UI object
-          //   return uiItem ? { ...backendItem, ...uiItem } : backendItem;
-          // });
-
 
           const selectedData: string[] = []
           const dependentData: string[] = []
@@ -1059,12 +1028,10 @@ const ProjectGenerator: React.FC = () => {
               (backendItem) => backendItem.name.trim().toLowerCase() === uiItem.name.trim().toLowerCase()
             );
 
-            console.log("Matching backendItem: ", backendItem);
             if (backendItem) {
               selectedData.push(backendItem.value)
               if (backendItem?.dependencies?.components?.length > 0) {
                 backendItem?.dependencies?.components.forEach((item) => {
-                  console.log("depednednt component creation: ", item)
                   dependentData.push(item)
                 })
 
@@ -1075,7 +1042,6 @@ const ProjectGenerator: React.FC = () => {
             return backendItem ? { ...uiItem, ...backendItem } : uiItem;
           });
 
-          console.log("Updated Data: ", updatedData);
           setComponentModel(updatedData)
           setCurrentTab(SampleTabData[0].value)
           setTabData(SampleTabData)
@@ -1104,9 +1070,30 @@ const ProjectGenerator: React.FC = () => {
 
   // handle checkbox change
   const handleCheckboxChange = (value: string) => {
-    console.log("handleCheckboxChange: ", value);
 
     let selectedComponentOutputArray: string[] = [];
+
+    setSelectedComponentModel((prevState) => {
+      const isComponentAvailable = prevState.some(
+        (component) => component.value === value
+      );
+
+      if (isComponentAvailable) {
+        // Remove the component if it already exists
+        return prevState.filter((component) => component.value !== value);
+      } else {
+        // Find the matching component in componentModel
+        const newComponent = componentModel.find((component) => component.value === value);
+
+        if (newComponent) {
+          // Add the new component to the array
+          return [...prevState, newComponent];
+        } else {
+          console.warn(`Component with value "${value}" not found in componentModel.`);
+          return prevState; // No change if not found
+        }
+      }
+    });
 
     if (componentsSelected.includes(value)) {
       selectedComponentOutputArray = componentsSelected.filter(item => item !== value);
@@ -1115,11 +1102,10 @@ const ProjectGenerator: React.FC = () => {
     }
 
 
+
+
+
     // Update the state with the new array
-
-    // console.log("inside handleCheckboxChange selectedComponentOutputArray: ", selectedComponentOutputArray)
-    // console.log("inside handleCheckboxChange selectedDependentComponentOutputArray: ", selectedDependentComponentOutputArray)
-
     setComponentsSelected(selectedComponentOutputArray);
     // setSelectedDependentComponents(selectedDependentComponentOutputArray)
   };
@@ -1127,15 +1113,9 @@ const ProjectGenerator: React.FC = () => {
 
 
   const handleNextClick = () => {
-    console.log("inside handleNextClick", componentsSelected)
-    console.log("componentsSelected", componentsSelected)
-    console.log("currentTab", currentTab)
-    console.log("tabData", tabData)
 
     const index = tabData?.findIndex(item => item.value === currentTab);
-    // if (index + 1> tabData?.length){
 
-    // }
     if (tabData.length > 0) {
       if (index + 2 == tabData.length) {
         setCurrentTab(tabData[index + 1].value)
@@ -1149,27 +1129,24 @@ const ProjectGenerator: React.FC = () => {
     }
 
 
-    if (index == 0) {
-      const filteredComponents = componentModel.filter((component: ComponentModel) =>
-        componentsSelected.includes(component.value)
-      );
+    if (index == 1) {
 
-      setSelectedComponentModel(filteredComponents)
+      if (selectedComponentModel.length == 0) {
+        const filteredComponents = componentModel.filter((component: ComponentModel) =>
+          componentsSelected.includes(component.value)
+        );
+
+        setSelectedComponentModel(filteredComponents)
+      }
+
     }
 
   }
 
-  console.log("previous enable: ", isPreviousEnable)
 
   const handlePreviousClick = () => {
-    console.log("inside handlePreviousClick", componentsSelected)
-    console.log("inside handlePreviousClick componentsSelected", componentsSelected)
-    console.log("inside handlePreviousClick currentTab", currentTab)
-    console.log("inside handlePreviousClick tabData", tabData)
 
     const index = tabData?.findIndex(item => item.value === currentTab);
-    // if (index + 1> tabData?.length){
-    console.log("inside handlePreviousClick index", index)
 
     if (index == tabData.length - 1) {
       setIsSubmitEnable(false)
@@ -1181,34 +1158,52 @@ const ProjectGenerator: React.FC = () => {
       setCurrentTab(tabData[index - 1].value)
     }
 
-
-    // if (index != 0) {
-
-    //   // setIsSubmitEnable(true)
-    // }
-
-    // }
-    // if (tabData.length > 0) {
-    //   if (index + 2 == tabData.length) {
-    //     setCurrentTab(tabData[index + 1].value)
-    //     setIsSubmitEnable(true)
-    //   } else {
-    //     setCurrentTab(tabData[index + 1].value)
-
-    //   }
-    // }
-
-
   }
 
-  const handleSaveAsDraftClick = () => {
-    console.log("inside handleSaveAsDraftClick", componentsSelected)
+  const handleSaveAsDraftClick = async () => {
+    const payload: GenerateProjectReq = {
+      name: "deva_project",
+      description: "testing - deva_project",
+      status: 1,
+      data: selectedComponentModel,
+      prefix: "dev",
+      suffix: ""
+    }
+
+    const generateProjectApiRespose = await generateProjectApi(payload)
+    if (generateProjectApiRespose.status == 200) {
+
+      // Check the Content-Type to differentiate between binary data and JSON
+      const contentType = generateProjectApiRespose.headers['content-type'];
+
+      if (contentType.includes('application/zip')) {
+        // Handle the zip file response
+        const blob = new Blob([generateProjectApiRespose.data], { type: 'application/zip' });
+
+        // Create a downloadable link
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${payload.name}.zip`; // File name for download
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+        console.log('Zip file downloaded successfully');
+      } else if (contentType.includes('application/json')) {
+        // Handle the JSON response
+        const jsonResponse = JSON.parse(new TextDecoder().decode(generateProjectApiRespose.data));
+        console.log('JSON response:', jsonResponse);
+      } else {
+        throw new Error('Unexpected content type received');
+      }
+    }
+
   }
 
 
   const handleSubmitClick = async () => {
-    console.log("inside handleSubmitClick", componentsSelected)
-    console.log("inside handleSubmitClick selectedComponentModel", selectedComponentModel)
     const payload: GenerateProjectReq = {
       name: "deva_project",
       description: "testing - deva_project",
@@ -1252,26 +1247,8 @@ const ProjectGenerator: React.FC = () => {
   }
 
 
-  // const handleTabChange = () => {
-  //   // console.log("Tab clicked:", value);
-  //   // const filteredComponents = componentModel.filter((component: ComponentModel) =>
-  //   //   componentsSelected.includes(component.value)
-  //   // );
-
-  //   // setSelectedComponentModel(filteredComponents)
-  //   // setCurrentTab(value)
-  //   return 0
-
-  // }
-
-  console.log("inside projectGenerator  SelectedComponentModel: ", selectedComponentModel)
-
 
   const handleAddVariantSave = (componentName: string, newVariant: any) => {
-    console.log("inside handleAddVariantSave componentName : ", componentName)
-    console.log("inside handleAddVariantSave  newVariant: ", newVariant)
-    console.log("inside handleAddVariantSave  SelectedComponentModel: ", selectedComponentModel)
-
     // Create a new state variable to store the updated data
     const updatedComponentModels = selectedComponentModel.map(component => {
       if (component.name === componentName) {
@@ -1281,7 +1258,6 @@ const ProjectGenerator: React.FC = () => {
       // Return unchanged component
       return component;
     });
-    console.log("updatedComponentModels: ", updatedComponentModels)
     // Update state
     setSelectedComponentModel(updatedComponentModels);
 
@@ -1300,134 +1276,136 @@ const ProjectGenerator: React.FC = () => {
   }
 
   return (
-    <Card >
-      <CardContent>
-        <Tabs value={currentTab} className="w-full">
-          <TabsList >
-            {
-              tabData?.map((item, index) => {
-                return (
-                  <TabsTrigger key={index} value={item.value}
-                    onClick={() => 0}
-
-                  >{item.name}</TabsTrigger>
-
-                )
-              })
-            }
-            {/* <TabsTrigger value="password">Password</TabsTrigger> */}
-          </TabsList>
-          <TabsContent value='projectDetails'>
-            <div>
-              <div>
-                Project Name: <Input>
-                </Input>
-                Project Description: <Input>
-                </Input>
-                Prefix: <Input>
-                </Input>
-                SuffixL<Input></Input>
-              </div>
-            </div>
-
-          </TabsContent>
-          <TabsContent value="componentSelection">
-            <div className='grid gap-1.5 grid-cols-6 p-2.5'>
+    <div className='p-2'>
+      <Card className='' >
+        <CardContent className='p-2'>
+          <Tabs value={currentTab} className="w-full">
+            <TabsList >
               {
-                componentModel.length > 0
-                  ?
-                  componentModel.map((item, index) => {
-                    return (
-                      <div key={index} className="flex items-center space-x-2 p-3">
-                        <Checkbox
-                          name={item.name}
-                          id={`${item.name}-${index}`}
-                          value={item.value}
-                          onCheckedChange={() => handleCheckboxChange(item.value)}
-                          checked={componentsSelected.includes(item.value) || selectedDependentComponents.includes(item.value)}
-                        />
-                        <label
-                          htmlFor={`${item.name}-${index}`}
-                          className={`text-sm 
+                tabData?.map((item, index) => {
+                  return (
+                    <TabsTrigger key={index} value={item.value}
+                      onClick={() => 0}
+
+                    >{item.name}</TabsTrigger>
+
+                  )
+                })
+              }
+              {/* <TabsTrigger value="password">Password</TabsTrigger> */}
+            </TabsList>
+            <TabsContent value='projectDetails'>
+              <div>
+                <div>
+                  Project Name: <Input>
+                  </Input>
+                  Project Description: <Input>
+                  </Input>
+                  Prefix: <Input>
+                  </Input>
+                  SuffixL<Input></Input>
+                </div>
+              </div>
+
+            </TabsContent>
+            <TabsContent value="componentSelection">
+              <div className='grid gap-1.5 grid-cols-6 p-2.5'>
+                {
+                  componentModel.length > 0
+                    ?
+                    componentModel.map((item, index) => {
+                      return (
+                        <div key={index} className="flex items-center space-x-2 p-3">
+                          <Checkbox
+                            name={item.name}
+                            id={`${item.name}-${index}`}
+                            value={item.value}
+                            onCheckedChange={() => handleCheckboxChange(item.value)}
+                            checked={componentsSelected.includes(item.value) || selectedDependentComponents.includes(item.value)}
+                          />
+                          <label
+                            htmlFor={`${item.name}-${index}`}
+                            className={`text-sm 
                           ${componentsSelected.includes(item.value)
-                              ?
-                              `${selectedDependentComponents.includes(item.value) ? "text-red-700" : "text-yellow-400"} font-medium` :
-                              `${selectedDependentComponents.includes(item.value) ? "text-purple-600 font-medium" : ""}`
-                            }
+                                ?
+                                `${selectedDependentComponents.includes(item.value) ? "text-red-700" : "text-yellow-400"} font-medium` :
+                                `${selectedDependentComponents.includes(item.value) ? "text-purple-600 font-medium" : ""}`
+                              }
                           
 
                           leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`}
-                        >
-                          {item.name}
-                        </label>
-                      </div>
-                    )
-                  })
-                  :
-                  <></>
+                          >
+                            {item.name}
+                          </label>
+                        </div>
+                      )
+                    })
+                    :
+                    <></>
 
-              }
-            </div>
-          </TabsContent>
-          <TabsContent value="dependencies">
-            <Dependencies
-              // componentsSelected={componentsSelected}
-              selectedComponentModel={selectedComponentModel}
+                }
+              </div>
+            </TabsContent>
+            <TabsContent value="dependencies">
+              <Dependencies
+                // componentsSelected={componentsSelected}
+                selectedComponentModel={selectedComponentModel}
 
-            ></Dependencies>
+              ></Dependencies>
 
-          </TabsContent>
-          <TabsContent value="addVariants">
+            </TabsContent>
+            <TabsContent value="addVariants">
 
-            <AddVariants
-              handleAddVariantSave={handleAddVariantSave}
-              selectedComponentModel={selectedComponentModel}
+              <AddVariants
+                handleAddVariantSave={handleAddVariantSave}
+                selectedComponentModel={selectedComponentModel}
+              // ComponentsSelected={ComponentsSelected}
 
-            ></AddVariants>
-          </TabsContent>
-          {/*  */}
-          <TabsContent value="submit">Redy to Submit</TabsContent>
-        </Tabs>
+              ></AddVariants>
+            </TabsContent>
+            {/*  */}
+            <TabsContent value="submit">Redy to Submit</TabsContent>
+          </Tabs>
 
 
 
 
-      </CardContent>
-      <CardFooter>
-        <div className='flex w-full justify-end gap-x-3'>
-          <Button variant={'secondary'} size={"md"}
-            disabled={componentsSelected.length > 0 ? false : true}
-            onClick={handleSaveAsDraftClick}
-          >
-            Save as Draft
-          </Button>
-          <Button variant={'secondary'} size={"md"}
-            disabled={!isPreviousEnable}
-            onClick={handlePreviousClick}
+        </CardContent>
+        <CardFooter>
+          <div className='flex w-full justify-end gap-x-3'>
+            <Button variant={'secondary'} size={"md"}
+              disabled={componentsSelected.length > 0 ? false : true}
+              onClick={handleSaveAsDraftClick}
+            >
+              Save as Draft
+            </Button>
+            <Button variant={'secondary'} size={"md"}
+              disabled={!isPreviousEnable}
+              onClick={handlePreviousClick}
+            >
+              Previous
+            </Button>
+            {
+              isSubmitEnable ?
+                <Button variant={'secondary'} size={"md"}
+                  onClick={handleSubmitClick}
+                  disabled={componentsSelected.length > 0 ? false : true}
+                >
+                  Submit
+                </Button>
+                :
+                <Button variant={'secondary'} size={"md"}
+                  onClick={handleNextClick}
+                  disabled={!enableNext()}
+                >
+                  Next
+                </Button>
+            }
 
-          >
-            Previous
-          </Button>
-          {
-            isSubmitEnable ?
-              <Button variant={'secondary'} size={"md"}
-                onClick={handleSubmitClick}
-                disabled={componentsSelected.length > 0 ? false : true}
-              >
-                Submit
-              </Button>
-              :
-              <Button variant={'secondary'} size={"md"}
-                onClick={handleNextClick}
-                disabled={!enableNext()}
-              >
-                Next
-              </Button>
-          }
-
-        </div>
-      </CardFooter>
-    </Card >
+          </div>
+        </CardFooter>
+      </Card >
+    </div>
 
   )
 };

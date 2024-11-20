@@ -28,6 +28,7 @@ export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
 
 
     useEffect(() => {
+        console.log("inside selectedComponentModel: ", selectedComponentModel)
         filterComponentsByVariantsData(selectedComponentModel)
     }, [selectedComponentModel])
 
@@ -80,7 +81,7 @@ export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
 
 
     const handleVariantValueKeyChange = (variantIndex: number, valueIndex: number, newKey: string) => {
-        
+
         // Make a shallow copy of the variants array to avoid direct mutation of state
         const updatedVariants = [...currentComponentModel?.variants];
 
@@ -233,7 +234,7 @@ export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
     };
 
     const handleEditClick = (variantIndex: number) => {
-      
+
         // Create a shallow copy of the variants array to avoid direct mutation of state
         const updatedVariants = [...currentComponentModel?.variants];
 
@@ -251,7 +252,7 @@ export const AddVariants = ({ handleAddVariantSave, selectedComponentModel }:
     };
 
     const handleSaveClick = (variantIndex: number) => {
-       
+
         // Create a shallow copy of the variants array to avoid direct mutation of state
         const updatedVariants = [...currentComponentModel?.variants];
 

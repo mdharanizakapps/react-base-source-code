@@ -2,23 +2,37 @@ import { useEffect, useState } from "react"
 import { ComponentModel, ConfigFile } from "../../../pages/ProjectGenerator"
 import { Copy } from "lucide-react"
 
-export const Dependencies = ({ selectedComponentModel }: { selectedComponentModel: ComponentModel[] }) => {
+export const Dependencies = ({
+    dependentComponentsArray,
+    componentsSelected,
+    selectedComponentModel }: {
+        dependentComponentsArray: string[],
+        componentsSelected: string[],
+        selectedComponentModel: ComponentModel[]
+    }) => {
 
-    const [selectedComponentModelData, setSelectedComponentModel] = useState<ComponentModel[]>([])
+    const [selectedComponentModelData, setSelectedComponentModelData] = useState<ComponentModel[]>([])
     const [dependencyInstallationCommand, setDependencyInstallationCommand] = useState<string>("")
 
     const [dependencyComponents, setDependencyComponents] = useState<string[]>([])
+    const [selectedCompnents, setSelectedComponents] = useState<string[]>([])
 
     const [dependedncyHooksFile, setDependedncyHooksFile] = useState<string[]>([])
     const [dependencyFileChanges, setDependencyFileChanges] = useState<ConfigFile[]>([])
 
 
 
-    useEffect(() => {
-        setSelectedComponentModel(selectedComponentModel)
 
+    useEffect(() => {
+        console.log("ComponentDependencies - selectedComponentModel: ", selectedComponentModel)
+        console.log("ComponentDependencies - componentsSelected: ", componentsSelected)
+        console.log("ComponentDependencies - dependentComponentsArray: ", dependentComponentsArray)
+
+        setSelectedComponentModelData(selectedComponentModel)
+        setSelectedComponents(componentsSelected)
+        setDependencyComponents(dependentComponentsArray)
         generateExternalDependencies(selectedComponentModel)
-        generateDependentComponents(selectedComponentModel)
+        // generateDependentComponents(selectedComponentModel)
         generateDependentHooksFiles(selectedComponentModel)
         generateDependencyFileChanges(selectedComponentModel)
 
@@ -41,21 +55,21 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
         setDependencyInstallationCommand(externalDependencyCommand);
     };
 
-    const generateDependentComponents = (selectedComponentModel: ComponentModel[]) => {
+    // const generateDependentComponents = (selectedComponentModel: ComponentModel[]) => {
 
-        // Create a set to ensure uniqueness
-        const dependentComponents = new Set<string>();
+    //     // Create a set to ensure uniqueness
+    //     const dependentComponents = new Set<string>();
 
-        // Iterate through the components and add dependencies to the set
-        selectedComponentModel.forEach((item) => {
-            item.dependencies.components.forEach((components) => dependentComponents.add(components));
-        });
+    //     // Iterate through the components and add dependencies to the set
+    //     selectedComponentModel.forEach((item) => {
+    //         item.dependencies.components.forEach((components) => dependentComponents.add(components));
+    //     });
 
-        // Convert the set back to an array and generate the installation command
-        const uniqueDependentComponents = Array.from(dependentComponents);
-        setDependencyComponents(uniqueDependentComponents)
+    //     // Convert the set back to an array and generate the installation command
+    //     const uniqueDependentComponents = Array.from(dependentComponents);
+    //     setDependencyComponents(uniqueDependentComponents)
 
-    }
+    // }
 
     const generateDependentHooksFiles = (selectedComponentModel: ComponentModel[]) => {
         console.log("Dependencies - generateDependentHooksFiles: ", selectedComponentModel)
@@ -103,7 +117,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 <div className="w-1/5 font-bold">
                     Selected Components:
                 </div>
-                <div className="w-4/5">
+                <div className="w-4/5" key="selectedcomponents" >
 
                     <ul className="grid grid-cols-4">
                         {
@@ -114,10 +128,10 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                             //         </li>
                             //     )
                             // })
-                            selectedComponentModelData.map((item, index) => {
+                            selectedCompnents.map((item, index) => {
                                 return (
-                                    <li>
-                                        {index + 1}.  {item.component}
+                                    <li key={index}>
+                                        {index + 1}.  {item}
                                     </li>
                                 )
                             })
@@ -132,7 +146,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 <div className="w-1/5 font-bold">
                     Dependent Components:
                 </div>
-                <div className="w-4/5">
+                <div className="w-4/5" key=" dependentComponents">
                     {
                         dependencyComponents.length > 0
                             ?
@@ -140,7 +154,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                                 {
                                     dependencyComponents.map((item, index) => {
                                         return (
-                                            <li>
+                                            <li key={index}>
                                                 {index + 1}.  {item}
                                             </li>
                                         )
@@ -159,7 +173,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 <div className="w-1/5 font-bold">
                     NPM Installation:
                 </div>
-                <div className="w-4/5">
+                <div className="w-4/5" key="dependencyInstallationCommand">
 
                     <div className=" w-11/12 mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 p-1 dark:bg-zinc-900 text-white flex justify-between items-center">
                         <div className="p-1">
@@ -246,7 +260,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 <div className="w-1/5 font-bold">
                     Required Hooks files:
                 </div>
-                <div className="w-4/5">
+                <div className="w-4/5" key="dependedncyHooksFile">
                     {
                         dependedncyHooksFile.length > 0 ?
 
@@ -254,7 +268,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                                 {
                                     dependedncyHooksFile.map((item, index) => {
                                         return (
-                                            <li>
+                                            <li key={index}>
                                                 {index + 1}.  {item}
                                             </li>
                                         )
@@ -279,7 +293,7 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                 <div className="w-1/5 font-bold">
                     Required files changes:
                 </div>
-                <div className="w-4/5">
+                <div className="w-4/5" key="dependencyFileChanges">
                     {
                         dependencyFileChanges.length > 0 ?
 
@@ -290,8 +304,9 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
                                         <div className="w-1/5">
                                             {index + 1}. {item.fileName}
                                         </div>
-                                        <div className="w-4/5">
+                                        <div className="w-4/5" key="dependencyFileChanges">
                                             {item.changes}
+
                                         </div>
                                     </div>
                                 )

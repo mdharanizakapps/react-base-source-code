@@ -1073,6 +1073,9 @@ const ProjectGenerator: React.FC = () => {
 
     let selectedComponentOutputArray: string[] = [];
 
+    let tempDependentComponents: string[] = []
+    // let updatedDependentComponents = [...selectedDependentComponents]
+
     setSelectedComponentModel((prevState) => {
       const isComponentAvailable = prevState.some(
         (component) => component.value === value
@@ -1080,14 +1083,24 @@ const ProjectGenerator: React.FC = () => {
 
       if (isComponentAvailable) {
         // Remove the component if it already exists
-        return prevState.filter((component) => component.value !== value);
+        const tempComponent = prevState.filter((component) => component.value !== value);
+
+        // tempComponent.forEach(
+        //   (component) => tempDependentComponents = [...tempDependentComponents, ...component.dependencies.components]
+        // )
+
+        return tempComponent
       } else {
         // Find the matching component in componentModel
-        const newComponent = componentModel.find((component) => component.value === value);
+        const tempComponent = componentModel.find((component) => component.value === value);
 
-        if (newComponent) {
+        if (tempComponent) {
+
+          // tempDependentComponents = [...tempDependentComponents, ...tempComponent.dependencies.components]
+
+
           // Add the new component to the array
-          return [...prevState, newComponent];
+          return [...prevState, tempComponent];
         } else {
           console.warn(`Component with value "${value}" not found in componentModel.`);
           return prevState; // No change if not found
@@ -1101,18 +1114,27 @@ const ProjectGenerator: React.FC = () => {
       selectedComponentOutputArray = [...componentsSelected, value];
     }
 
+    selectedComponentOutputArray.forEach((tempCurrentSelectedComponent) => {
+      const tempComponent = componentModel.find((component) => component.value === tempCurrentSelectedComponent);
+      if (tempComponent) {
+        tempDependentComponents = [...tempDependentComponents, ...tempComponent.dependencies.components]
+      }
+    })
 
+
+    console.log("inside handleCheckboxChange tempDependentComponents: ", tempDependentComponents)
 
 
 
     // Update the state with the new array
     setComponentsSelected(selectedComponentOutputArray);
-    // setSelectedDependentComponents(selectedDependentComponentOutputArray)
+    setSelectedDependentComponents(tempDependentComponents)
   };
 
 
 
   const handleNextClick = () => {
+    console.log("inside handleNextClick ")
 
     const index = tabData?.findIndex(item => item.value === currentTab);
 
@@ -1131,14 +1153,64 @@ const ProjectGenerator: React.FC = () => {
 
     if (index == 1) {
 
-      if (selectedComponentModel.length == 0) {
-        const filteredComponents = componentModel.filter((component: ComponentModel) =>
-          componentsSelected.includes(component.value)
-        );
+      const requiredComponentsArray = Array.from(new Set([...componentsSelected, ...selectedDependentComponents]));
+      console.log("inside handleNextClick - requiredComponentsArray ", requiredComponentsArray)
 
-        setSelectedComponentModel(filteredComponents)
-      }
+      const tempSelcetedComponentModal = selectedComponentModel.filter((component) =>
+        requiredComponentsArray.includes(component.value)
+      );
 
+      console.log("inside handleNextClick - tempSelcetedComponentModal ", tempSelcetedComponentModal)
+
+
+      // Create a new array to avoid mutating the existing state
+      const updatedSelectedComponentsModal = [...tempSelcetedComponentModal];
+
+
+      requiredComponentsArray.forEach((value) => {
+
+        const isComponentModalAlreadySelected = selectedComponentModel.some((selectedComponent) => selectedComponent.value == value)
+
+        if (!isComponentModalAlreadySelected) {
+          const componentModalToAdd = componentModel.find((newComponentModal) => newComponentModal.value == value)
+          if (componentModalToAdd) {
+            updatedSelectedComponentsModal.push(componentModalToAdd)
+          }
+        }
+        console.log("inside handleNextClick - updatedSelectedComponentsModal ", updatedSelectedComponentsModal)
+
+        setSelectedComponentModel(updatedSelectedComponentsModal);
+      })
+
+
+      // if (selectedComponentModel.length == 0) {
+
+      //   const requiredComponentsArray = Array.from(new Set([...componentsSelected, ...selectedDependentComponents]));
+      //   console.log("inside handleNextClick - requiredComponentsArray ", requiredComponentsArray)
+
+
+      //   // Create a new array to avoid mutating the existing state
+      //   const updatedSelectedComponentsModal = [...selectedComponentModel];
+
+
+      //   requiredComponentsArray.forEach((value) => {
+
+      //     const isComponentModalAlreadySelected = selectedComponentModel.some((selectedComponent) => selectedComponent.value == value)
+
+      //     if (!isComponentModalAlreadySelected) {
+      //       const componentModalToAdd = componentModel.find((newComponentModal) => newComponentModal.value == value)
+      //       if (componentModalToAdd) {
+      //         updatedSelectedComponentsModal.push(componentModalToAdd)
+      //       }
+      //     }
+      //     console.log("inside handleNextClick - updatedSelectedComponentsModal ", updatedSelectedComponentsModal)
+
+      //     setSelectedComponentModel(updatedSelectedComponentsModal);
+      //   })
+
+      //   // Update the state with the new array
+
+      // }
     }
 
   }
@@ -1348,7 +1420,8 @@ const ProjectGenerator: React.FC = () => {
             </TabsContent>
             <TabsContent value="dependencies">
               <Dependencies
-                // componentsSelected={componentsSelected}
+                dependentComponentsArray={selectedDependentComponents}
+                componentsSelected={componentsSelected}
                 selectedComponentModel={selectedComponentModel}
 
               ></Dependencies>

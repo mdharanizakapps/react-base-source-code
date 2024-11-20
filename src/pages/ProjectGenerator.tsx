@@ -14,8 +14,6 @@ import { GenerateProjectReq, GetProjectDetailsRes } from '../type/data/generateP
 import { Input } from '../components/ui/input';
 import { useParams } from 'react-router-dom';
 
-
-
 export interface ComponentModel {
   name: string
   value: string
@@ -31,7 +29,6 @@ export interface Variant {
   name: string;
   value: Record<string, string>;
   isSaved: boolean
-
 }
 
 export interface Dependencies {
@@ -46,116 +43,6 @@ export interface ConfigFile {
 }
 
 export const SampleComponentModelData: ComponentModel[] = [
-  {
-    name: "Sidebar",
-    value: "sidebar",
-    installCmd: "npx shadcn@latest add sidebar",
-    component: "sidebar",
-    dependencies: {
-      components: [
-        "button",
-        "separator",
-        "sheet",
-        "tooltip",
-        "input",
-        "skeleton",
-      ],
-      hooks: [
-        "use-mobile"
-      ],
-      external: [
-        "@radix-ui/react-dialog",
-        "@radix-ui/react-separator",
-        "@radix-ui/react-slot",
-        "@radix-ui/react-tooltip"
-      ]
-    },
-    configFiles: [
-      {
-        fileName: "index.css",  // Path to the CSS file to modify
-        changes: `
-          :root
-            --sidebar-background: 0 0% 98%;
-              --sidebar-foreground: 240 5.3% 26.1%;
-              --sidebar-primary: 240 5.9% 10%;
-              --sidebar-primary-foreground: 0 0% 98%;
-              --sidebar-accent: 240 4.8% 95.9%;
-              --sidebar-accent-foreground: 240 5.9% 10%;
-              --sidebar-border: 220 13% 91%;
-              --sidebar-ring: 217.2 91.2% 59.8%;
-
-          .dark
-              --sidebar-background: 240 5.9% 10%;
-              --sidebar-foreground: 240 4.8% 95.9%;
-              --sidebar-primary: 224.3 76.3% 48%;
-              --sidebar-primary-foreground: 0 0% 100%;
-              --sidebar-accent: 240 3.7% 15.9%;
-              --sidebar-accent-foreground: 240 4.8% 95.9%;
-              --sidebar-border: 240 3.7% 15.9%;
-              --sidebar-ring: 217.2 91.2% 59.8%;
-        `
-      },
-      {
-        fileName: "tailwind.config.js",  // Path to the Tailwind config file
-        changes: `
-        sidebar: {
-  				DEFAULT: 'hsl(var(--sidebar-background))',
-  				foreground: 'hsl(var(--sidebar-foreground))',
-  				primary: 'hsl(var(--sidebar-primary))',
-  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-  				accent: 'hsl(var(--sidebar-accent))',
-  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-  				border: 'hsl(var(--sidebar-border))',
-  				ring: 'hsl(var(--sidebar-ring))'
-  			}
-        `
-      }
-    ],
-    isVariant: false,
-    variants: [],
-  },
-  {
-    name: "Button",
-    value: "button",
-    installCmd: "npx shadcn@latest add button",
-    component: "button",
-    dependencies: {
-      components: [],
-      hooks: [],
-      external: [
-        "@radix-ui/react-slot"
-      ]
-    },
-    configFiles: [],
-    isVariant: true,
-    variants: [
-      // {
-      //   name: "variant",
-      //   value: {
-      //     default:
-      //       'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
-      //     // outline:
-      //     //   'font-bold text-black border-2 border-[#092C4C] hover:bg-[#092C4C]/20 active:bg-[#092C4C]/60 active:border-[#092C4C]/30 disabled:border-[#BDBDBD] disabled:border-1 disabled:text-[#E0E0E0]',
-      //     // iconText:
-      //     //   'font-bold text-white bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/70 disabled:bg-[#E0E0E0] disabled:text-white',
-      //     // icon: 'text-white font-bold bg-[#092C4C] hover:bg-[#061F35] active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0] disabled:text-white',
-      //   },
-      //   isSaved: true
-      // },
-      // {
-      //   name: "size",
-      //   value: {
-      //     default: 'w-[241px] h-12 rounded-lg px-4 py-2',
-      //     // sm: 'w-[275px] h-[55px] rounded-lg px-3',
-      //     // md: 'w-[310px] h-[62px] rounded-lg',
-      //     // lg: 'w-[344px] h-[68px] rounded-lg px-8',
-      //     // iconText: 'w-[283px] h-[55px] rounded-lg',
-      //     // icon: 'h-14 w-14 rounded-full',
-      //   },
-      //   isSaved: true
-      // },
-    ],
-  },
   {
     name: 'Accordion',
     value: 'accordion',
@@ -202,15 +89,23 @@ export const SampleComponentModelData: ComponentModel[] = [
     name: 'Alert',
     value: 'alert',
     installCmd: '',
-    component: 'alert.tsx',
+    component: 'alert',
     dependencies: {
       components: [],
       hooks: [],
       external: []
     },
     configFiles: [],
-    isVariant: false,
-    variants: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default: "bg-background text-foreground",
+        },
+        isSaved: true
+      }
+    ],
   },
   {
     name: 'AlertDialog',
@@ -286,6 +181,38 @@ export const SampleComponentModelData: ComponentModel[] = [
     configFiles: [],
     isVariant: false,
     variants: [],
+  },
+  {
+    name: "Button",
+    value: "button",
+    installCmd: "npx shadcn@latest add button",
+    component: "button",
+    dependencies: {
+      components: [],
+      hooks: [],
+      external: [
+        "@radix-ui/react-slot"
+      ]
+    },
+    configFiles: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default:
+            'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
+        },
+        isSaved: true
+      },
+      {
+        name: "size",
+        value: {
+          default: 'w-[241px] h-12 rounded-lg px-4 py-2',
+        },
+        isSaved: true
+      },
+    ],
   },
   {
     name: 'Calendar',
@@ -759,6 +686,74 @@ export const SampleComponentModelData: ComponentModel[] = [
     variants: [],
   },
   {
+    name: "Sidebar",
+    value: "sidebar",
+    installCmd: "npx shadcn@latest add sidebar",
+    component: "sidebar",
+    dependencies: {
+      components: [
+        "button",
+        "separator",
+        "sheet",
+        "tooltip",
+        "input",
+        "skeleton",
+      ],
+      hooks: [
+        "use-mobile"
+      ],
+      external: [
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-separator",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tooltip"
+      ]
+    },
+    configFiles: [
+      {
+        fileName: "index.css",  // Path to the CSS file to modify
+        changes: `
+          :root
+            --sidebar-background: 0 0% 98%;
+              --sidebar-foreground: 240 5.3% 26.1%;
+              --sidebar-primary: 240 5.9% 10%;
+              --sidebar-primary-foreground: 0 0% 98%;
+              --sidebar-accent: 240 4.8% 95.9%;
+              --sidebar-accent-foreground: 240 5.9% 10%;
+              --sidebar-border: 220 13% 91%;
+              --sidebar-ring: 217.2 91.2% 59.8%;
+
+          .dark
+              --sidebar-background: 240 5.9% 10%;
+              --sidebar-foreground: 240 4.8% 95.9%;
+              --sidebar-primary: 224.3 76.3% 48%;
+              --sidebar-primary-foreground: 0 0% 100%;
+              --sidebar-accent: 240 3.7% 15.9%;
+              --sidebar-accent-foreground: 240 4.8% 95.9%;
+              --sidebar-border: 240 3.7% 15.9%;
+              --sidebar-ring: 217.2 91.2% 59.8%;
+        `
+      },
+      {
+        fileName: "tailwind.config.js",  // Path to the Tailwind config file
+        changes: `
+        sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+        `
+      }
+    ],
+    isVariant: false,
+    variants: [],
+  },
+  {
     name: 'Skeleton',
     value: 'skeleton',
     installCmd: '',
@@ -992,12 +987,13 @@ const ProjectGenerator: React.FC = () => {
   console.log("checkbbox component selectedDependentComponents: ", selectedDependentComponents)
   useEffect(() => {
 
-
+    setTabData(SampleTabData)
+    setCurrentTab(SampleTabData[0].value)
     // Convert projectId to a number if it exists, otherwise keep it undefined
     const parsedProjectId = projectId ? parseInt(projectId, 10) : undefined;
     getProjectDetails(parsedProjectId)
 
-  }, [])
+  }, [projectId])
 
 
   const getProjectDetails = async (projectId: number | undefined) => {
@@ -1008,8 +1004,8 @@ const ProjectGenerator: React.FC = () => {
         if (responseData.projectDetails[0].projectId == undefined) {
 
           setComponentModel(SampleComponentModelData)
-          setTabData(SampleTabData)
-          setCurrentTab(SampleTabData[0].value)
+          // setTabData(SampleTabData)
+          // setCurrentTab(SampleTabData[0].value)
 
           //Need to comment
           // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
@@ -1038,18 +1034,15 @@ const ProjectGenerator: React.FC = () => {
               }
             }
 
-
             return backendItem ? { ...uiItem, ...backendItem } : uiItem;
           });
 
+          // setCurrentTab(SampleTabData[0].value)
+          // setTabData(SampleTabData)
           setComponentModel(updatedData)
-          setCurrentTab(SampleTabData[0].value)
-          setTabData(SampleTabData)
-
-          //Need to comment
-          // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
           setComponentsSelected(selectedData)
           setSelectedDependentComponents(dependentData)
+          setSelectedComponentModel(responseData.projectDetails[0].metaData)
 
         }
 
@@ -1059,9 +1052,9 @@ const ProjectGenerator: React.FC = () => {
 
     } else {
       setComponentModel(SampleComponentModelData)
-      setTabData(SampleTabData)
-      setCurrentTab(SampleTabData[0].value)
 
+      setSelectedDependentComponents([])
+      setSelectedComponentModel([])
       //Need to comment
       // setComponentsSelected(['accordion', 'alertdialog', 'card', 'calendar', 'breadcrumb', 'badge', 'button'])
       setComponentsSelected([])
@@ -1339,10 +1332,14 @@ const ProjectGenerator: React.FC = () => {
   const enableNext = () => {
     let flag: boolean = true
 
+
+    console.log("inside enableNext")
+    console.log("inside enableNext :componentModel", selectedComponentModel)
+
     if (currentTab == "projectDetails") {
       flag = true
     } else if (currentTab == "componentSelection") {
-      flag = componentModel.length > 0
+      // flag = selectedComponentModel.length > 0
     }
     return flag
   }

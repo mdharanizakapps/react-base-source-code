@@ -1,14 +1,203 @@
-import { useEffect } from "react";
-import { userLogin, getUserProfile } from "../api/userModal";
+import { getUserProfile } from "../api/userModal";
 import { redirectToPage } from "../utils/utils";
-
+import { useEffect, useState } from "react";
+import TanStackTable, { CustomColumnDef, TableConfigData } from "../components/ui_library/tanStackTable";
+import Icon from "../components/ui/icon";
+import { useNavigate } from "react-router-dom";
+import { getUiUserId, getUserEmail } from "../api/axiosInstance";
+import { getProjectsByUserApi } from "../api/generateProjectModal";
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+  const [tableColumnsData, setTableColumnsData] = useState<
+    CustomColumnDef<Record<string, unknown>, unknown>[]
+  >([]);
+  const [tableData, setTableData] = useState<Record<string, unknown>[]>([]);
+  const [tableConfigData, setTableConfigData] = useState<TableConfigData>({});
+
+
 
   useEffect(() => {
 
     getUserDetails()
+    // setTableData(userData);
+    setTableColumnsData(userProjectTblColumns);
+    setTableConfigData(userProjectTblConfig);
+
+
+    getProjectsByUser()
+
   }, [])
 
+
+  const getProjectsByUser = async () => {
+    console.log("inside getProjectsByUser");
+    const email = getUserEmail()
+    if (!email) {
+      redirectToPage('/login', false);
+    } else {
+      const getProjectsByUserApiRes = await getProjectsByUserApi(email)
+      console.log("getProjectsByUser - getProjectsByUserApiRes :", getProjectsByUserApiRes)
+      if (getProjectsByUserApiRes.status == 200) {
+        console.log("getProjectsByUser - 200")
+        setTableData(getProjectsByUserApiRes.data.userData);
+
+      }
+
+    }
+  }
+
+  const userData = [
+    {
+      projectId: 1,
+      projectName: 'project_name',
+      description: 'project description',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 2,
+      projectName: 'project_name',
+      description: 'project description',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 3,
+      projectName: 'new',
+      description: 'project description',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 4,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+    },
+    {
+      projectId: 5,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 6,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 7,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+    },
+    {
+      projectId: 8,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 9,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+    },
+    {
+      projectId: 10,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 11,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 12,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 13,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+    {
+      projectId: 14,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+    },
+    {
+      projectId: 15,
+      projectName: 'deva_project',
+      description: 'testing - deva_project',
+      projectStatus: 'Submitted',
+      iconName: 'edit',
+    },
+  ];
+
+  const userProjectTblColumns: CustomColumnDef<Record<string, unknown>, unknown>[] = [
+    { header: 'Project ID', accessorKey: 'projectId', type: 'number' },
+    {
+      header: 'Project Name',
+      accessorKey: 'projectName',
+      type: 'string',
+    },
+    {
+      header: 'Description',
+      accessorKey: 'description',
+      type: 'string',
+    },
+
+    {
+      header: 'Project Status',
+      accessorKey: 'projectStatus',
+      type: 'string',
+    },
+    {
+      header: 'Action',
+      accessorKey: 'iconName',
+      cell: ({ row }) => (
+        <button
+          onClick={() => navigate(`/projectgenerator/${row.original.projectId}`)}
+          className="flex items-center space-x-2 hover:underline"
+        >
+          <Icon
+            iconName="edit"
+            className="h-3.5 w-3.5"
+          />
+        </button>
+      ),
+    },
+  ];
+
+  const userProjectTblConfig: TableConfigData = {
+    isBorder: true,
+    paginationData: {
+      enablePagination: true,
+      data: {
+        pageIndex: 1,
+        pageSize: 10,
+        autoResetPageIndex: true,
+      },
+    },
+
+  };
 
   const getUserDetails = async () => {
     const email = localStorage.getItem("user_email")
@@ -53,8 +242,13 @@ const Dashboard = () => {
 
 
   return (
-    <>Dashboard</>
-  );
+    <div className="p-2">
+      <TanStackTable
+        data={tableData}
+        columns={tableColumnsData}
+        tableConfigData={tableConfigData}
+      />
+    </div>);
 };
 
 export default Dashboard;

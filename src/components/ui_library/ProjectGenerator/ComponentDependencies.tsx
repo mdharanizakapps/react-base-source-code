@@ -6,7 +6,9 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
 
     const [selectedComponentModelData, setSelectedComponentModel] = useState<ComponentModel[]>([])
     const [dependencyInstallationCommand, setDependencyInstallationCommand] = useState<string>("")
+
     const [dependencyComponents, setDependencyComponents] = useState<string[]>([])
+
     const [dependedncyHooksFile, setDependedncyHooksFile] = useState<string[]>([])
     const [dependencyFileChanges, setDependencyFileChanges] = useState<ConfigFile[]>([])
 
@@ -115,24 +117,60 @@ export const Dependencies = ({ selectedComponentModel }: { selectedComponentMode
 
     return (
         <div className="p-2 flex flex-col gap-3 ">
+
             <div className=" flex justify-between gap-2">
 
                 <div className="w-1/5 font-bold">
-                    Required Components:
+                    Selected Components:
                 </div>
                 <div className="w-4/5">
 
                     <ul className="grid grid-cols-4">
                         {
-                            dependencyComponents.map((item, index) => {
+                            // dependencyComponents.map((item, index) => {
+                            //     return (
+                            //         <li>
+                            //             {index + 1}.  {item}
+                            //         </li>
+                            //     )
+                            // })
+                            selectedComponentModelData.map((item, index) => {
                                 return (
                                     <li>
-                                        {index + 1}.  {item}
+                                        {index + 1}.  {item.component}
                                     </li>
                                 )
                             })
                         }
                     </ul>
+
+                </div>
+            </div>
+
+            <div className=" flex justify-between gap-2">
+
+                <div className="w-1/5 font-bold">
+                    Dependent Components:
+                </div>
+                <div className="w-4/5">
+                    {
+                        dependencyComponents.length > 0
+                            ?
+                            <ul className="grid grid-cols-4">
+                                {
+                                    dependencyComponents.map((item, index) => {
+                                        return (
+                                            <li>
+                                                {index + 1}.  {item}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                            :
+                            <span>No dependent componets required</span>}
+
+
 
                 </div>
             </div>

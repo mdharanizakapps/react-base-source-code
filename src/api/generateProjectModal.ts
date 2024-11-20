@@ -37,3 +37,20 @@ export const generateProjectApi = async (payload: GenerateProjectReq) => {
     throw error;
   }
 };
+
+export const getProjectsByUserApi = async (email:string) => {
+  try {
+    const response = await axiosInstance.get(
+      `/ui-library/api/projects/${email}`
+    );
+    console.log("generateProjectApi - response:  ", response)
+   
+    return response
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
+
+

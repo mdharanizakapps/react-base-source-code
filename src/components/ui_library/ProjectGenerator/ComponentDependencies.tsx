@@ -4,14 +4,15 @@ import { Copy } from "lucide-react"
 
 export const Dependencies = ({
     dependentComponentsArray,
-    componentsSelected,
-    selectedComponentModel }: {
-        dependentComponentsArray: string[],
-        componentsSelected: string[],
-        selectedComponentModel: ComponentModel[]
-    }) => {
+    componentsSelectedArray,
+    selectedComponentModel
+}: {
+    dependentComponentsArray: string[],
+    componentsSelectedArray: string[],
+    selectedComponentModel: ComponentModel[]
+}) => {
 
-    const [selectedComponentModelData, setSelectedComponentModelData] = useState<ComponentModel[]>([])
+    // const [selectedComponentModelData, setSelectedComponentModelData] = useState<ComponentModel[]>([])
     const [dependencyInstallationCommand, setDependencyInstallationCommand] = useState<string>("")
 
     const [dependencyComponents, setDependencyComponents] = useState<string[]>([])
@@ -25,11 +26,11 @@ export const Dependencies = ({
 
     useEffect(() => {
         console.log("ComponentDependencies - selectedComponentModel: ", selectedComponentModel)
-        console.log("ComponentDependencies - componentsSelected: ", componentsSelected)
+        console.log("ComponentDependencies - componentsSelectedArray: ", componentsSelectedArray)
         console.log("ComponentDependencies - dependentComponentsArray: ", dependentComponentsArray)
 
-        setSelectedComponentModelData(selectedComponentModel)
-        setSelectedComponents(componentsSelected)
+        // setSelectedComponentModelData(selectedComponentModel)
+        setSelectedComponents(componentsSelectedArray)
         setDependencyComponents(dependentComponentsArray)
         generateExternalDependencies(selectedComponentModel)
         // generateDependentComponents(selectedComponentModel)

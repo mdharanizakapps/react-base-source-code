@@ -1421,7 +1421,7 @@ const ProjectGenerator: React.FC = () => {
             <TabsContent value="dependencies">
               <Dependencies
                 dependentComponentsArray={selectedDependentComponents}
-                componentsSelected={componentsSelected}
+                componentsSelectedArray={componentsSelected}
                 selectedComponentModel={selectedComponentModel}
 
               ></Dependencies>
@@ -1430,6 +1430,8 @@ const ProjectGenerator: React.FC = () => {
             <TabsContent value="addVariants">
 
               <AddVariants
+                dependentComponentsArray={selectedDependentComponents}
+                componentsSelectedArray={componentsSelected}
                 handleAddVariantSave={handleAddVariantSave}
                 selectedComponentModel={selectedComponentModel}
               // ComponentsSelected={ComponentsSelected}

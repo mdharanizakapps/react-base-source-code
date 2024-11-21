@@ -6,6 +6,7 @@ import Icon from "../components/ui/icon";
 import { useNavigate } from "react-router-dom";
 import { getUserEmail } from "../api/axiosInstance";
 import { getProjectsByUserApi } from "../api/generateProjectModal";
+import { Button } from "../components/ui/button";
 const Dashboard = () => {
 
   const navigate = useNavigate();
@@ -135,7 +136,10 @@ const Dashboard = () => {
 
 
   return (
-    <div className="p-2">
+    <div className="flex gap-4 flex-col mt-2 p-2">
+      <div className="">
+        <Button variant={'primary'} size={"sm"}>Create New</Button>
+      </div>
       <TanStackTable
         data={tableData}
         columns={tableColumnsData}

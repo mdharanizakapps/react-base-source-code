@@ -313,20 +313,20 @@ export const SampleComponentModelData: ComponentModel[] = [
     isVariant: false,
     variants: [],
   },
-  {
-    name: 'Combobox',
-    value: 'combobox',
-    installCmd: '',
-    component: "",
-    dependencies: {
-      components: [],
-      hooks: [],
-      external: []
-    },
-    configFiles: [],
-    isVariant: false,
-    variants: [],
-  },
+  // {
+  //   name: 'Combobox',
+  //   value: 'combobox',
+  //   installCmd: '',
+  //   component: "",
+  //   dependencies: {
+  //     components: [],
+  //     hooks: [],
+  //     external: []
+  //   },
+  //   configFiles: [],
+  //   isVariant: false,
+  //   variants: [],
+  // },
   {
     name: 'Command',
     value: 'command',
@@ -360,34 +360,34 @@ export const SampleComponentModelData: ComponentModel[] = [
     isVariant: false,
     variants: [],
   },
-  {
-    name: 'DataTable',
-    value: 'datatable',
-    installCmd: '',
-    component: "",
-    dependencies: {
-      components: [],
-      hooks: [],
-      external: []
-    },
-    configFiles: [],
-    isVariant: false,
-    variants: [],
-  },
-  {
-    name: 'DatePicker',
-    value: 'datepicker',
-    installCmd: '',
-    component: "",
-    dependencies: {
-      components: [],
-      hooks: [],
-      external: []
-    },
-    configFiles: [],
-    isVariant: false,
-    variants: [],
-  },
+  // {
+  //   name: 'DataTable',
+  //   value: 'datatable',
+  //   installCmd: '',
+  //   component: "",
+  //   dependencies: {
+  //     components: [],
+  //     hooks: [],
+  //     external: []
+  //   },
+  //   configFiles: [],
+  //   isVariant: false,
+  //   variants: [],
+  // },
+  // {
+  //   name: 'DatePicker',
+  //   value: 'datepicker',
+  //   installCmd: '',
+  //   component: "",
+  //   dependencies: {
+  //     components: [],
+  //     hooks: [],
+  //     external: []
+  //   },
+  //   configFiles: [],
+  //   isVariant: false,
+  //   variants: [],
+  // },
   {
     name: 'Dialog',
     value: 'dialog',
@@ -431,20 +431,20 @@ export const SampleComponentModelData: ComponentModel[] = [
     isVariant: false,
     variants: [],
   },
-  {
-    name: 'Form',
-    value: 'form',
-    installCmd: '',
-    component: "",
-    dependencies: {
-      components: [],
-      hooks: [],
-      external: []
-    },
-    configFiles: [],
-    isVariant: false,
-    variants: [],
-  },
+  // {
+  //   name: 'Form',
+  //   value: 'form',
+  //   installCmd: '',
+  //   component: "",
+  //   dependencies: {
+  //     components: [],
+  //     hooks: [],
+  //     external: []
+  //   },
+  //   configFiles: [],
+  //   isVariant: false,
+  //   variants: [],
+  // },
   {
     name: 'HoverCard',
     value: 'hovercard',

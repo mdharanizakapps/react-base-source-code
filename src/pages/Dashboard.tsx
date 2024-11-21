@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import TanStackTable, { CustomColumnDef, TableConfigData } from "../components/ui_library/tanStackTable";
 import Icon from "../components/ui/icon";
 import { useNavigate } from "react-router-dom";
-import { getUiUserId, getUserEmail } from "../api/axiosInstance";
+import { getUserEmail } from "../api/axiosInstance";
 import { getProjectsByUserApi } from "../api/generateProjectModal";
 const Dashboard = () => {
 

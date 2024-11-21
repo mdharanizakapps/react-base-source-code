@@ -102,6 +102,8 @@ export const SampleComponentModelData: ComponentModel[] = [
         name: "variant",
         value: {
           default: "bg-background text-foreground",
+          destructive:
+            "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
         },
         isSaved: true
       }
@@ -165,8 +167,22 @@ export const SampleComponentModelData: ComponentModel[] = [
       external: []
     },
     configFiles: [],
-    isVariant: false,
-    variants: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default:
+            "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+          secondary:
+            "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          destructive:
+            "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+          outline: "text-foreground",
+        },
+        isSaved: true
+      }
+    ],
   },
   {
     name: 'Breadcrumb',
@@ -201,14 +217,25 @@ export const SampleComponentModelData: ComponentModel[] = [
         name: "variant",
         value: {
           default:
-            'font-bold bg-[#092C4C] text-white hover:bg-[#061F35]  active:bg-[#092C4C]/60 disabled:bg-[#E0E0E0]',
+            "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          destructive:
+            "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          outline:
+            "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          secondary:
+            "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          ghost: "hover:bg-accent hover:text-accent-foreground",
+          link: "text-primary underline-offset-4 hover:underline",
         },
         isSaved: true
       },
       {
         name: "size",
         value: {
-          default: 'w-[241px] h-12 rounded-lg px-4 py-2',
+          default: "h-9 px-4 py-2",
+          sm: "h-8 rounded-md px-3 text-xs",
+          lg: "h-10 rounded-md px-8",
+          icon: "h-9 w-9",
         },
         isSaved: true
       },
@@ -232,7 +259,47 @@ export const SampleComponentModelData: ComponentModel[] = [
     },
     configFiles: [],
     isVariant: true,
-    variants: [],
+    variants: [
+      {
+        name: "classNames",
+        value: {
+          months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+          month: "space-y-4",
+          caption: "flex justify-center pt-1 relative items-center",
+          caption_label: "text-sm font-medium",
+          nav: "space-x-1 flex items-center",
+          nav_button_previous: "absolute left-1",
+          nav_button_next: "absolute right-1",
+          table: "w-full border-collapse space-y-1",
+          head_row: "flex",
+          head_cell: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
+          row: "flex w-full mt-2",
+          day_range_start: "day-range-start",
+          day_range_end: "day-range-end",
+          day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          day_today: "bg-accent text-accent-foreground",
+          day_outside: "day-outside text-muted-foreground opacity-50  aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+          day_disabled: "text-muted-foreground opacity-50",
+          day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+          day_hidden: "invisible",
+          day: `cn(
+            buttonVariants({ variant: "ghost" }),
+            "h-8 w-8 p-0 font-normal aria-selected:opacity-100"
+          )`,
+          cell: ` cn(
+            "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
+            props.mode === "range"
+              ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
+              : "[&:has([aria-selected])]:rounded-md"
+          )`,
+          nav_button: `cn(
+            buttonVariants({ variant: "outline" }),
+            "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          )`,
+        },
+        isSaved: true
+      }
+    ],
   },
   {
     name: 'Card',
@@ -682,8 +749,21 @@ export const SampleComponentModelData: ComponentModel[] = [
       ]
     },
     configFiles: [],
-    isVariant: false,
-    variants: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "side",
+        value: {
+          top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+          bottom:
+            "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+          left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+          right:
+            "inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+        },
+        isSaved: true,
+      }
+    ],
   },
   {
     name: "Sidebar",
@@ -877,8 +957,17 @@ export const SampleComponentModelData: ComponentModel[] = [
       ]
     },
     configFiles: [],
-    isVariant: false,
-    variants: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default: "border bg-background text-foreground",
+          destructive: "destructive group border-destructive bg-destructive text-destructive-foreground",
+        },
+        isSaved: true
+      }
+    ],
   },
   {
     name: 'Toggle',
@@ -893,8 +982,25 @@ export const SampleComponentModelData: ComponentModel[] = [
       ]
     },
     configFiles: [],
-    isVariant: false,
-    variants: [],
+    isVariant: true,
+    variants: [
+      {
+        name: "variant",
+        value: {
+          default: "bg-transparent",
+          outline: "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
+        },
+        isSaved: true
+      },
+      {
+        name: "size",
+        value: {
+          default: "bg-transparent",
+          outline: "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
+        },
+        isSaved: true
+      }
+    ],
   },
   {
     name: 'ToggleGroup',

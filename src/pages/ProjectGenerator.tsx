@@ -11,8 +11,8 @@ import { Dependencies } from '../components/ui_library/ProjectGenerator/Componen
 import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVariants';
 import { generateProjectApi, getProjectDetailsApi } from '../api/generateProjectModal';
 import { GenerateProjectReq, GetProjectDetailsRes } from '../type/data/generateProject';
-import { Input } from '../components/ui/input';
 import { useParams } from 'react-router-dom';
+import { ProjectDetails } from '../components/ui_library/ProjectGenerator/ProjectDetails';
 
 export interface ComponentModel {
   name: string
@@ -1069,6 +1069,14 @@ export interface TabData {
   value: string
 }
 
+export interface ProjectDetailsData {
+  projectName: string
+  projectDescription: string
+  prefix: string
+  suffix: string
+
+}
+
 
 // const ProjectGenerator: React.FC = (projectId: number | undefined) => {
 const ProjectGenerator: React.FC = () => {
@@ -1086,6 +1094,21 @@ const ProjectGenerator: React.FC = () => {
   const [tabData, setTabData] = useState<TabData[]>([])
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
   const [isPreviousEnable, setIsPreviousEnable] = useState<boolean>(false)
+
+
+  const [projectDetails, setProjectDetails] = useState<ProjectDetailsData>({
+    projectName: "",
+    projectDescription: "",
+    prefix: "",
+    suffix: ""
+  })
+
+  const [projectDetailError, setProjectDetailError] = useState<ProjectDetailsData>({
+    projectName: "",
+    projectDescription: "",
+    prefix: "",
+    suffix: ""
+  })
 
 
   console.log("componentModel debug: ", componentModel)
@@ -1149,6 +1172,14 @@ const ProjectGenerator: React.FC = () => {
           setComponentsSelected(selectedData)
           setSelectedDependentComponents(dependentData)
           setSelectedComponentModel(responseData.projectDetails[0].metaData)
+
+          const tempProjectDetails: ProjectDetailsData = {
+            projectName: responseData.projectDetails[0].projectName,
+            projectDescription: responseData.projectDetails[0].description,
+            prefix: responseData.projectDetails[0].prefix,
+            suffix: responseData.projectDetails[0].suffix
+          }
+          setProjectDetails(tempProjectDetails)
 
         }
 
@@ -1281,35 +1312,6 @@ const ProjectGenerator: React.FC = () => {
         setSelectedComponentModel(updatedSelectedComponentsModal);
       })
 
-
-      // if (selectedComponentModel.length == 0) {
-
-      //   const requiredComponentsArray = Array.from(new Set([...componentsSelected, ...selectedDependentComponents]));
-      //   console.log("inside handleNextClick - requiredComponentsArray ", requiredComponentsArray)
-
-
-      //   // Create a new array to avoid mutating the existing state
-      //   const updatedSelectedComponentsModal = [...selectedComponentModel];
-
-
-      //   requiredComponentsArray.forEach((value) => {
-
-      //     const isComponentModalAlreadySelected = selectedComponentModel.some((selectedComponent) => selectedComponent.value == value)
-
-      //     if (!isComponentModalAlreadySelected) {
-      //       const componentModalToAdd = componentModel.find((newComponentModal) => newComponentModal.value == value)
-      //       if (componentModalToAdd) {
-      //         updatedSelectedComponentsModal.push(componentModalToAdd)
-      //       }
-      //     }
-      //     console.log("inside handleNextClick - updatedSelectedComponentsModal ", updatedSelectedComponentsModal)
-
-      //     setSelectedComponentModel(updatedSelectedComponentsModal);
-      //   })
-
-      //   // Update the state with the new array
-
-      // }
     }
 
   }
@@ -1333,12 +1335,12 @@ const ProjectGenerator: React.FC = () => {
 
   const handleSaveAsDraftClick = async () => {
     const payload: GenerateProjectReq = {
-      name: "deva_project",
-      description: "testing - deva_project",
+      name: projectDetails.projectName,
+      description: projectDetails.projectDescription,
       status: 1,
       data: selectedComponentModel,
-      prefix: "dev",
-      suffix: ""
+      prefix: projectDetails.prefix,
+      suffix: projectDetails.suffix
     }
 
     const generateProjectApiRespose = await generateProjectApi(payload)
@@ -1373,15 +1375,14 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
   const handleSubmitClick = async () => {
     const payload: GenerateProjectReq = {
-      name: "deva_project",
-      description: "testing - deva_project",
+      name: projectDetails.projectName,
+      description: projectDetails.projectDescription,
       status: 2,
       data: selectedComponentModel,
-      prefix: "dev",
-      suffix: ""
+      prefix: projectDetails.prefix,
+      suffix: projectDetails.suffix
     }
 
     const generateProjectApiRespose = await generateProjectApi(payload)
@@ -1417,8 +1418,6 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
-
   const handleAddVariantSave = (componentName: string, newVariant: any) => {
     // Create a new state variable to store the updated data
     const updatedComponentModels = selectedComponentModel.map(component => {
@@ -1434,7 +1433,6 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
   const enableNext = () => {
     let flag: boolean = true
 
@@ -1443,12 +1441,95 @@ const ProjectGenerator: React.FC = () => {
     console.log("inside enableNext :componentModel", selectedComponentModel)
 
     if (currentTab == "projectDetails") {
-      flag = true
+      // Check if there are any errors in the error object
+      const hasErrors =
+        Object.values(projectDetailError).some((error) => error !== "") || projectDetails.projectName.trim() === "" ||
+        projectDetails.projectDescription.trim() === "";
+      // const hasErrors = Object.values(projectDetailError).some((error) => error !== "");
+
+
+
+      flag = !hasErrors
     } else if (currentTab == "componentSelection") {
-      // flag = selectedComponentModel.length > 0
+      flag = selectedComponentModel.length > 0
     }
     return flag
   }
+
+  const handleProjectDetailsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    //  Validate the input
+    const error = validateField(name, value);
+
+    // Update the errors and the state
+    setProjectDetailError((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+
+    // Dynamically update the state
+    setProjectDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  // // Validation function
+  // const validateField = (name: string, value: string): string => {
+  //   if (name === "projectName") {
+  //     // Allow alphanumeric and dashes for zip file compatibility
+  //     const isValid = /^[a-zA-Z0-9_-]+$/.test(value);
+  //     return isValid ? "" : "Invalid project name. Use only letters, numbers, dashes, or underscores.";
+  //   }
+
+  //   if (name === "prefix" || name === "suffix") {
+  //     // Allow valid JSX element names (alphanumeric, underscores)
+  //     const isValid = /^[a-zA-Z0-9_]+$/.test(value);
+  //     return isValid ? "" : "Invalid name. Use only letters, numbers, or underscores.";
+  //   }
+
+  //   if (name === "projectDescription") {
+  //     // Ensure no special characters
+  //     const isValid = /^[a-zA-Z0-9\s]+$/.test(value);
+  //     return isValid ? "" : "Description must not contain special characters.";
+  //   }
+
+  //   return ""; // No error by default
+  // };
+
+
+  const validateField = (name: string, value: string): string => {
+    if (name === "projectName") {
+      if (value.trim() === "") {
+        return "Project name is required.";
+      }
+      // Allow alphanumeric and dashes for zip file compatibility
+      const isValid = /^[a-zA-Z0-9_-]+$/.test(value);
+      return isValid ? "" : "Invalid project name. Use only letters, numbers, dashes, or underscores.";
+    }
+
+    if (name === "prefix" || name === "suffix") {
+      // Allow valid JSX element names (alphanumeric, underscores); can be empty
+      if (value.trim() === "") {
+        return ""; // Empty prefix or suffix is allowed
+      }
+      const isValid = /^[a-zA-Z0-9_]+$/.test(value);
+      return isValid ? "" : "Invalid name. Use only letters, numbers, or underscores.";
+    }
+
+    if (name === "projectDescription") {
+      if (value.trim() === "") {
+        return "Project description is required.";
+      }
+      // Ensure no special characters
+      const isValid = /^[a-zA-Z0-9\s]+$/.test(value);
+      return isValid ? "" : "Description must not contain special characters.";
+    }
+
+    return ""; // No error by default
+  };
+
 
   return (
     <div className='p-2'>
@@ -1470,18 +1551,11 @@ const ProjectGenerator: React.FC = () => {
               {/* <TabsTrigger value="password">Password</TabsTrigger> */}
             </TabsList>
             <TabsContent value='projectDetails'>
-              <div>
-                <div>
-                  Project Name: <Input>
-                  </Input>
-                  Project Description: <Input>
-                  </Input>
-                  Prefix: <Input>
-                  </Input>
-                  SuffixL<Input></Input>
-                </div>
-              </div>
-
+              <ProjectDetails
+                projectDetailError={projectDetailError}
+                projectDetailData={projectDetails}
+                handleProjectDetailsInputChange={handleProjectDetailsInputChange}
+              />
             </TabsContent>
             <TabsContent value="componentSelection">
               <div className='grid gap-1.5 grid-cols-6 p-2.5'>

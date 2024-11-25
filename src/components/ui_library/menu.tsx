@@ -14,8 +14,9 @@ interface MenuItem {
 
 const Sidebar = () => {
   const [isSideBar, setIsSideBar] = useState(false);
-const [showLogout, setShowLogout] = useState(false); // State for the "Log Out" button
-const navigate = useNavigate();
+
+  const [showLogout, setShowLogout] = useState(false); // State for the "Log Out" button
+
   const menuItems: MenuItem[] = [
     { name: 'Overview', path: '/dashboard', iconName: 'home', isActive: true },
     {
@@ -24,21 +25,16 @@ const navigate = useNavigate();
       iconName: 'category',
       isActive: false,
     },
-    // { name: 'SKU', path: '/product', iconName: 'product', isActive: false },
-    // {
-    //   name: 'Price Manager',
-    //   path: '/price',
-    //   iconName: 'price',
-    //   isActive: false,
-    // },
   ];
+
+  const handleLogout = () => {
+    redirectToPage('/login', false);
+  };
+
   const sideMenuExpand = () => {
     setIsSideBar(!isSideBar);
   };
-  const handleLogout = () => {
-  redirectToPage('/login', false); 
-  // navigate('/login'); 
-};
+
 
   return (
     <div className="">

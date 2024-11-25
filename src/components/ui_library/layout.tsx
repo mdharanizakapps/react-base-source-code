@@ -29,14 +29,6 @@ const Layout: React.FC = () => {
       name: 'Project Generator',
       path: '/projectgenerator',
     },
-    {
-      name: 'SKU',
-      path: '/product'
-    },
-    {
-      name: 'Price Manager',
-      path: '/price',
-    },
   ];
 
   const getNameByPath = (path: string): string | undefined => {

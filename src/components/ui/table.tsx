@@ -6,9 +6,7 @@ interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
 }
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, tableHeight, ...props }, ref) => (
-    <div
-      className={`overflow-auto rounded-[4px]`}
-      style={{ maxHeight: `${tableHeight}px` }}
+    <div className={`overflow-auto rounded-[4px]`} style={{ maxHeight: `${tableHeight}px` }}
     >
       <table
         ref={ref}

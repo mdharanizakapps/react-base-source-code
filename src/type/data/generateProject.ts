@@ -16,6 +16,8 @@ export interface ProjectDetail {
   lastModifiedBy: number
   metaData: ComponentModel[]
   zipFile: any
+  prefix:string
+  suffix:string
 }
 
 export interface GenerateProjectReq {

@@ -13,6 +13,9 @@ import {
   FaChevronLeft,
   FaUser,
   FaCaretDown,
+  FaTrash,
+  FaDownload,
+  FaEllipsisV,
 } from 'react-icons/fa';
 import { AiFillProduct } from 'react-icons/ai';
 
@@ -42,6 +45,9 @@ const iconMap: IconMap = {
   chevronLeft: FaChevronLeft,
   userIcon: FaUser,
   caretDown: FaCaretDown,
+  delete: FaTrash,
+  download: FaDownload,
+  ellipsis: FaEllipsisV
 };
 
 interface IconProps {

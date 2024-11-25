@@ -11,8 +11,8 @@ import { Dependencies } from '../components/ui_library/ProjectGenerator/Componen
 import { AddVariants } from '../components/ui_library/ProjectGenerator/AddVariants';
 import { generateProjectApi, getProjectDetailsApi } from '../api/generateProjectModal';
 import { GenerateProjectReq, GetProjectDetailsRes } from '../type/data/generateProject';
-import { Input } from '../components/ui/input';
 import { useParams } from 'react-router-dom';
+import { ProjectDetails } from '../components/ui_library/ProjectGenerator/ProjectDetails';
 
 export interface ComponentModel {
   name: string
@@ -1069,6 +1069,14 @@ export interface TabData {
   value: string
 }
 
+export interface ProjectDetailsData {
+  projectName: string
+  projectDescription: string
+  prefix: string
+  suffix: string
+
+}
+
 
 // const ProjectGenerator: React.FC = (projectId: number | undefined) => {
 const ProjectGenerator: React.FC = () => {
@@ -1086,6 +1094,15 @@ const ProjectGenerator: React.FC = () => {
   const [tabData, setTabData] = useState<TabData[]>([])
   const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false)
   const [isPreviousEnable, setIsPreviousEnable] = useState<boolean>(false)
+
+
+  const [projectDetails, setProjectDetails] = useState<ProjectDetailsData>({
+    prefix: "",
+    projectDescription: "",
+    projectName: "",
+    suffix: ""
+  })
+
 
 
   console.log("componentModel debug: ", componentModel)
@@ -1149,6 +1166,14 @@ const ProjectGenerator: React.FC = () => {
           setComponentsSelected(selectedData)
           setSelectedDependentComponents(dependentData)
           setSelectedComponentModel(responseData.projectDetails[0].metaData)
+
+          const tempProjectDetails: ProjectDetailsData = {
+            projectName: responseData.projectDetails[0].projectName,
+            projectDescription: responseData.projectDetails[0].description,
+            prefix: responseData.projectDetails[0].prefix,
+            suffix: responseData.projectDetails[0].suffix
+          }
+          setProjectDetails(tempProjectDetails)
 
         }
 
@@ -1281,35 +1306,6 @@ const ProjectGenerator: React.FC = () => {
         setSelectedComponentModel(updatedSelectedComponentsModal);
       })
 
-
-      // if (selectedComponentModel.length == 0) {
-
-      //   const requiredComponentsArray = Array.from(new Set([...componentsSelected, ...selectedDependentComponents]));
-      //   console.log("inside handleNextClick - requiredComponentsArray ", requiredComponentsArray)
-
-
-      //   // Create a new array to avoid mutating the existing state
-      //   const updatedSelectedComponentsModal = [...selectedComponentModel];
-
-
-      //   requiredComponentsArray.forEach((value) => {
-
-      //     const isComponentModalAlreadySelected = selectedComponentModel.some((selectedComponent) => selectedComponent.value == value)
-
-      //     if (!isComponentModalAlreadySelected) {
-      //       const componentModalToAdd = componentModel.find((newComponentModal) => newComponentModal.value == value)
-      //       if (componentModalToAdd) {
-      //         updatedSelectedComponentsModal.push(componentModalToAdd)
-      //       }
-      //     }
-      //     console.log("inside handleNextClick - updatedSelectedComponentsModal ", updatedSelectedComponentsModal)
-
-      //     setSelectedComponentModel(updatedSelectedComponentsModal);
-      //   })
-
-      //   // Update the state with the new array
-
-      // }
     }
 
   }
@@ -1333,12 +1329,12 @@ const ProjectGenerator: React.FC = () => {
 
   const handleSaveAsDraftClick = async () => {
     const payload: GenerateProjectReq = {
-      name: "deva_project",
-      description: "testing - deva_project",
+      name: projectDetails.projectName,
+      description: projectDetails.projectDescription,
       status: 1,
       data: selectedComponentModel,
-      prefix: "dev",
-      suffix: ""
+      prefix: projectDetails.prefix,
+      suffix: projectDetails.suffix
     }
 
     const generateProjectApiRespose = await generateProjectApi(payload)
@@ -1373,15 +1369,14 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
   const handleSubmitClick = async () => {
     const payload: GenerateProjectReq = {
-      name: "deva_project",
-      description: "testing - deva_project",
+      name: projectDetails.projectName,
+      description: projectDetails.projectDescription,
       status: 2,
       data: selectedComponentModel,
-      prefix: "dev",
-      suffix: ""
+      prefix: projectDetails.prefix,
+      suffix: projectDetails.suffix
     }
 
     const generateProjectApiRespose = await generateProjectApi(payload)
@@ -1417,8 +1412,6 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
-
   const handleAddVariantSave = (componentName: string, newVariant: any) => {
     // Create a new state variable to store the updated data
     const updatedComponentModels = selectedComponentModel.map(component => {
@@ -1434,7 +1427,6 @@ const ProjectGenerator: React.FC = () => {
 
   }
 
-
   const enableNext = () => {
     let flag: boolean = true
 
@@ -1445,10 +1437,20 @@ const ProjectGenerator: React.FC = () => {
     if (currentTab == "projectDetails") {
       flag = true
     } else if (currentTab == "componentSelection") {
-      // flag = selectedComponentModel.length > 0
+      flag = selectedComponentModel.length > 0
     }
     return flag
   }
+
+  const handleProjectDetailsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    // Dynamically update the state
+    setProjectDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className='p-2'>
@@ -1470,18 +1472,10 @@ const ProjectGenerator: React.FC = () => {
               {/* <TabsTrigger value="password">Password</TabsTrigger> */}
             </TabsList>
             <TabsContent value='projectDetails'>
-              <div>
-                <div>
-                  Project Name: <Input>
-                  </Input>
-                  Project Description: <Input>
-                  </Input>
-                  Prefix: <Input>
-                  </Input>
-                  SuffixL<Input></Input>
-                </div>
-              </div>
-
+              <ProjectDetails
+                projectDetailData={projectDetails}
+                handleProjectDetailsInputChange={handleProjectDetailsInputChange}
+              />
             </TabsContent>
             <TabsContent value="componentSelection">
               <div className='grid gap-1.5 grid-cols-6 p-2.5'>

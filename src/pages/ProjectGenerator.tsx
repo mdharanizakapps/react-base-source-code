@@ -1097,12 +1097,18 @@ const ProjectGenerator: React.FC = () => {
 
 
   const [projectDetails, setProjectDetails] = useState<ProjectDetailsData>({
-    prefix: "",
-    projectDescription: "",
     projectName: "",
+    projectDescription: "",
+    prefix: "",
     suffix: ""
   })
 
+  const [projectDetailError, setProjectDetailError] = useState<ProjectDetailsData>({
+    projectName: "",
+    projectDescription: "",
+    prefix: "",
+    suffix: ""
+  })
 
 
   console.log("componentModel debug: ", componentModel)
@@ -1435,7 +1441,15 @@ const ProjectGenerator: React.FC = () => {
     console.log("inside enableNext :componentModel", selectedComponentModel)
 
     if (currentTab == "projectDetails") {
-      flag = true
+      // Check if there are any errors in the error object
+      const hasErrors =
+        Object.values(projectDetailError).some((error) => error !== "") || projectDetails.projectName.trim() === "" ||
+        projectDetails.projectDescription.trim() === "";
+      // const hasErrors = Object.values(projectDetailError).some((error) => error !== "");
+
+
+
+      flag = !hasErrors
     } else if (currentTab == "componentSelection") {
       flag = selectedComponentModel.length > 0
     }
@@ -1445,12 +1459,77 @@ const ProjectGenerator: React.FC = () => {
   const handleProjectDetailsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    //  Validate the input
+    const error = validateField(name, value);
+
+    // Update the errors and the state
+    setProjectDetailError((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+
     // Dynamically update the state
     setProjectDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
   };
+
+  // // Validation function
+  // const validateField = (name: string, value: string): string => {
+  //   if (name === "projectName") {
+  //     // Allow alphanumeric and dashes for zip file compatibility
+  //     const isValid = /^[a-zA-Z0-9_-]+$/.test(value);
+  //     return isValid ? "" : "Invalid project name. Use only letters, numbers, dashes, or underscores.";
+  //   }
+
+  //   if (name === "prefix" || name === "suffix") {
+  //     // Allow valid JSX element names (alphanumeric, underscores)
+  //     const isValid = /^[a-zA-Z0-9_]+$/.test(value);
+  //     return isValid ? "" : "Invalid name. Use only letters, numbers, or underscores.";
+  //   }
+
+  //   if (name === "projectDescription") {
+  //     // Ensure no special characters
+  //     const isValid = /^[a-zA-Z0-9\s]+$/.test(value);
+  //     return isValid ? "" : "Description must not contain special characters.";
+  //   }
+
+  //   return ""; // No error by default
+  // };
+
+
+  const validateField = (name: string, value: string): string => {
+    if (name === "projectName") {
+      if (value.trim() === "") {
+        return "Project name is required.";
+      }
+      // Allow alphanumeric and dashes for zip file compatibility
+      const isValid = /^[a-zA-Z0-9_-]+$/.test(value);
+      return isValid ? "" : "Invalid project name. Use only letters, numbers, dashes, or underscores.";
+    }
+
+    if (name === "prefix" || name === "suffix") {
+      // Allow valid JSX element names (alphanumeric, underscores); can be empty
+      if (value.trim() === "") {
+        return ""; // Empty prefix or suffix is allowed
+      }
+      const isValid = /^[a-zA-Z0-9_]+$/.test(value);
+      return isValid ? "" : "Invalid name. Use only letters, numbers, or underscores.";
+    }
+
+    if (name === "projectDescription") {
+      if (value.trim() === "") {
+        return "Project description is required.";
+      }
+      // Ensure no special characters
+      const isValid = /^[a-zA-Z0-9\s]+$/.test(value);
+      return isValid ? "" : "Description must not contain special characters.";
+    }
+
+    return ""; // No error by default
+  };
+
 
   return (
     <div className='p-2'>
@@ -1473,6 +1552,7 @@ const ProjectGenerator: React.FC = () => {
             </TabsList>
             <TabsContent value='projectDetails'>
               <ProjectDetails
+                projectDetailError={projectDetailError}
                 projectDetailData={projectDetails}
                 handleProjectDetailsInputChange={handleProjectDetailsInputChange}
               />

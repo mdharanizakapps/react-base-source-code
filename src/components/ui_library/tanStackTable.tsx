@@ -248,9 +248,9 @@ const TanStackTable = <TData extends Record<string, unknown>>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -263,9 +263,9 @@ const TanStackTable = <TData extends Record<string, unknown>>({
                 <TableRow
                   key={row.id}
                   className={`hover:bg-none transition-colors ${tableConfigData.isBorder ? 'border-b' : 'border-none'} bg-white`}
-                // style={{
-                //   transform: `translateY(${virtualRow.start}px)`,
-                // }}
+                  // style={{
+                  //   transform: `translateY(${virtualRow.start}px)`,
+                  // }}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const isMarginColumn = cell.column.id === 'margin';

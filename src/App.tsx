@@ -1,6 +1,11 @@
 // App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Product from './pages/Product';
 import { useAuth } from './utils/AuthContext';

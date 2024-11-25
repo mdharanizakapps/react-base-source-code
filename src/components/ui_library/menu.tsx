@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../ui/icon';
 import { Button } from '../ui/button';
+import { redirectToPage } from '../../utils/utils';
 
 // Define a type for the menu items
 interface MenuItem {
@@ -13,7 +14,8 @@ interface MenuItem {
 
 const Sidebar = () => {
   const [isSideBar, setIsSideBar] = useState(false);
-
+const [showLogout, setShowLogout] = useState(false); // State for the "Log Out" button
+const navigate = useNavigate();
   const menuItems: MenuItem[] = [
     { name: 'Overview', path: '/dashboard', iconName: 'home', isActive: true },
     {
@@ -33,6 +35,10 @@ const Sidebar = () => {
   const sideMenuExpand = () => {
     setIsSideBar(!isSideBar);
   };
+  const handleLogout = () => {
+  redirectToPage('/login', false); 
+  // navigate('/login'); 
+};
 
   return (
     <div className="">
@@ -77,10 +83,25 @@ const Sidebar = () => {
                   <span className="w-28 text-xs text-ellipsis overflow-hidden userDetail text-white">
                     user@gmail.com
                   </span>
-                  <img src="src/assets/more_vert.svg" />
+                  <div onClick={() => setShowLogout(!showLogout)}>
+                    <Icon
+                      iconName="ellipsis"
+                      className="h-4 w-4 flex items-center text-white cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+            {showLogout && (
+              <div className="absolute bottom-16 right-4">
+                <button
+                  onClick={handleLogout}
+                  className="text-xs bg-white text-[#2165F5] px-3 py-1 rounded-md"
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
             <Button
               variant={'icon'}
               size={'icon'}

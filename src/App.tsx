@@ -1,6 +1,11 @@
 // App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Product from './pages/Product';
 import { useAuth } from './utils/AuthContext';
@@ -13,8 +18,7 @@ import ProjectGenerator from './pages/ProjectGenerator';
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
-  console.log("isAuthenticated: ", isAuthenticated)
-
+  console.log('isAuthenticated: ', isAuthenticated);
 
   return (
     <Router>
@@ -30,7 +34,10 @@ const App: React.FC = () => {
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/projectgenerator" element={<ProjectGenerator />} />
+              <Route
+                path="/projectgenerator/:projectId?"
+                element={<ProjectGenerator />}
+              />
               <Route path="/product" element={<Product />} />
               <Route path="/price" element={<PriceManager />} />
             </Route>

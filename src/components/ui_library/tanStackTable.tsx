@@ -200,12 +200,11 @@ const TanStackTable = <TData extends Record<string, unknown>>({
           scrollBehavior: 'smooth',
         }}
       >
-
         <Table
           className={`min-w-full border-collapse rounded-[4px]`}
           tableHeight={`${tableConfigData.heightValue ? `${tableConfigData.heightValue}` : '500'}`}
         >
-          <TableHeader className="bg-gray-50 sticky top-0 z-10">
+          <TableHeader className="bg-[#2878e8] text-white sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
@@ -249,9 +248,9 @@ const TanStackTable = <TData extends Record<string, unknown>>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -264,9 +263,9 @@ const TanStackTable = <TData extends Record<string, unknown>>({
                 <TableRow
                   key={row.id}
                   className={`hover:bg-none transition-colors ${tableConfigData.isBorder ? 'border-b' : 'border-none'} bg-white`}
-                // style={{
-                //   transform: `translateY(${virtualRow.start}px)`,
-                // }}
+                  // style={{
+                  //   transform: `translateY(${virtualRow.start}px)`,
+                  // }}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const isMarginColumn = cell.column.id === 'margin';
@@ -311,7 +310,6 @@ const TanStackTable = <TData extends Record<string, unknown>>({
             })}
           </TableBody>
         </Table>
-
       </div>
       {/* Pagination functionality */}
       {tableConfigData.paginationData?.enablePagination ? (

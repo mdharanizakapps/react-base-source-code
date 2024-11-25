@@ -140,7 +140,7 @@ const Dashboard = () => {
         <div>
           <input
             value={search}
-            className="h-7 w-[229px] p-[9px_8px] rounded-[2px] border border-[#A6A6A6] bg-white"
+            className="h-9 w-[229px] p-3 rounded-[4px] border border-[#A6A6A6] bg-white outline-none placeholder:text-sm"
             type="search"
             placeholder="Search Project Name"
             onChange={handleSearch}

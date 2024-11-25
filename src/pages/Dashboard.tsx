@@ -1,4 +1,3 @@
-import { getUserProfile } from "../api/userModal";
 import { redirectToPage } from "../utils/utils";
 import { useEffect, useState } from "react";
 import TanStackTable, { CustomColumnDef, TableConfigData } from "../components/ui_library/tanStackTable";
@@ -14,9 +13,11 @@ const Dashboard = () => {
     CustomColumnDef<Record<string, unknown>, unknown>[]
   >([]);
   const [tableData, setTableData] = useState<Record<string, unknown>[]>([]);
+  const [userData, setUserData] = useState<Record<string, unknown>[]>([]);
   const [tableConfigData, setTableConfigData] = useState<TableConfigData>({});
 
-
+  const [search, setSearch] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
 
@@ -30,6 +31,28 @@ const Dashboard = () => {
 
   }, [])
 
+  const handleSearch = (event: any) => {
+    const value = event.target.value.toLowerCase();
+    setSearch(value);
+
+    const filteredData = userData.filter(
+      (item) =>
+        item.projectName.toLowerCase().includes(value)
+    );
+    // const filteredData = skuList.filter((item) =>
+    //   Object.values(item).some((searchValue) =>
+    //     searchValue.toString().toLowerCase().includes(value)
+    //   )
+    // );
+    if (filteredData.length === 0 && value !== '') {
+      setError('Search term does not match SKU ID or Title');
+      setTableData(userData);
+    } else {
+      setError('');
+      setTableData(filteredData);
+    }
+  };
+
 
   const getProjectsByUser = async () => {
     const email = getUserEmail()
@@ -39,6 +62,7 @@ const Dashboard = () => {
       const getProjectsByUserApiRes = await getProjectsByUserApi(email)
       if (getProjectsByUserApiRes.status == 200) {
         setTableData(getProjectsByUserApiRes.data.userData);
+        setUserData(getProjectsByUserApiRes.data.userData)
       }
 
     }
@@ -56,7 +80,6 @@ const Dashboard = () => {
       accessorKey: 'description',
       type: 'string',
     },
-
     {
       header: 'Project Status',
       accessorKey: 'projectStatus',
@@ -66,15 +89,30 @@ const Dashboard = () => {
       header: 'Action',
       accessorKey: 'iconName',
       cell: ({ row }) => (
-        <button
-          onClick={() => navigate(`/projectgenerator/${row.original.projectId}`)}
-          className="flex items-center space-x-2 hover:underline"
-        >
-          <Icon
-            iconName="edit"
-            className="h-3.5 w-3.5"
-          />
-        </button>
+        <div className="flex">
+          <Button
+            variant={"icon"}
+            size={"icon"}
+            onClick={() =>
+              navigate(`/projectGenerator/${row.original.projectId}`)
+            }
+          // className="flex items-center space-x-2 hover:underline"
+          >
+            <Icon iconName="edit" className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            size={"icon"}
+            variant={"icon"}
+            onClick={() =>
+              alert("Delete Button")
+            }
+          // className="flex items-center space-x-2 hover:underline"
+          >
+            <Icon iconName="download" className="h-3.5 w-3.5" />
+          </Button>
+
+        </div>
+
       ),
     },
   ];
@@ -89,24 +127,37 @@ const Dashboard = () => {
         autoResetPageIndex: true,
       },
     },
-
   };
 
-
-
   return (
-    <div className="flex gap-4 flex-col mt-2 p-2">
-      <div className="">
-        <Button variant={'primary'} size={"sm"}
-          onClick={() => navigate(`/projectgenerator`)}
-        >Create New</Button>
+    <div className="flex gap-4 flex-col mt-2 p-3">
+      <div className="flex justify-between">
+        <div>
+          <input
+            value={search}
+            className="h-7 w-[229px] p-[9px_8px] rounded-[2px] border border-[#A6A6A6] bg-white"
+            type="search"
+            placeholder="Search Project Name"
+            onChange={handleSearch}
+          ></input>
+        </div>
+        <Button
+          variant={'primary'}
+          size={'sm'}
+          onClick={() =>
+            navigate(`/projectGenerator`)
+          }
+        >
+          Create New
+        </Button>
       </div>
       <TanStackTable
         data={tableData}
         columns={tableColumnsData}
         tableConfigData={tableConfigData}
       />
-    </div>);
+    </div>
+  );
 };
 
 export default Dashboard;

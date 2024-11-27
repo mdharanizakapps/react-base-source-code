@@ -43,7 +43,7 @@ export const BreadcrumbComponent = () => {
 
             <div className="flex flex-col gap-6 w-1/2">
                 <div className="text-center">
-                    Generated Component
+                    shadcn/ui Component
                 </div>
                 <div className="flex gap-6 flex-col">
                     <Breadcrumb>

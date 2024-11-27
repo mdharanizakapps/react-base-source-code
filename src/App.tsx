@@ -59,6 +59,7 @@ function App() {
         </div>
 
       </div>
+
       <div>
         <div className='text-center text-lg font-bold text-blue-600'>
           BreadcrumbComponent
@@ -66,7 +67,16 @@ function App() {
         <div>
           <BreadcrumbComponent />
         </div>
+      </div>
 
+
+      <div>
+        <div className='text-center text-lg font-bold text-blue-600'>
+          BreadcrumbComponent
+        </div>
+        <div>
+          <BreadcrumbComponent />
+        </div>
       </div>
 
 

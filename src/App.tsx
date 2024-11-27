@@ -7,6 +7,7 @@ import { AlertDialogComponent } from './components/ui_library_components/AlertDi
 import { AvatarComponent } from './components/ui_library_components/AvatarComponent';
 import { BadgeComponent } from './components/ui_library_components/BadgeComponent';
 import { BreadcrumbComponent } from './components/ui_library_components/BreadcrumbComponent';
+import { ButtonComponent } from './components/ui_library_components/ButtonComponent';
 
 function App() {
 
@@ -62,7 +63,7 @@ function App() {
 
       <div>
         <div className='text-center text-lg font-bold text-blue-600'>
-          BreadcrumbComponent
+          Breadcrumb
         </div>
         <div>
           <BreadcrumbComponent />
@@ -72,10 +73,10 @@ function App() {
 
       <div>
         <div className='text-center text-lg font-bold text-blue-600'>
-          BreadcrumbComponent
+          Button
         </div>
         <div>
-          <BreadcrumbComponent />
+          <ButtonComponent />
         </div>
       </div>
 

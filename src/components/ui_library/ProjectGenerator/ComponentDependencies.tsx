@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { ComponentModel, ConfigFile } from "../../../pages/ProjectGenerator"
 import { Copy } from "lucide-react"
+import { Button } from "../../ui/button"
+import Icon from "../../ui/icon"
 
 export const Dependencies = ({
     dependentComponentsArray,
@@ -20,7 +22,7 @@ export const Dependencies = ({
 
     const [dependedncyHooksFile, setDependedncyHooksFile] = useState<string[]>([])
     const [dependencyFileChanges, setDependencyFileChanges] = useState<ConfigFile[]>([])
-
+    const [copy, setCopy] = useState(false);
 
 
 
@@ -108,96 +110,89 @@ export const Dependencies = ({
 
     }
 
-
+    const handleCopy = () => {
+        if (dependencyInstallationCommand) {
+            navigator.clipboard.writeText(dependencyInstallationCommand).then(() => {
+                setCopy(true);
+                setTimeout(() => setCopy(false), 1000);
+            });
+        }
+}
 
     return (
-        <div className="p-2 flex flex-col gap-3 ">
+      <div className="p-2 flex flex-col gap-3 ">
+        <div className=" flex justify-between gap-2">
+          <div className="w-1/5 font-bold">Selected Components:</div>
+          <div className="w-4/5" key="selectedcomponents">
+            <ul className="grid grid-cols-4">
+              {
+                // dependencyComponents.map((item, index) => {
+                //     return (
+                //         <li>
+                //             {index + 1}.  {item}
+                //         </li>
+                //     )
+                // })
+                selectedCompnents.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      {index + 1}. {item}
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+        </div>
 
-            <div className=" flex justify-between gap-2">
+        <div className=" flex justify-between gap-2">
+          <div className="w-1/5 font-bold">Dependent Components:</div>
+          <div className="w-4/5" key=" dependentComponents">
+            {dependencyComponents.length > 0 ? (
+              <ul className="grid grid-cols-4">
+                {dependencyComponents.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      {index + 1}. {item}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <span>No dependent componets required</span>
+            )}
+          </div>
+        </div>
+        <div className=" flex items-center justify-between gap-2">
+          <div className="w-1/5 font-bold">NPM Installation:</div>
+          <div className="w-4/5" key="dependencyInstallationCommand">
+            <div className=" w-11/12 mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 p-1 dark:bg-zinc-900 text-white flex justify-between items-center">
+              <div className="p-1">{dependencyInstallationCommand}</div>
+              <div className="p-1">
+                <Button onClick={handleCopy} className="bg-transparent w-auto">
+                  <Icon
+                    iconName={copy ? 'check' : 'copy'}
+                    className="h-4 w-4 flex items-center text-white cursor-pointer"
+                  />
+                </Button>
+                {/* <Copy
+                  color="#ffffff"
+                  onClick={() => {
+                    if (dependencyInstallationCommand) {
+                      navigator.clipboard.writeText(
+                        dependencyInstallationCommand
+                      );
+                      // .then(() => {
+                      //     alert("Command copied to clipboard!");
+                      // })
+                      // .catch((err) => {
+                      //     console.error("Failed to copy command: ", err);
+                      // });
+                    }
+                  }}
+                /> */}
 
-                <div className="w-1/5 font-bold">
-                    Selected Components:
-                </div>
-                <div className="w-4/5" key="selectedcomponents" >
-
-                    <ul className="grid grid-cols-4">
-                        {
-                            // dependencyComponents.map((item, index) => {
-                            //     return (
-                            //         <li>
-                            //             {index + 1}.  {item}
-                            //         </li>
-                            //     )
-                            // })
-                            selectedCompnents.map((item, index) => {
-                                return (
-                                    <li key={index}>
-                                        {index + 1}.  {item}
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-
-                </div>
-            </div>
-
-            <div className=" flex justify-between gap-2">
-
-                <div className="w-1/5 font-bold">
-                    Dependent Components:
-                </div>
-                <div className="w-4/5" key=" dependentComponents">
-                    {
-                        dependencyComponents.length > 0
-                            ?
-                            <ul className="grid grid-cols-4">
-                                {
-                                    dependencyComponents.map((item, index) => {
-                                        return (
-                                            <li key={index}>
-                                                {index + 1}.  {item}
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                            :
-                            <span>No dependent componets required</span>}
-
-
-
-                </div>
-            </div>
-            <div className=" flex items-center justify-between gap-2">
-
-                <div className="w-1/5 font-bold">
-                    NPM Installation:
-                </div>
-                <div className="w-4/5" key="dependencyInstallationCommand">
-
-                    <div className=" w-11/12 mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 p-1 dark:bg-zinc-900 text-white flex justify-between items-center">
-                        <div className="p-1">
-                            {
-                                dependencyInstallationCommand
-                            }
-                        </div>
-                        <div className="p-1">
-                            <Copy color="#ffffff"
-                                onClick={() => {
-                                    if (dependencyInstallationCommand) {
-                                        navigator.clipboard.writeText(dependencyInstallationCommand)
-                                        // .then(() => {
-                                        //     alert("Command copied to clipboard!");
-                                        // })
-                                        // .catch((err) => {
-                                        //     console.error("Failed to copy command: ", err);
-                                        // });
-                                    }
-                                }}
-                            />
-
-                            {/* <button
+                {/* <button
 
                                 className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
                                 onClick={() => {
@@ -214,12 +209,11 @@ export const Dependencies = ({
                             >
                                 Copy
                             </button> */}
-                        </div>
-                    </div>
-                </div>
+              </div>
+            </div>
+          </div>
 
-
-                {/* <div className="">
+          {/* <div className="">
 
                     <div className=" bg-gray-800 text-white w-11/12 rounded-md p-2">
                         <div className="flex justify-between">
@@ -253,76 +247,48 @@ export const Dependencies = ({
 
 
                 </div> */}
-
-            </div>
-
-            <div className=" flex justify-between gap-2">
-
-                <div className="w-1/5 font-bold">
-                    Required Hooks files:
-                </div>
-                <div className="w-4/5" key="dependedncyHooksFile">
-                    {
-                        dependedncyHooksFile.length > 0 ?
-
-                            <ul>
-                                {
-                                    dependedncyHooksFile.map((item, index) => {
-                                        return (
-                                            <li key={index}>
-                                                {index + 1}.  {item}
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                            :
-
-                            <span>
-                                No Hooks files are required
-                            </span>
-
-                    }
-
-
-
-                </div>
-            </div>
-
-            <div className=" flex justify-between gap-2">
-
-                <div className="w-1/5 font-bold">
-                    Required files changes:
-                </div>
-                <div className="w-4/5" key="dependencyFileChanges">
-                    {
-                        dependencyFileChanges.length > 0 ?
-
-                            dependencyFileChanges.map((item, index) => {
-                                return (
-                                    <div className=" flex justify-between gap-2">
-
-                                        <div className="w-1/5">
-                                            {index + 1}. {item.fileName}
-                                        </div>
-                                        <div className="w-4/5" key="dependencyFileChanges">
-                                            {item.changes}
-
-                                        </div>
-                                    </div>
-                                )
-                            })
-
-                            :
-
-                            <span>
-                                No file changes are required
-                            </span>
-
-                    }
-                </div>
-            </div>
-
         </div>
-    )
+
+        <div className=" flex justify-between gap-2">
+          <div className="w-1/5 font-bold">Required Hooks files:</div>
+          <div className="w-4/5" key="dependedncyHooksFile">
+            {dependedncyHooksFile.length > 0 ? (
+              <ul>
+                {dependedncyHooksFile.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      {index + 1}. {item}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <span>No Hooks files are required</span>
+            )}
+          </div>
+        </div>
+
+        <div className=" flex justify-between gap-2">
+          <div className="w-1/5 font-bold">Required files changes:</div>
+          <div className="w-4/5" key="dependencyFileChanges">
+            {dependencyFileChanges.length > 0 ? (
+              dependencyFileChanges.map((item, index) => {
+                return (
+                  <div className=" flex justify-between gap-2">
+                    <div className="w-1/5">
+                      {index + 1}. {item.fileName}
+                    </div>
+                    <div className="w-4/5" key="dependencyFileChanges">
+                      {item.changes}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <span>No file changes are required</span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
 }

@@ -16,6 +16,8 @@ import {
   FaTrash,
   FaDownload,
   FaEllipsisV,
+  FaCopy,
+  FaCheck,
 } from 'react-icons/fa';
 import { AiFillProduct } from 'react-icons/ai';
 
@@ -45,7 +47,9 @@ const iconMap: IconMap = {
   caretDown: FaCaretDown,
   delete: FaTrash,
   download: FaDownload,
-  ellipsis: FaEllipsisV
+  ellipsis: FaEllipsisV,
+  copy: FaCopy,
+  check: FaCheck
 };
 
 interface IconProps {

@@ -8,6 +8,7 @@ import { AvatarComponent } from './components/ui_library_components/AvatarCompon
 import { BadgeComponent } from './components/ui_library_components/BadgeComponent';
 import { BreadcrumbComponent } from './components/ui_library_components/BreadcrumbComponent';
 import { ButtonComponent } from './components/ui_library_components/ButtonComponent';
+import { CalendarComponent } from './components/ui_library_components/CalendarComponent';
 
 function App() {
 
@@ -77,6 +78,15 @@ function App() {
         </div>
         <div>
           <ButtonComponent />
+        </div>
+      </div>
+
+      <div>
+        <div className='text-center text-lg font-bold text-blue-600'>
+          Calendar
+        </div>
+        <div>
+          <CalendarComponent />
         </div>
       </div>
 

@@ -14,7 +14,7 @@ function App() {
 
 
   return (
-    <div className='flex  gap-6 flex-col-reverse' >
+    <div className='flex  gap-6 flex-col' >
       <div>
         <div className='text-center text-lg font-bold text-blue-600'>
           Alert
